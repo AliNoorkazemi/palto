@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">plato</string>
+    <string name="log_in">Log in</string>
+    <string name="register">Register</string>
 </resources>
