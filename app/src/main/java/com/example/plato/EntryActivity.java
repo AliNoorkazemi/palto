@@ -20,7 +20,7 @@ public class EntryActivity extends AppCompatActivity {
         logIn_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_to_Login_page = new Intent(EntryActivity.this,LoginActivity.class);
+                Intent intent_to_Login_page = new Intent(EntryActivity.this,LoginPageActivity.class);
                 startActivity(intent_to_Login_page);
             }
         });
@@ -28,7 +28,7 @@ public class EntryActivity extends AppCompatActivity {
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_to_Login_page = new Intent(EntryActivity.this,RegisterActivity.class);
+                Intent intent_to_Login_page = new Intent(EntryActivity.this,RegisterPageActivity.class);
                 startActivity(intent_to_Login_page);
             }
         });
