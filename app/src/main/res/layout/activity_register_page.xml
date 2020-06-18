@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RegisterPageActivity">
+
+    <TextView
+        android:id="@+id/tv_registerPage_registerTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Register"
+        android:textSize="32dp"
+        android:textStyle="bold" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="8dp"
+        android:background="@drawable/edit_text_border">
+
+        <EditText
+            android:id="@+id/et_registerPage_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/edit_text_border"
+            android:hint="username"
+            android:padding="8dp" />
+        <TextView
+            android:id="@+id/tv_registerPage_usernameWarning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            tools:text="username warning..."
+            android:textColor="@color/red"
+            android:visibility="invisible"
+            android:layout_below="@id/et_registerPage_username"
+            />
+
+        <EditText
+            android:id="@+id/et_registerPage_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_registerPage_usernameWarning"
+            android:layout_margin="16dp"
+            android:background="@drawable/edit_text_border"
+            android:hint="password"
+            android:password="true"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/tv_registerPage_passwordWarning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            tools:text="password warning..."
+            android:textColor="@color/red"
+            android:visibility="invisible"
+            android:layout_below="@id/et_registerPage_password"
+            />
+
+        <EditText
+            android:id="@+id/et_registerPage_passwordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_registerPage_passwordWarning"
+            android:layout_margin="16dp"
+            android:background="@drawable/edit_text_border"
+            android:password="true"
+            android:hint="confirm password"
+            android:padding="8dp" />
+
+
+        <TextView
+            android:id="@+id/tv_registerPage_passwordConfWarning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            tools:text="password warning..."
+            android:textColor="@color/red"
+            android:visibility="invisible"
+            android:layout_below="@id/et_registerPage_passwordConfirm"
+            />
+
+        <Button
+            android:id="@+id/btn_registerPage_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/et_registerPage_password"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="300dp"
+            android:background="@drawable/btn_background"
+            android:padding="8dp"
+            android:textColor="@android:color/white"
+            android:text="register" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
