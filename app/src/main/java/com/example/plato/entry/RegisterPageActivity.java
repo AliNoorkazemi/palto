@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.plato.*;
-import user.User;
 
 
 import java.util.Arrays;
@@ -99,11 +98,10 @@ public class RegisterPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (is_valid[0] && is_valid[1] && is_valid[2]) {
                     Intent intent = new Intent(RegisterPageActivity.this, MainActivity.class);
-                    user.User user = new user.User();
-                    user.setUser_name(username_et.getText().toString());
-                    user.setPassword(password_et.getText().toString());
-                    intent.putExtra("NewUser", user);
+                    intent.putExtra("userName",username_et.getText().toString());
+                    intent.putExtra("password",password_et.getText().toString());
                     startActivity(intent);
+                    finish();
                 }
             }
         });
