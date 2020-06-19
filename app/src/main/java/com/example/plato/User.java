@@ -1,4 +1,4 @@
-package com.example.plato.serverdatabase;
+package com.example.plato;
 
 import java.io.Serializable;
 

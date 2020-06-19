@@ -9,9 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.plato.MainActivity;
-import com.example.plato.R;
-import com.example.plato.serverdatabase.User;
+import com.example.plato.*;
+
 
 import java.util.Arrays;
 
