@@ -8,10 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.plato.*;
 
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.Arrays;
 
 public class RegisterPageActivity extends AppCompatActivity {
@@ -20,6 +25,9 @@ public class RegisterPageActivity extends AppCompatActivity {
     EditText confirmPassword_et;
     Button register_btn;
     boolean[] is_valid;
+    Socket socket;
+    DataInputStream dis;
+    DataOutputStream dos;
 
     private boolean on_password_clicked = false;
 
@@ -28,6 +36,19 @@ public class RegisterPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_page);
 
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket("192.168.2.102", 6666);
+                    dis = new DataInputStream(socket.getInputStream());
+                    dos = new DataOutputStream(socket.getOutputStream());
+                }catch(IOException io){
+                    io.printStackTrace();
+                }
+            }
+        }).start();
 
         is_valid = new boolean[3];
         Arrays.fill(is_valid, false);
@@ -44,14 +65,23 @@ public class RegisterPageActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     is_valid[0] = true;
-
+                    try {
+                        dos.writeUTF(username_et.getText().toString());
+                        if(dis.readUTF().equals("Duplicated")){
+                            Toast.makeText(RegisterPageActivity.this,"The userName has been already exited",Toast.LENGTH_SHORT).show();
+                            username_et.setHint("The userName has been already exited");
+                            username_et.setHintTextColor(getColor(R.color.red));
+                            is_valid[0]=false;
+                        }
+                    }catch(IOException io){
+                        io.printStackTrace();
+                    }
                 } else {
                     if (username_et.getText().toString().length() == 0) {
                         username_et.setHint("username should not be empty...");
                         username_et.setHintTextColor(getColor(R.color.red));
                         is_valid[0] = false;
                     }
-
                 }
             }
         });
@@ -100,6 +130,11 @@ public class RegisterPageActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegisterPageActivity.this, MainActivity.class);
                     intent.putExtra("userName",username_et.getText().toString());
                     intent.putExtra("password",password_et.getText().toString());
+                    try {
+                        dos.writeUTF("UserEnteredCorrectly");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(intent);
                     finish();
                 }

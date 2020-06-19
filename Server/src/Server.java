@@ -17,7 +17,7 @@ public class Server {
 
             ServerSocket serverSocket = new ServerSocket(6666);
 
-
+            System.out.println("server is connected...");
 
             while(true){
                 Socket socket = serverSocket.accept();
