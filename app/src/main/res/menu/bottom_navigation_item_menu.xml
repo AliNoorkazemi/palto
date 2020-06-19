@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/btn_bottomNavigation_homePage"
+        android:icon="@drawable/ic_home_24dp"
+        android:title="" />
+    <item
+        android:id="@+id/btn_bottomNavigation_chatPage"
+        android:icon="@drawable/ic_chat_24dp"
+        android:title="" />
+    <item
+        android:id="@+id/btn_bottomNavigation_people"
+        android:icon="@drawable/ic_people_24dp"
+        android:title="" />
+    <item
+        android:id="@+id/btn_bottomNavigation_games"
+        android:icon="@drawable/ic_game_24dp"
+        android:title="" />
+</menu>

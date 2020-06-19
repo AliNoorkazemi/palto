@@ -12,7 +12,7 @@
         <activity android:name=".entry.EntryActivity" android:theme="@style/NoActionBar"/>
         <activity android:name=".entry.LoginPageActivity"/>
         <activity android:name=".entry.RegisterPageActivity"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" android:theme="@style/NoActionBar"/>
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
