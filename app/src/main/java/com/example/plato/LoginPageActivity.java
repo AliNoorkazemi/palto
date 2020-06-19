@@ -20,16 +20,17 @@ public class LoginPageActivity extends AppCompatActivity {
     Button login_btn;
     TextView warningText;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
 
-        username_et=findViewById(R.id.et_registerPage_username);
-        password_et=findViewById(R.id.et_registerPage_password);
-        warningText=findViewById(R.id.tv_registerPage_passwordConfWarning);
-        login_btn=findViewById(R.id.btn_registerPage_register);
+        username_et=findViewById(R.id.et_loginPage_username);
+        password_et=findViewById(R.id.et_loginPage_password);
+        warningText=findViewById(R.id.tv_loginPage_warning);
+        login_btn=findViewById(R.id.btn_loginPage_login);
 
 
 

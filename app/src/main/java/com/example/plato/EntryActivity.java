@@ -17,6 +17,7 @@ public class EntryActivity extends AppCompatActivity {
         Button logIn_button = findViewById(R.id.LogInButton);
         Button register_button = findViewById(R.id.RegisterButton);
 
+
         logIn_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,5 +33,8 @@ public class EntryActivity extends AppCompatActivity {
                 startActivity(intent_to_Login_page);
             }
         });
+
+
+
     }
 }

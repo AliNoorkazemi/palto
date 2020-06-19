@@ -94,9 +94,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/et_registerPage_password"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="200dp"
             android:background="@drawable/btn_background"
             android:padding="8dp"
+            android:layout_marginBottom="16dp"
             android:textColor="@android:color/white"
             android:text="register" />
 
