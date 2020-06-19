@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.plato.*;
-import user.User;
 
 
 
@@ -41,11 +40,10 @@ public class LoginPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(LoginPageActivity.this, MainActivity.class);
-                user.User user=new user.User();
-                user.setUser_name(username_et.getText().toString());
-                user.setPassword(password_et.getText().toString());
-                intent.putExtra("ExistUser", user);
+                intent.putExtra("userName",username_et.getText().toString());
+                intent.putExtra("password",password_et.getText().toString());
                 startActivity(intent);
+                finish();
             }
         });
 
