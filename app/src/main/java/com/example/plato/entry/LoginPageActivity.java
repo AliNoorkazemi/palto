@@ -1,4 +1,4 @@
-package com.example.plato;
+package com.example.plato.entry;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.example.plato.MainActivity;
+import com.example.plato.R;
+import com.example.plato.serverdatabase.User;
 
 import java.nio.file.Watchable;
 import java.util.Arrays;
@@ -40,7 +44,7 @@ public class LoginPageActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(LoginPageActivity.this,MainActivity.class);
+                Intent intent=new Intent(LoginPageActivity.this, MainActivity.class);
                 User user=new User();
                 user.setUser_name(username_et.getText().toString());
                 user.setPassword(password_et.getText().toString());
