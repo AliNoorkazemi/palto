@@ -4,19 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.plato.MainActivity;
-import com.example.plato.R;
-import com.example.plato.serverdatabase.User;
+import com.example.plato.*;
+import user.User;
 
-import java.nio.file.Watchable;
-import java.util.Arrays;
+
 
 public class LoginPageActivity extends AppCompatActivity {
     EditText username_et;
@@ -45,7 +41,7 @@ public class LoginPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(LoginPageActivity.this, MainActivity.class);
-                User user=new User();
+                user.User user=new user.User();
                 user.setUser_name(username_et.getText().toString());
                 user.setPassword(password_et.getText().toString());
                 intent.putExtra("ExistUser", user);
