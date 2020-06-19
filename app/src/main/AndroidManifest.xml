@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".entry.EntryActivity"/>
+        <activity android:name=".entry.EntryActivity" android:theme="@style/NoActionBar"/>
         <activity android:name=".entry.LoginPageActivity"/>
         <activity android:name=".entry.RegisterPageActivity"/>
         <activity android:name=".MainActivity"/>

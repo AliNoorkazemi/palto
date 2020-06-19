@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".entry.LoginPageActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
     <TextView
@@ -13,13 +16,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Login"
-        android:textSize="32dp"
+        android:text="@string/login"
+        android:textSize="32sp"
         android:textStyle="bold" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -34,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/edit_text_border"
-                android:hint="username"
+                android:hint="@string/username"
                 android:padding="8dp" />
 
 
@@ -45,7 +44,7 @@
                 android:layout_below="@id/et_loginPage_username"
                 android:layout_margin="16dp"
                 android:background="@drawable/edit_text_border"
-                android:hint="password"
+                android:hint="@string/password"
                 android:padding="8dp" />
 
 
@@ -71,12 +70,13 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/btn_background"
                 android:padding="8dp"
-                android:text="login"
+                android:text="@string/login"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
 
 
         </RelativeLayout>
-    </ScrollView>
+    </LinearLayout>
 
-</LinearLayout>
+
+</ScrollView>

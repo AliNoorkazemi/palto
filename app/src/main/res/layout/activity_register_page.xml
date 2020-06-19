@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".entry.RegisterPageActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_registerPage_registerTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Register"
-        android:textSize="32dp"
+        android:text="@string/register"
+        android:textSize="32sp"
         android:textStyle="bold" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -33,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/edit_text_border"
-                android:hint="username"
+                android:hint="@string/username"
                 android:padding="8dp" />
 
             <TextView
@@ -54,7 +53,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/edit_text_border"
-                android:hint="password"
+                android:hint="@string/password"
                 android:padding="8dp"
                 android:password="true" />
 
@@ -76,7 +75,7 @@
                 android:layout_below="@id/tv_registerPage_passwordWarning"
                 android:layout_margin="16dp"
                 android:background="@drawable/edit_text_border"
-                android:hint="confirm password"
+                android:hint="@string/confirm_password"
                 android:padding="8dp"
                 android:password="true" />
 
@@ -101,11 +100,10 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/btn_background"
                 android:padding="8dp"
-                android:text="register"
+                android:text="@string/register"
                 android:textColor="@android:color/white" />
 
 
         </RelativeLayout>
-    </ScrollView>
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
