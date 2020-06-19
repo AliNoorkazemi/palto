@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                         toolbarTitle_tv.setText("Chat");
                         break;
                     case R.id.btn_bottomNavigation_people:
-                        toolbarTitle_tv.setText("People");
+                        toolbarTitle_tv.setText("Friends");
                         break;
                     case R.id.btn_bottomNavigation_games:
                         toolbarTitle_tv.setText("Games");

@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_chat_24dp"
         android:title="" />
     <item
-        android:id="@+id/btn_bottomNavigation_people"
+        android:id="@+id/btn_bottomNavigation_Friends"
         android:icon="@drawable/ic_people_24dp"
         android:title="" />
     <item
