@@ -1,14 +1,13 @@
 package com.example.plato;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     private String user_name;
     private String password;
 
-    public User(String user_name, String password) {
-        this.password = password;
-        this.user_name = user_name;
-    }
+
 
     public String getPassword() {
         return password;
