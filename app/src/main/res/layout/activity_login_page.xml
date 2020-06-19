@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".LoginPageActivity">
+    tools:context=".entry.LoginPageActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
     <TextView
@@ -14,67 +16,67 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Login"
-        android:textSize="32dp"
+        android:text="@string/login"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_border">
-
-        <EditText
-            android:id="@+id/et_loginPage_username"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:background="@drawable/edit_text_border"
-            android:hint="username"
-            android:padding="8dp" />
+            android:padding="8dp">
+
+            <EditText
+                android:id="@+id/et_loginPage_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/edit_text_border"
+                android:hint="@string/username"
+                android:padding="8dp" />
 
 
-        <EditText
-            android:id="@+id/et_loginPage_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_loginPage_username"
-            android:layout_margin="16dp"
-            android:background="@drawable/edit_text_border"
-            android:hint="password"
-            android:padding="8dp" />
+            <EditText
+                android:id="@+id/et_loginPage_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_loginPage_username"
+                android:layout_margin="16dp"
+                android:background="@drawable/edit_text_border"
+                android:hint="@string/password"
+                android:padding="8dp" />
 
 
-        <TextView
-            android:id="@+id/tv_loginPage_warning"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            tools:text="warning..."
-            android:textColor="@color/red"
-            android:visibility="invisible"
-            android:layout_marginTop="150dp"
-            android:layout_below="@id/et_loginPage_password"
-            />
+            <TextView
+                android:id="@+id/tv_loginPage_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_loginPage_password"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="150dp"
+                android:textColor="@color/red"
+                android:visibility="invisible"
+                tools:text="warning..." />
 
 
-        <Button
-            android:id="@+id/btn_loginPage_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/et_loginPage_password"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="200dp"
-            android:background="@drawable/btn_background"
-            android:padding="8dp"
-            android:textAllCaps="false"
-            android:layout_marginBottom="16dp"
-            android:textColor="@android:color/white"
-            android:text="login" />
+            <Button
+                android:id="@+id/btn_loginPage_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_loginPage_password"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="200dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/btn_background"
+                android:padding="8dp"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
 
 
-    </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
-</LinearLayout>
+
+</ScrollView>

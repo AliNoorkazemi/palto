@@ -2,4 +2,8 @@
     <string name="app_name">plato</string>
     <string name="log_in">Log in</string>
     <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="confirm_password">confirm password</string>
 </resources>
