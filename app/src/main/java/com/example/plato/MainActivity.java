@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         TextView textView = findViewById(R.id.tv_mainActivity_header_username);
                         ImageView imageView = findViewById(R.id.iv_mainActivity_header_avatarimg);
                         intent.putExtra("USERNAME", textView.getText().toString());
-                        intent.putExtra("PROFILE_IMAGE", imageView.getId());
+                        intent.putExtra("PROFILE_IMAGE", R.drawable.ic_person_24dp);
                         startActivity(intent);
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
