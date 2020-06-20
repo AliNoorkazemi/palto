@@ -31,6 +31,7 @@ public class RegisterPageActivity extends AppCompatActivity {
     Socket socket;
     DataInputStream dis;
     DataOutputStream dos;
+    static boolean isDuplicated = false;
 
 
     @Override
@@ -46,6 +47,8 @@ public class RegisterPageActivity extends AppCompatActivity {
                     socket = new Socket("192.168.2.102", 6666);
                     dis = new DataInputStream(socket.getInputStream());
                     dos = new DataOutputStream(socket.getOutputStream());
+                    dos.writeUTF("Register");
+                    dos.flush();
                 }catch(IOException io){
                     io.printStackTrace();
                 }
@@ -62,6 +65,8 @@ public class RegisterPageActivity extends AppCompatActivity {
         register_btn = findViewById(R.id.btn_registerPage_register);
 
 
+
+
         username_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -73,28 +78,31 @@ public class RegisterPageActivity extends AppCompatActivity {
                         username_et.setHintTextColor(getColor(R.color.red));
                         is_valid[0] = false;
                     }else{
-//                        new Thread(new Runnable() {
-//                            TextView usernameWarn = findViewById(R.id.tv_registerPage_usernameWarning);
-//                            @Override
-//                            public void run() {
-//                                usernameWarn.setVisibility(View.INVISIBLE);
-//                                try {
-//                                    if (!username_et.getText().toString().equals("")){
-//                                        dos.writeUTF(username_et.getText().toString());
-//                                        dos.flush();
-//                                    }
-//                                    String message = dis.readUTF();
-//                                    Log.v("message",message);
-//                                    if(message.equals("Duplicated")){
-//                                        usernameWarn.setText("The userName has been already exited");
-//                                        usernameWarn.setVisibility(View.VISIBLE);
-//                                        is_valid[0]=false;
-//                                    }
-//                                }catch(IOException io){
-//                                    io.printStackTrace();
-//                                }
-//                            }
-//                        }).start();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                final TextView usernameWarn = findViewById(R.id.tv_registerPage_usernameWarning);
+                                usernameWarn.setVisibility(View.INVISIBLE);
+                                try {
+                                    dos.writeUTF(username_et.getText().toString());
+                                    dos.flush();
+                                    String message = dis.readUTF();
+                                    Log.v("message","the message from the user is : "+message);
+                                    if(message.equals("Duplicated")){
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                usernameWarn.setText("The username has been already exited");
+                                                usernameWarn.setVisibility(View.VISIBLE);
+                                            }
+                                        });
+                                        is_valid[0]=false;
+                                    }
+                                }catch(IOException io){
+                                    io.printStackTrace();
+                                }
+                            }
+                        }).start();
                     }
                 }
             }
@@ -151,6 +159,7 @@ public class RegisterPageActivity extends AppCompatActivity {
                                 dos.writeUTF("UserEnteredCorrectly");
                                 dos.flush();
                                 dos.writeUTF(username_et.getText().toString());
+                                dos.flush();
                                 dos.writeUTF(password_et.getText().toString());
                                 dos.flush();
                             } catch (IOException e) {
@@ -163,6 +172,5 @@ public class RegisterPageActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 }
