@@ -1,7 +1,9 @@
 package com.example.plato;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
@@ -18,12 +20,15 @@ import com.example.plato.Fragment.FriendFrag;
 import com.example.plato.Fragment.GameFrag;
 import com.example.plato.Fragment.HomeFrag;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navigationView;
     Toolbar toolbar;
     TextView toolbarTitle_tv;
+    DrawerLayout drawerLayout;
+    NavigationView drawerNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
         toolbar=findViewById(R.id.toolbar_mainActivity);
         toolbarTitle_tv=findViewById(R.id.tv_mainActivity_toolbarTitle);
         setSupportActionBar(toolbar);
+
+
+        drawerLayout=findViewById(R.id.drawerlayout_mainActivity);
+        drawerNavigationView=findViewById(R.id.navigationView_main_drawer);
+        ActionBarDrawerToggle actionBarDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getColor(R.color.white));
+        actionBarDrawerToggle.syncState();
+
 
 
         setFragment(new HomeFrag());
