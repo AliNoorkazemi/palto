@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -12,6 +13,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.plato.Fragment.ChatFrag;
+import com.example.plato.Fragment.FriendFrag;
+import com.example.plato.Fragment.GameFrag;
 import com.example.plato.Fragment.HomeFrag;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,9 +24,6 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView navigationView;
     Toolbar toolbar;
     TextView toolbarTitle_tv;
-    HomeFrag homeFrag;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        homeFrag=new HomeFrag();
-        fragmentManager=getSupportFragmentManager();
-        fragmentTransaction=fragmentManager.beginTransaction();
+        setFragment(new HomeFrag());
+
 
 
         navigationView = findViewById(R.id.bottomNav_mainActivity);
@@ -47,17 +47,20 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.btn_bottomNavigation_homePage:
                         toolbarTitle_tv.setText("Home");
-                        setFragment(homeFrag);
+                        setFragment(new HomeFrag());
 
                         break;
                     case R.id.btn_bottomNavigation_chatPage:
                         toolbarTitle_tv.setText("Chat");
+                        setFragment(new ChatFrag());
                         break;
                     case R.id.btn_bottomNavigation_Friends:
                         toolbarTitle_tv.setText("Friends");
+                        setFragment(new FriendFrag());
                         break;
                     case R.id.btn_bottomNavigation_games:
                         toolbarTitle_tv.setText("Games");
+                        setFragment(new GameFrag());
                         break;
                 }
                 return true;
@@ -67,10 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setFragment(Fragment fragment) {
-        if(homeFrag instanceof HomeFrag){
-            fragmentTransaction.replace(R.id.frameLayout_mainActivity_fragmentHolder,fragment);
+    private boolean setFragment(Fragment fragment) {
+        if(fragment!=null){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frameLayout_mainActivity_fragmentHolder,fragment)
+                    .commit();
+            return true;
         }
-        fragmentTransaction.commit();
+        return false;
     }
 }
