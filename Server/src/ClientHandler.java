@@ -23,9 +23,9 @@ public class ClientHandler implements Runnable {
             System.out.println(userNames);
             String purpose = dis.readUTF();
             if (purpose.equals("Register")) {
+                System.out.println("user is trying to registering...");
                 while (true) {
                     String message = dis.readUTF();
-                    System.out.println("the message from the user is : " + message);
                     if (message.equals("UserEnteredCorrectly")) {
                         User newUser = new User();
                         newUser.setUser_name(dis.readUTF());
@@ -36,19 +36,34 @@ public class ClientHandler implements Runnable {
 //                    oos.writeObject(Server.users);
                         break;
                     } else if (userNames.contains(message)) {
-                        System.out.println("name is duplicated...");
                         dos.writeUTF("Duplicated");
                         dos.flush();
-                        System.out.println("duplicated message sent...");
                     }
                 }
             }else if(purpose.equals("Login")){
+                System.out.println("user trying to logging in");
+                String userName=null;
+                String password=null;
                 while (true){
-                    
+                    userName = dis.readUTF();
+                    password = dis.readUTF();
+                    if(!userNames.contains(userName)){
+                        dos.writeUTF("ERROR:this userName don't exist...");
+                        dos.flush();
+                        continue;
+                    }else{
+                        User currentUser = Server.users.get(userName);
+                        if(!password.equals(currentUser.getPassword())){
+                            dos.writeUTF("ERROR:password is't correct...");
+                            dos.flush();
+                            continue;
+                        }
+                    }
+                    dos.writeUTF("OK");
+                    dos.flush();
+                    break;
                 }
             }
-
-
         } catch (IOException io) {
             io.printStackTrace();
         }

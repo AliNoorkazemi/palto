@@ -35,8 +35,5 @@ public class EntryActivity extends AppCompatActivity {
                 startActivity(intent_to_Login_page);
             }
         });
-
-
-
     }
 }

@@ -31,7 +31,6 @@ public class RegisterPageActivity extends AppCompatActivity {
     Socket socket;
     DataInputStream dis;
     DataOutputStream dos;
-    static boolean isDuplicated = false;
 
 
     @Override
