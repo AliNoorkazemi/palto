@@ -6,7 +6,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Server {
 
-    static Map<User,ClientHandler> users = new ConcurrentHashMap<>();
+    static Map<String,ClientHandler> usersClientHandler = new ConcurrentHashMap<>();
+    static Map<String,User> users = new ConcurrentHashMap<>();
     public static void main(String[] args) {
         try {
             FileInputStream file = new FileInputStream("Users.txt");
@@ -17,10 +18,11 @@ public class Server {
 
             ServerSocket serverSocket = new ServerSocket(6666);
 
-
+            System.out.println("server is connected...");
 
             while(true){
                 Socket socket = serverSocket.accept();
+                System.out.println("a user connected...");
                 Thread clientHandler = new Thread(new ClientHandler(socket));
                 clientHandler.start();
             }

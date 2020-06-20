@@ -1,17 +1,25 @@
 package com.example.plato.entry;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.plato.*;
 
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.Arrays;
 
 public class RegisterPageActivity extends AppCompatActivity {
@@ -20,14 +28,29 @@ public class RegisterPageActivity extends AppCompatActivity {
     EditText confirmPassword_et;
     Button register_btn;
     boolean[] is_valid;
+    Socket socket;
+    DataInputStream dis;
+    DataOutputStream dos;
 
-    private boolean on_password_clicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_page);
 
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    socket = new Socket("192.168.2.102", 6666);
+                    dis = new DataInputStream(socket.getInputStream());
+                    dos = new DataOutputStream(socket.getOutputStream());
+                }catch(IOException io){
+                    io.printStackTrace();
+                }
+            }
+        }).start();
 
         is_valid = new boolean[3];
         Arrays.fill(is_valid, false);
@@ -44,14 +67,35 @@ public class RegisterPageActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     is_valid[0] = true;
-
                 } else {
                     if (username_et.getText().toString().length() == 0) {
                         username_et.setHint("username should not be empty...");
                         username_et.setHintTextColor(getColor(R.color.red));
                         is_valid[0] = false;
+                    }else{
+//                        new Thread(new Runnable() {
+//                            TextView usernameWarn = findViewById(R.id.tv_registerPage_usernameWarning);
+//                            @Override
+//                            public void run() {
+//                                usernameWarn.setVisibility(View.INVISIBLE);
+//                                try {
+//                                    if (!username_et.getText().toString().equals("")){
+//                                        dos.writeUTF(username_et.getText().toString());
+//                                        dos.flush();
+//                                    }
+//                                    String message = dis.readUTF();
+//                                    Log.v("message",message);
+//                                    if(message.equals("Duplicated")){
+//                                        usernameWarn.setText("The userName has been already exited");
+//                                        usernameWarn.setVisibility(View.VISIBLE);
+//                                        is_valid[0]=false;
+//                                    }
+//                                }catch(IOException io){
+//                                    io.printStackTrace();
+//                                }
+//                            }
+//                        }).start();
                     }
-
                 }
             }
         });
@@ -100,6 +144,20 @@ public class RegisterPageActivity extends AppCompatActivity {
                     Intent intent = new Intent(RegisterPageActivity.this, MainActivity.class);
                     intent.putExtra("userName",username_et.getText().toString());
                     intent.putExtra("password",password_et.getText().toString());
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                dos.writeUTF("UserEnteredCorrectly");
+                                dos.flush();
+                                dos.writeUTF(username_et.getText().toString());
+                                dos.writeUTF(password_et.getText().toString());
+                                dos.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
                     startActivity(intent);
                     finish();
                 }
