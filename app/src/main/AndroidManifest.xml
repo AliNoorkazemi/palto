@@ -11,8 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Fragment.Chat.ChatPageActivity"></activity>
         <activity
-            android:name=".setting.AboutUsActivity" android:theme="@style/noActionBarLight"/>
+            android:name=".setting.AboutUsActivity"
+            android:theme="@style/noActionBarLight" />
         <activity
             android:name=".setting.SettingActivity"
             android:theme="@style/noActionBarLight" />

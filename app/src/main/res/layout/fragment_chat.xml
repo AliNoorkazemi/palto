@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.ChatFrag">
+    tools:context=".Fragment.Chat.ChatFrag">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="chat fragment"/>
+        android:layout_marginTop="8dp"
+        android:id="@+id/rc_chatFrag_recycler"/>
+
 
 </FrameLayout>

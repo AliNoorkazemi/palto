@@ -40,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initRecycler() {
-        recyclerView=new RecyclerView(this);
+        recyclerView=findViewById(R.id.rc_profileAvtivity_gameRecycler);
         adapter=new AdapterProfile();
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 

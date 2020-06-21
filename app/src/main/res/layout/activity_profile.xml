@@ -131,7 +131,7 @@
                 android:background="@drawable/game_txt_shape_in_profile"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cv_profileAvtivity_gameRecycler"
+                android:id="@+id/rc_profileAvtivity_gameRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
