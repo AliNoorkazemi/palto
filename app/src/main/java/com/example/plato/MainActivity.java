@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_navigation);
-
-
         toolbar = findViewById(R.id.toolbar_mainActivity);
         toolbarTitle_tv = findViewById(R.id.tv_mainActivity_toolbarTitle);
         setSupportActionBar(toolbar);

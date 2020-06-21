@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable {
 //                    ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Users.txt"));
 //                    oos.writeObject(Server.users);
                         break;
-                    } else if (userNames.contains(message)) {
+                    } else if (Server.users.values().stream().map(User::getUser_name).collect(Collectors.toList()).contains(message)) {
                         dos.writeUTF("Duplicated");
                         dos.flush();
                     }
@@ -47,7 +47,7 @@ public class ClientHandler implements Runnable {
                 while (true){
                     userName = dis.readUTF();
                     password = dis.readUTF();
-                    if(!userNames.contains(userName)){
+                    if(!Server.users.values().stream().map(User::getUser_name).collect(Collectors.toList()).contains(userName)){
                         dos.writeUTF("ERROR:this userName don't exist...");
                         dos.flush();
                         continue;
@@ -63,6 +63,8 @@ public class ClientHandler implements Runnable {
                     dos.flush();
                     break;
                 }
+            }else{
+
             }
         } catch (IOException io) {
             io.printStackTrace();
