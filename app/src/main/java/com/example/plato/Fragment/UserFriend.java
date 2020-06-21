@@ -5,7 +5,7 @@ import com.example.plato.Fragment.Chat.ChatContent;
 import java.util.ArrayList;
 
 public class UserFriend {
-    private ArrayList<ChatContent> chatContents;
+    private ChatContent chatContent;
     private String name;
     private int img_id;
 
@@ -25,14 +25,11 @@ public class UserFriend {
         this.img_id = img_id;
     }
 
-    public ArrayList<ChatContent> getChatContents() {
-        return chatContents;
+    public ChatContent getChatContent() {
+        return chatContent;
     }
 
-    public void setChatContents(ArrayList<ChatContent> chatContents) {
-        this.chatContents = chatContents;
+    public void setChatContent(ChatContent chatContent) {
+        this.chatContent = chatContent;
     }
-
-
-
 }
