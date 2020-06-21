@@ -1,13 +1,21 @@
-package com.example.plato;
+package com.example.plato.profile;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.plato.R;
+
 public class ProfileActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    AdapterProfile adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +28,16 @@ public class ProfileActivity extends AppCompatActivity {
         ImageView avatarImg=findViewById(R.id.iv_profileActivity_avatarImg);
         avatarImg.setImageResource(intent.getIntExtra("PROFILE_IMAGE",R.drawable.ic_person_24dp));
 
+        initRecycler();
 
+    }
 
+    private void initRecycler() {
+        recyclerView=new RecyclerView(this);
+        adapter=new AdapterProfile();
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
     }
 }
