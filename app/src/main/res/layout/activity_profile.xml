@@ -17,7 +17,17 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_profileActivity"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
+                android:layout_height="?attr/actionBarSize" >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Profile"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="23sp"
+                    android:gravity="center"/>
+
+            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
 

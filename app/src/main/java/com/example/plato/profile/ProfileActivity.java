@@ -1,15 +1,18 @@
 package com.example.plato.profile;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
+
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.plato.R;
+
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -21,6 +24,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        Toolbar toolbar=findViewById(R.id.toolbar_profileActivity);
+        setSupportActionBar(toolbar);
+
 
         Intent intent=getIntent();
         TextView username=findViewById(R.id.tv_profileActivity_username);
