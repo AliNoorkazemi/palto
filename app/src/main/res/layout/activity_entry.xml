@@ -29,4 +29,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
+
+    <Button
+        android:id="@+id/MainButton"
+        android:layout_width="115dp"
+        android:layout_height="76dp"
+        android:layout_marginTop="152dp"
+        android:text="Go To Main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
