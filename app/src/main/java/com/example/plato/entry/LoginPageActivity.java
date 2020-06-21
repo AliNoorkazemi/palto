@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +64,17 @@ public class LoginPageActivity extends AppCompatActivity {
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(username_et.getText().toString().equals("")){
+                    warningText.setText("userName must be filled");
+                    warningText.setVisibility(View.VISIBLE);
+                    return;
+                }
+                if(password_et.getText().toString().equals("")){
+                    warningText.setText("password must be filled");
+                    warningText.setVisibility(View.VISIBLE);
+                    return;
+                }
                 Thread validation = new Thread(new Runnable() {
                     String validationMessage = null;
 

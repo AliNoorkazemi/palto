@@ -86,7 +86,6 @@ public class RegisterPageActivity extends AppCompatActivity {
                                     dos.writeUTF(username_et.getText().toString());
                                     dos.flush();
                                     String message = dis.readUTF();
-                                    Log.v("message","the message from the user is : "+message);
                                     if(message.equals("Duplicated")){
                                         runOnUiThread(new Runnable() {
                                             @Override

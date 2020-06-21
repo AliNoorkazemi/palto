@@ -34,7 +34,8 @@
                 android:layout_margin="16dp"
                 android:background="@drawable/edit_text_border"
                 android:hint="@string/username"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:importantForAutofill="no" />
 
 
             <EditText
@@ -45,7 +46,8 @@
                 android:layout_margin="16dp"
                 android:background="@drawable/edit_text_border"
                 android:hint="@string/password"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:importantForAutofill="no" />
 
 
             <TextView
