@@ -14,4 +14,7 @@
 
     </style>
 
+    <style name="noActionBarLight" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+
 </resources>

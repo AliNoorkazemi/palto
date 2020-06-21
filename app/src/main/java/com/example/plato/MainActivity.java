@@ -15,13 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.plato.Fragment.ChatFrag;
+import com.example.plato.Fragment.Chat.ChatFrag;
 import com.example.plato.Fragment.FriendFrag;
 import com.example.plato.Fragment.GameFrag;
 import com.example.plato.Fragment.HomeFrag;
+import com.example.plato.profile.ProfileActivity;
+import com.example.plato.setting.SettingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -61,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra("USERNAME", textView.getText().toString());
                         intent.putExtra("PROFILE_IMAGE", R.drawable.ic_person_24dp);
                         startActivity(intent);
+                        break;
+
+                    case R.id.btn_drawerNavigation_setting:
+                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                        break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
 
