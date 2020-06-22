@@ -15,7 +15,8 @@ public class Friend implements Serializable {
     }
 
     public void setChats_message(ArrayList<String> chats_message) {
-        this.chats_message = chats_message;
+        this.chats_message=new ArrayList<>();
+        this.chats_message.addAll(chats_message);
     }
 
     public ArrayList<Boolean> getIs_it_incomeMessage() {
@@ -23,7 +24,8 @@ public class Friend implements Serializable {
     }
 
     public void setIs_it_incomeMessage(ArrayList<Boolean> is_it_incomeMessage) {
-        this.is_it_incomeMessage = is_it_incomeMessage;
+        this.is_it_incomeMessage=new ArrayList<>();
+        this.is_it_incomeMessage.addAll(is_it_incomeMessage);
     }
 
     public String getName() {

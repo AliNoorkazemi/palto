@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -16,11 +20,10 @@ import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
 public class ChatPageActivity extends AppCompatActivity {
-
+    public static final int REQUEST_CODE=1001;
     RecyclerView recyclerView;
     AdapterChatPage adapter;
     Friend friend;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +53,21 @@ public class ChatPageActivity extends AppCompatActivity {
         friendImg_iv.setImageResource(friend.getImg_id());
 
         initRecycler();
+        final EditText chatBox_et=findViewById(R.id.et_chatPageActivity_chatbox);
+        ImageButton send_btn=findViewById(R.id.ib_chatPageActivity_sendBtn);
+
+
+        send_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                friend.getChats_message().add(chatBox_et.getText().toString());
+                friend.getIs_it_incomeMessage().add(false);
+                chatBox_et.getText().clear();
+                adapter.notifyItemInserted(friend.getChats_message().size());
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
+            }
+        });
+
 
     }
 
@@ -61,4 +79,13 @@ public class ChatPageActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent();
+        intent.putExtra("FINISH",friend);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
 }
+
