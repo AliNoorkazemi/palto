@@ -109,6 +109,7 @@ public class ChatFrag extends Fragment {
             oldFriend.setChats_message(newFriend.getChats_message());
             oldFriend.setIs_it_incomeMessage(newFriend.getIs_it_incomeMessage());
             oldFriend.setDates(newFriend.getDates());
+            adapter.notifyItemChanged(current_friend_position);
         }
     }
 }

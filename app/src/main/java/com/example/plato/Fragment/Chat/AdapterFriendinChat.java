@@ -14,12 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 
 public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinChat.ViewHolderFriendinChat> {
     Context context;
     LinkedList<Friend> friends;
     OnItemINChatFragClicked onItemINChatFragClicked;
+
 
     public AdapterFriendinChat(Context context, LinkedList<Friend> friends, OnItemINChatFragClicked onItemINChatFragClicked) {
         this.context = context;
@@ -49,7 +53,11 @@ public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinCha
 
         holder.name_tv.setText(friend.getName());
         holder.prof_iv.setImageResource(friend.getImg_id());
+        holder.last_message.setText(friend.getChats_message().get(friend.getChats_message().size()-1));
 
+        //compare date to set date in chatFrag
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,HH:mm a");
+        holder.last_message_time_tv.setText(simpleDateFormat.format(friend.getDates().get(friend.getChats_message().size()-1)));
     }
 
 
@@ -62,6 +70,8 @@ public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinCha
 
         CardView cardView;
         TextView name_tv;
+        TextView last_message;
+        TextView last_message_time_tv;
         ImageView prof_iv;
 
         public ViewHolderFriendinChat(@NonNull View itemView) {
@@ -70,10 +80,10 @@ public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinCha
             cardView=itemView.findViewById(R.id.cv_chatFrag_recycleritem_cardView);
             name_tv=itemView.findViewById(R.id.tv_chatFrag_recycleritem_friendName);
             prof_iv=itemView.findViewById(R.id.iv_chatFrag_recycleritem_profImg);
-
+            last_message=itemView.findViewById(R.id.tv_chatFrag_recycleritem_lastMessage);
+            last_message_time_tv=itemView.findViewById(R.id.tv_chatFrag_recycleritem_lastMessageTime);
         }
     }
-
     public interface OnItemINChatFragClicked {
         void onClick(int position);
     }
