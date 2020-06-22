@@ -19,6 +19,8 @@ import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -30,6 +32,7 @@ public class ChatFrag extends Fragment {
     RecyclerView recyclerView;
     AdapterFriendinChat adapter;
     private int current_friend_position;
+    View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,39 +42,48 @@ public class ChatFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_chat, container, false);
+        view = inflater.inflate(R.layout.fragment_chat, container, false);
 
-        friends =new LinkedList<>();
-        for (int i=0;i<5;i++){
+        friends = new LinkedList<>();
+        for (int i = 0; i < 5; i++) {
             friends.add(generateUserFriend());
         }
 
-        initRecycler(view);
 
+        initRecycler();
 
 
         return view;
 
     }
 
+    private void sort_list() {
+        Collections.sort(friends, new Comparator<Friend>() {
+            @Override
+            public int compare(Friend o1, Friend o2) {
+                return -1 * o1.getDates().get(o1.getChats_message().size() - 1).compareTo(o2.getDates().get(o2.getChats_message().size() - 1));
+            }
+        });
+    }
+
     private Friend generateUserFriend() {
-        Friend friend =new Friend();
+        Friend friend = new Friend();
         friend.setName("ali nooka");
         friend.setImg_id(R.drawable.ic_people_24dp);
 
-        ArrayList<String> message=new ArrayList<>();
+        ArrayList<String> message = new ArrayList<>();
         message.add("salam");
         message.add("hello");
         message.add("khobi?");
         message.add("zer nzn");
 
-        ArrayList<Boolean> is_income=new ArrayList<>();
+        ArrayList<Boolean> is_income = new ArrayList<>();
         is_income.add(true);
         is_income.add(false);
         is_income.add(true);
         is_income.add(false);
 
-        ArrayList<Date> dates=new ArrayList<>();
+        ArrayList<Date> dates = new ArrayList<>();
         dates.add(new Date());
         dates.add(new Date());
         dates.add(new Date());
@@ -83,33 +95,34 @@ public class ChatFrag extends Fragment {
         return friend;
     }
 
-    private void initRecycler(final View view) {
-        recyclerView=view.findViewById(R.id.rc_chatFrag_recycler);
-        adapter=new AdapterFriendinChat(view.getContext(), friends, new AdapterFriendinChat.OnItemINChatFragClicked() {
+    private void initRecycler() {
+        sort_list();
+        recyclerView = view.findViewById(R.id.rc_chatFrag_recycler);
+        adapter = new AdapterFriendinChat(view.getContext(), friends, new AdapterFriendinChat.OnItemINChatFragClicked() {
             @Override
             public void onClick(int position) {
-                Intent intent=new Intent(view.getContext(), ChatPageActivity.class);
+                Intent intent = new Intent(view.getContext(), ChatPageActivity.class);
                 Friend friend = friends.get(position);
-                current_friend_position=position;
+                current_friend_position = position;
                 intent.putExtra("FRIEND", friend);
-                startActivityForResult(intent,ChatPageActivity.REQUEST_CODE);
+                startActivityForResult(intent, ChatPageActivity.REQUEST_CODE);
             }
         });
-        LinearLayoutManager layoutManager=new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode==ChatPageActivity.REQUEST_CODE && resultCode==RESULT_OK && data!=null){
+        if (requestCode == ChatPageActivity.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             Log.i("where?", "onActivityResult: ");
-            Friend oldFriend=friends.get(current_friend_position);
-            Friend newFriend= (Friend) data.getSerializableExtra("FINISH");
+            Friend oldFriend = friends.get(current_friend_position);
+            Friend newFriend = (Friend) data.getSerializableExtra("FINISH");
             oldFriend.setChats_message(newFriend.getChats_message());
             oldFriend.setIs_it_incomeMessage(newFriend.getIs_it_incomeMessage());
             oldFriend.setDates(newFriend.getDates());
-            adapter.notifyItemChanged(current_friend_position);
+            initRecycler();
         }
     }
 }

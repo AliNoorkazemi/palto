@@ -12,6 +12,7 @@ public class Friend implements Serializable {
     ArrayList<Date> dates;
 
 
+
     public ArrayList<Date> getDates() {
         return dates;
     }
