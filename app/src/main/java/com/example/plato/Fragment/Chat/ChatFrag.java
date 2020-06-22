@@ -19,6 +19,7 @@ import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 
 import static android.app.Activity.RESULT_OK;
@@ -70,8 +71,15 @@ public class ChatFrag extends Fragment {
         is_income.add(true);
         is_income.add(false);
 
+        ArrayList<Date> dates=new ArrayList<>();
+        dates.add(new Date());
+        dates.add(new Date());
+        dates.add(new Date());
+        dates.add(new Date());
+
         friend.setChats_message(message);
         friend.setIs_it_incomeMessage(is_income);
+        friend.setDates(dates);
         return friend;
     }
 
@@ -100,6 +108,7 @@ public class ChatFrag extends Fragment {
             Friend newFriend= (Friend) data.getSerializableExtra("FINISH");
             oldFriend.setChats_message(newFriend.getChats_message());
             oldFriend.setIs_it_incomeMessage(newFriend.getIs_it_incomeMessage());
+            oldFriend.setDates(newFriend.getDates());
         }
     }
 }

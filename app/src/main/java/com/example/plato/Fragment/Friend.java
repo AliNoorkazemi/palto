@@ -2,13 +2,24 @@ package com.example.plato.Fragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Friend implements Serializable {
     private String name;
     private int img_id;
     ArrayList<String> chats_message;
     ArrayList<Boolean> is_it_incomeMessage;
+    ArrayList<Date> dates;
 
+
+    public ArrayList<Date> getDates() {
+        return dates;
+    }
+
+    public void setDates(ArrayList<Date> dates) {
+        this.dates=new ArrayList<>();
+        this.dates = dates;
+    }
 
     public ArrayList<String> getChats_message() {
         return chats_message;

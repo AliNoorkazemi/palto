@@ -19,6 +19,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
+import java.util.Date;
+
 public class ChatPageActivity extends AppCompatActivity {
     public static final int REQUEST_CODE=1001;
     RecyclerView recyclerView;
@@ -62,6 +64,7 @@ public class ChatPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 friend.getChats_message().add(chatBox_et.getText().toString());
                 friend.getIs_it_incomeMessage().add(false);
+                friend.getDates().add(new Date());
                 chatBox_et.getText().clear();
                 adapter.notifyItemInserted(friend.getChats_message().size());
                 recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
