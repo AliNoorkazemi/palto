@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
 import java.util.ArrayList;
@@ -17,11 +18,13 @@ public class AdapterChatPage extends RecyclerView.Adapter<RecyclerView.ViewHolde
     Context context;
     ArrayList<String> messages;
     ArrayList<Boolean> is_income_message;
+    Friend friend;
 
-    public AdapterChatPage(Context context, ArrayList<String> messages, ArrayList<Boolean> is_income_message) {
+    public AdapterChatPage(Context context, Friend friend) {
         this.context = context;
-        this.messages = messages;
-        this.is_income_message = is_income_message;
+        this.friend=friend;
+        messages=friend.getChats_message();
+        is_income_message = friend.getIs_it_incomeMessage();
     }
 
     @NonNull

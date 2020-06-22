@@ -12,18 +12,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.plato.Fragment.Chat.ChatContent;
+import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
-
-import java.util.ArrayList;
 
 public class ChatPageActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     AdapterChatPage adapter;
-    ArrayList<String> messages;
-    ArrayList<Boolean> is_income;
-
+    Friend friend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +38,16 @@ public class ChatPageActivity extends AppCompatActivity {
         });
 
 
-        messages=new ArrayList<>();
-        is_income=new ArrayList<>();
-
         Intent intent=getIntent();
-        ChatContent chatContent= (ChatContent) intent.getSerializableExtra("CHAT_CONTENT");
-        messages.addAll(chatContent.getChats_message());
-        is_income.addAll(chatContent.getIs_it_incomeMessage());
+        friend= (Friend) intent.getSerializableExtra("FRIEND");
+
+
         TextView friendName_tv=findViewById(R.id.tv_chatPageActivity_friendName);
         ImageView friendImg_iv=findViewById(R.id.iv_chatPageActivity_friendImg);
 
-        friendName_tv.setText(intent.getStringExtra("CHAT_FRIEND_NAME"));
-        friendImg_iv.setImageResource(intent.getIntExtra("CHAT_FRIEND_PROFILE",R.drawable.ic_person_24dp));
+
+        friendName_tv.setText(friend.getName());
+        friendImg_iv.setImageResource(friend.getImg_id());
 
         initRecycler();
 
@@ -61,7 +55,7 @@ public class ChatPageActivity extends AppCompatActivity {
 
     private void initRecycler() {
         recyclerView=findViewById(R.id.rc_chatPageActivity);
-        adapter=new AdapterChatPage(this,messages,is_income);
+        adapter=new AdapterChatPage(this,friend);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setAdapter(adapter);

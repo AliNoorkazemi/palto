@@ -11,19 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.plato.Fragment.UserFriend;
+import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
 import java.util.LinkedList;
 
 public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinChat.ViewHolderFriendinChat> {
     Context context;
-    LinkedList<UserFriend> userFriends;
+    LinkedList<Friend> friends;
     OnItemINChatFragClicked onItemINChatFragClicked;
 
-    public AdapterFriendinChat(Context context, LinkedList<UserFriend> userFriends, OnItemINChatFragClicked onItemINChatFragClicked) {
+    public AdapterFriendinChat(Context context, LinkedList<Friend> friends, OnItemINChatFragClicked onItemINChatFragClicked) {
         this.context = context;
-        this.userFriends = userFriends;
+        this.friends = friends;
         this.onItemINChatFragClicked = onItemINChatFragClicked;
     }
 
@@ -38,7 +38,7 @@ public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinCha
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderFriendinChat holder, final int position) {
-        UserFriend userFriend=userFriends.get(position);
+        Friend friend = friends.get(position);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,15 +47,15 @@ public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinCha
             }
         });
 
-        holder.name_tv.setText(userFriend.getName());
-        holder.prof_iv.setImageResource(userFriend.getImg_id());
+        holder.name_tv.setText(friend.getName());
+        holder.prof_iv.setImageResource(friend.getImg_id());
 
     }
 
 
     @Override
     public int getItemCount() {
-        return userFriends.size();
+        return friends.size();
     }
 
     public class ViewHolderFriendinChat extends RecyclerView.ViewHolder {
