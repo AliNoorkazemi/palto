@@ -2,14 +2,17 @@ package com.example.plato;
 
 import com.example.plato.Fragment.Friend;
 
-public class User {
-    private Friend friend;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
-    public Friend getFriend() {
-        return friend;
+public class User {
+    private LinkedList<Friend> friends;
+
+    public LinkedList<Friend> getFriends() {
+        return friends;
     }
 
-    public void setFriend(Friend friend) {
-        this.friend = friend;
+    public void setFriends(LinkedList<Friend> friends) {
+        this.friends = friends;
     }
 }

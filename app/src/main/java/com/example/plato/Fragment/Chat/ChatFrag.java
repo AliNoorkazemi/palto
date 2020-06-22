@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
+import com.example.plato.SingletonUserContainer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,11 +45,9 @@ public class ChatFrag extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
 
-        friends = new LinkedList<>();
-        for (int i = 0; i < 5; i++) {
-            friends.add(generateUserFriend());
-        }
 
+        friends = new LinkedList<>();
+        friends.addAll(SingletonUserContainer.getInstance().getFriends());
 
         initRecycler();
 
@@ -66,34 +65,6 @@ public class ChatFrag extends Fragment {
         });
     }
 
-    private Friend generateUserFriend() {
-        Friend friend = new Friend();
-        friend.setName("ali nooka");
-        friend.setImg_id(R.drawable.ic_people_24dp);
-
-        ArrayList<String> message = new ArrayList<>();
-        message.add("salam");
-        message.add("hello");
-        message.add("khobi?");
-        message.add("zer nzn");
-
-        ArrayList<Boolean> is_income = new ArrayList<>();
-        is_income.add(true);
-        is_income.add(false);
-        is_income.add(true);
-        is_income.add(false);
-
-        ArrayList<Date> dates = new ArrayList<>();
-        dates.add(new Date());
-        dates.add(new Date());
-        dates.add(new Date());
-        dates.add(new Date());
-
-        friend.setChats_message(message);
-        friend.setIs_it_incomeMessage(is_income);
-        friend.setDates(dates);
-        return friend;
-    }
 
     private void initRecycler() {
         sort_list();
