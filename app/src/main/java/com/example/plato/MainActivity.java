@@ -32,11 +32,15 @@ public class MainActivity extends AppCompatActivity {
     TextView toolbarTitle_tv;
     DrawerLayout drawerLayout;
     NavigationView drawerNavigationView;
+    public static UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_navigation);
+
+        startService(new Intent(MainActivity.this,UserService.class));
+
         toolbar = findViewById(R.id.toolbar_mainActivity);
         toolbarTitle_tv = findViewById(R.id.tv_mainActivity_toolbarTitle);
         setSupportActionBar(toolbar);
