@@ -9,19 +9,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AdapterChatPage extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     ArrayList<String> messages;
     ArrayList<Boolean> is_income_message;
+    ArrayList<Date> dates;
+    Friend friend;
 
-    public AdapterChatPage(Context context, ArrayList<String> messages, ArrayList<Boolean> is_income_message) {
+    public AdapterChatPage(Context context, Friend friend) {
         this.context = context;
-        this.messages = messages;
-        this.is_income_message = is_income_message;
+        this.friend=friend;
+        messages=friend.getChats_message();
+        is_income_message = friend.getIs_it_incomeMessage();
+        dates=friend.getDates();
     }
 
     @NonNull
@@ -48,8 +55,12 @@ public class AdapterChatPage extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof ViewholderIncomeMessage){
             ((ViewholderIncomeMessage) holder).incomeMessage_tv.setText(messages.get(position));
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("h:mm a");
+            ((ViewholderIncomeMessage) holder).time_tv.setText(simpleDateFormat.format(dates.get(position)));
         }else if(holder instanceof  ViewholderMyMessage){
             ((ViewholderMyMessage) holder).myMessage_tv.setText(messages.get(position));
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("h:mm a");
+            ((ViewholderMyMessage) holder).time_tv.setText(simpleDateFormat.format(dates.get(position)));
         }
     }
 
@@ -61,11 +72,13 @@ public class AdapterChatPage extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public class ViewholderMyMessage extends RecyclerView.ViewHolder{
         TextView myMessage_tv;
         TextView myMessageTime_tv;
+        TextView time_tv;
 
         public ViewholderMyMessage(@NonNull View itemView) {
             super(itemView);
             myMessage_tv=itemView.findViewById(R.id.tv_itemInRecycler_myMessage_message);
             myMessageTime_tv=itemView.findViewById(R.id.tv_itemInRecycler_mycomeMessage_time);
+            time_tv=itemView.findViewById(R.id.tv_itemInRecycler_mycomeMessage_time);
         }
     }
 
@@ -73,11 +86,13 @@ public class AdapterChatPage extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public class ViewholderIncomeMessage extends RecyclerView.ViewHolder{
         TextView incomeMessage_tv;
         TextView incomeMessageTime_tv ;
+        TextView time_tv ;
 
         public ViewholderIncomeMessage(@NonNull View itemView) {
             super(itemView);
             incomeMessage_tv=itemView.findViewById(R.id.tv_itemInRecycler_incomeMessage_message);
             incomeMessageTime_tv=itemView.findViewById(R.id.tv_itemInRecycler_incomeMessage_time);
+            time_tv=itemView.findViewById(R.id.tv_itemInRecycler_incomeMessage_time);
         }
     }
 }

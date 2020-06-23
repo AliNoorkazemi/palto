@@ -6,25 +6,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.plato.Fragment.Chat.ChatContent;
+import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
-import java.util.ArrayList;
+import java.util.Date;
 
 public class ChatPageActivity extends AppCompatActivity {
-
+    public static final int REQUEST_CODE=1001;
     RecyclerView recyclerView;
     AdapterChatPage adapter;
-    ArrayList<String> messages;
-    ArrayList<Boolean> is_income;
-
-
+    Friend friend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,29 +43,58 @@ public class ChatPageActivity extends AppCompatActivity {
         });
 
 
-        messages=new ArrayList<>();
-        is_income=new ArrayList<>();
-
         Intent intent=getIntent();
-        ChatContent chatContent= (ChatContent) intent.getSerializableExtra("CHAT_CONTENT");
-        messages.addAll(chatContent.getChats_message());
-        is_income.addAll(chatContent.getIs_it_incomeMessage());
+        friend= (Friend) intent.getSerializableExtra("FRIEND");
+
+
         TextView friendName_tv=findViewById(R.id.tv_chatPageActivity_friendName);
         ImageView friendImg_iv=findViewById(R.id.iv_chatPageActivity_friendImg);
 
-        friendName_tv.setText(intent.getStringExtra("CHAT_FRIEND_NAME"));
-        friendImg_iv.setImageResource(intent.getIntExtra("CHAT_FRIEND_PROFILE",R.drawable.ic_person_24dp));
+
+        friendName_tv.setText(friend.getName());
+        friendImg_iv.setImageResource(friend.getImg_id());
 
         initRecycler();
+        final EditText chatBox_et=findViewById(R.id.et_chatPageActivity_chatbox);
+        ImageButton send_btn=findViewById(R.id.ib_chatPageActivity_sendBtn);
+
+
+        send_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                friend.getChats_message().add(chatBox_et.getText().toString());
+                friend.getIs_it_incomeMessage().add(false);
+                friend.getDates().add(new Date());
+                chatBox_et.getText().clear();
+                adapter.notifyItemInserted(friend.getChats_message().size());
+                recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
+            }
+        });
+
 
     }
 
     private void initRecycler() {
         recyclerView=findViewById(R.id.rc_chatPageActivity);
-        adapter=new AdapterChatPage(this,messages,is_income);
+        adapter=new AdapterChatPage(this,friend);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent=new Intent();
+        intent.putExtra("FINISH",friend);
+        setResult(RESULT_OK,intent);
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        onBackPressed();
+    }
 }
+

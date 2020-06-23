@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/chat_background"
     tools:context=".Fragment.Chat.chatPage.ChatPageActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/appbarLayout_chatPageActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_chatPageActivity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    app:cardCornerRadius="25dp">
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:id="@+id/cv_chatPageActivity_profileContainer"
+                    app:cardCornerRadius="23dp">
 
                     <ImageView
                         android:id="@+id/iv_chatPageActivity_friendImg"
@@ -38,42 +40,58 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/cv_chatPageActivity_profileContainer"
                     android:text="name"
                     android:textColor="@color/white"
                     android:textSize="20sp"
                     android:textStyle="bold" />
-            </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="online"
+                    android:layout_toRightOf="@id/cv_chatPageActivity_profileContainer"
+                    android:layout_below="@id/tv_chatPageActivity_friendName"
+                    android:layout_marginLeft="16dp"
+                />
+            </RelativeLayout>
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_chatPageActivity"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/chat_background"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearlayout_chatPageActivity"
+        android:layout_below="@id/appbarLayout_chatPageActivity"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="24dp"
+        android:overScrollMode="always" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/linearlayout_chatPageActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rc_chatPageActivity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp" />
+        <EditText
+            android:id="@+id/et_chatPageActivity_chatbox"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/edittext_chatbox"
+            android:hint="@string/type_message_here"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
 
-            <EditText
-                android:id="@+id/et_chatPageActivity_chatbox"
-                android:layout_width="350dp"
-                android:layout_height="40dp"
-                android:padding="8dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/edittext_chatbox"/>
+        <ImageButton
+            android:id="@+id/ib_chatPageActivity_sendBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_send_black_24dp" />
+    </LinearLayout>
 
-        </LinearLayout>
-
-    </ScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

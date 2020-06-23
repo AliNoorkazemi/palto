@@ -15,4 +15,5 @@
     <string name="openDrawer">openDrawer</string>
     <string name="about_us">About us</string>
     <string name="log_out">log out</string>
+    <string name="type_message_here">type message here...</string>
 </resources>

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.plato.Fragment.Chat.ChatFrag;
-import com.example.plato.Fragment.FriendFrag;
+import com.example.plato.Fragment.friends.FriendFrag;
 import com.example.plato.Fragment.GameFrag;
 import com.example.plato.Fragment.HomeFrag;
 import com.example.plato.profile.ProfileActivity;
