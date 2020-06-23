@@ -4,38 +4,35 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.example.plato.Fragment.Friend;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UserService extends Service {
 
     private final IBinder myBinder = new LocalBinder();
 
+    private Thread create;
     private Socket socket;
     private DataInputStream dis;
     private DataOutputStream dos;
+    private User currentUser ;
 
     @Override
     public void onCreate() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    socket = new Socket("192.168.2.102", 6666);
-                    dis = new DataInputStream(socket.getInputStream());
-                    dos = new DataOutputStream(socket.getOutputStream());
-                    dos.writeUTF("Service");
-                    dos.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        super.onCreate();
     }
 
     @Nullable
@@ -46,6 +43,13 @@ public class UserService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        create = new Thread(new Runnable() {
+            @Override
+            public void run() {
+            }
+        });
+        create.start();
         return Service.START_STICKY;
     }
 
