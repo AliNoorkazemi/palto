@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/xo_game_background"
+    android:fitsSystemWindows="true"
+    tools:context=".game.XOGame">
+
+
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="450dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:fitsSystemWindows="true">
+
+        <Button
+            android:id="@+id/btn_xogame_btn1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_xogame_btn2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/btn_xogame_btn1"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_xogame_btn3"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/btn_xogame_btn2"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_xogame_btn4"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/btn_xogame_btn1"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_xogame_btn5"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/btn_xogame_btn2"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="28dp"
+            android:layout_toRightOf="@id/btn_xogame_btn4"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_xogame_btn6"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/btn_xogame_btn3"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="28dp"
+            android:layout_toRightOf="@id/btn_xogame_btn5"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_xogame_btn7"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/btn_xogame_btn4"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_xogame_btn8"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/btn_xogame_btn5"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_toRightOf="@id/btn_xogame_btn7"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/btn_xogame_btn9"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/btn_xogame_btn6"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_toRightOf="@id/btn_xogame_btn8"
+            android:background="@android:color/transparent" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
