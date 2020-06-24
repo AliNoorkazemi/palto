@@ -2,10 +2,11 @@ package com.example.plato.game;
 
 import com.example.plato.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Room {
+public class Room implements Serializable {
     private int max_players;
     private boolean is_join_enable;
     private String room_name;

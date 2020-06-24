@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".game.startPage.fragment.casual.CreateNewRoomActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/room_name"
+        android:id="@+id/tv_createNewRoom_roomnametxt"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@drawable/edit_text_border"
+        android:id="@+id/et_createNewRoom_roomname"
+        android:layout_below="@id/tv_createNewRoom_roomnametxt"
+        android:layout_margin="8dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create"
+        android:background="@android:color/holo_orange_light"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:id="@+id/btn_createNewRoom_create"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/et_createNewRoom_roomname"/>
+
+
+</RelativeLayout>
