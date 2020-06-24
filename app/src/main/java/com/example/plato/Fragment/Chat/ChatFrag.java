@@ -46,8 +46,9 @@ public class ChatFrag extends Fragment {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
 
 
-        friends = new LinkedList<>();
-        friends.addAll(SingletonUserContainer.getInstance().getFriends());
+
+        friends=SingletonUserContainer.getInstance().getFriends();
+
 
         initRecycler();
 
@@ -57,9 +58,15 @@ public class ChatFrag extends Fragment {
     }
 
     private void sort_list() {
+        if(friends==null||friends.size()==0)
+            return;
         Collections.sort(friends, new Comparator<Friend>() {
             @Override
             public int compare(Friend o1, Friend o2) {
+                if(o1.getChats_message().size()==0)
+                    return 1;
+                if(o2.getChats_message().size()==0)
+                    return -1;
                 return -1 * o1.getDates().get(o1.getChats_message().size() - 1).compareTo(o2.getDates().get(o2.getChats_message().size() - 1));
             }
         });

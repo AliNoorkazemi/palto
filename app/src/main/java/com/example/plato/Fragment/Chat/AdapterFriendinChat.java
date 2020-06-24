@@ -53,11 +53,13 @@ public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinCha
 
         holder.name_tv.setText(friend.getName());
         holder.prof_iv.setImageResource(friend.getImg_id());
-        holder.last_message.setText(friend.getChats_message().get(friend.getChats_message().size()-1));
+        if(friend.getChats_message().size()!=0)
+            holder.last_message.setText(friend.getChats_message().get(friend.getChats_message().size()-1));
 
         //compare date to set date in chatFrag
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("EEE,HH:mm a");
-        holder.last_message_time_tv.setText(simpleDateFormat.format(friend.getDates().get(friend.getChats_message().size()-1)));
+        if(friend.getChats_message().size()!=0)
+            holder.last_message_time_tv.setText(simpleDateFormat.format(friend.getDates().get(friend.getChats_message().size()-1)));
     }
 
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,13 @@ import android.widget.Toast;
 
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
 import com.example.plato.Fragment.Friend;
+import com.example.plato.MainActivity;
+import com.example.plato.NetworkThreadHandler;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -48,8 +52,7 @@ public class FriendFrag extends Fragment {
 
         view=inflater.inflate(R.layout.fragment_friend, container, false);
 
-        friends=new LinkedList<>();
-        friends.addAll(SingletonUserContainer.getInstance().getFriends());
+        friends=SingletonUserContainer.getInstance().getFriends();
 
         initRecycler();
 
@@ -66,18 +69,65 @@ public class FriendFrag extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //just for test , this is must handle by service :)
-                        Friend friend=new Friend();
-                        friend.setName(editText.getText().toString());
-                        friend.setImg_id(R.drawable.ic_person_24dp);
-                        ArrayList<Boolean> is_income = new ArrayList<>();
-                        ArrayList<Date> dates = new ArrayList<>();
-                        ArrayList<String> message = new ArrayList<>();
-                        friend.setChats_message(message);
-                        friend.setIs_it_incomeMessage(is_income);
-                        friend.setDates(dates);
-                        Toast.makeText(view.getContext(),"saved",Toast.LENGTH_LONG).show();
-                        friends.add(friend);
-                        adapter.notifyItemInserted(friends.size());
+
+                        if(editText.getText().toString().equals(MainActivity.userName)) {
+                            Toast.makeText(view.getContext(), "this is your userName", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(NetworkThreadHandler.friendNames.contains(editText.getText().toString())){
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(view.getContext(),editText.getText().toString()+" already existed" , Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                    return;
+                                }
+                                try {
+                                    NetworkThreadHandler.dos.writeUTF("AddFriend");
+                                    NetworkThreadHandler.dos.flush();
+                                    NetworkThreadHandler.dos.writeUTF(editText.getText().toString());
+                                    NetworkThreadHandler.dos.flush();
+                                    Thread.sleep(1000);
+                                    String validation =NetworkThreadHandler.getMessage();
+                                    if(validation.equals("ERROR")){
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(view.getContext(),"this username dose not exist",Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                        return;
+                                    }if(validation.equals("OK")){
+                                        Friend friend=new Friend();
+                                        friend.setName(editText.getText().toString());
+                                        friend.setImg_id(R.drawable.ic_person_24dp);
+                                        ArrayList<Boolean> is_income = new ArrayList<>();
+                                        ArrayList<Date> dates = new ArrayList<>();
+                                        ArrayList<String> message = new ArrayList<>();
+                                        friend.setChats_message(message);
+                                        friend.setIs_it_incomeMessage(is_income);
+                                        friend.setDates(dates);
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(view.getContext(),editText.getText().toString()+" saved",Toast.LENGTH_SHORT).show();
+//                                                SingletonUserContainer.getInstance().getFriends().add(friend);
+                                                friends.add(friend);
+                                                NetworkThreadHandler.friendNames.add(friend.getName());
+                                                adapter.notifyItemInserted(SingletonUserContainer.getInstance().getFriends().size());
+                                            }
+                                        });
+                                    }
+                                }catch(IOException | InterruptedException io){
+                                    io.printStackTrace();
+                                }
+                            }
+                        }).start();
+
                     }
                 });
                 builder.create().show();

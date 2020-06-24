@@ -65,7 +65,9 @@ public class ChatPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 friend.getChats_message().add(chatBox_et.getText().toString());
                 friend.getIs_it_incomeMessage().add(false);
-                friend.getDates().add(new Date());
+                Date date = new Date();
+                friend.getDates().add(date);
+                MainActivity.networkHandler.sendMessage(chatBox_et.getText().toString(),date,friend.getName() );
                 chatBox_et.getText().clear();
                 adapter.notifyItemInserted(friend.getChats_message().size());
                 recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);

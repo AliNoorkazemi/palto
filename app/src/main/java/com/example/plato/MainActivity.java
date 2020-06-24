@@ -33,13 +33,20 @@ public class MainActivity extends AppCompatActivity {
     DrawerLayout drawerLayout;
     NavigationView drawerNavigationView;
     public static UserService userService;
+    public static String userName;
+    public static NetworkThreadHandler networkHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_navigation);
 
-        startService(new Intent(MainActivity.this,UserService.class));
+        userName = getIntent().getStringExtra("userName");
+
+        networkHandler = new NetworkThreadHandler();
+        networkHandler.start();
+
+
 
         toolbar = findViewById(R.id.toolbar_mainActivity);
         toolbarTitle_tv = findViewById(R.id.tv_mainActivity_toolbarTitle);
