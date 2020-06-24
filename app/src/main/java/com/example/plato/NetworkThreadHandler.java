@@ -25,6 +25,8 @@ public class NetworkThreadHandler extends Thread {
 
     @Override
     public void run() {
+
+        currentUser = SingletonUserContainer.getInstance();
         /*
         received data from server ....
          */
@@ -36,7 +38,6 @@ public class NetworkThreadHandler extends Thread {
             dos.flush();
             dos.writeUTF(MainActivity.userName);
             dos.flush();
-            currentUser = new User();
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             Map<String, ArrayList<String>> friendName_to_message = (Map<String,ArrayList<String>>)ois.readObject();
             Map<String,ArrayList<Date>> friendName_to_messageTime=(Map<String,ArrayList<Date>>)ois.readObject();
