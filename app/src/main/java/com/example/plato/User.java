@@ -9,6 +9,9 @@ public class User {
     public LinkedList<Friend> friends;
 
     public LinkedList<Friend> getFriends() {
+        if(friends==null){
+            friends=new LinkedList<Friend>();
+        }
         return friends;
     }
 

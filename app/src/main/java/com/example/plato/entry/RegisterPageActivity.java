@@ -43,7 +43,9 @@ public class RegisterPageActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
+                    Log.i("message","ERROR");
                     socket = new Socket("192.168.2.102", 6666);
+                    Log.i("message","ERROR");
                     dis = new DataInputStream(socket.getInputStream());
                     dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("Register");

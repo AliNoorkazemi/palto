@@ -46,8 +46,10 @@ public class ChatFrag extends Fragment {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
 
 
+
         friends = new LinkedList<>();
         friends.addAll(SingletonUserContainer.getInstance().getFriends());
+
 
         initRecycler();
 
