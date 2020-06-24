@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.plato.R;
-import com.example.plato.game.XOGame;
+import com.example.plato.game.SingletonGameContainer;
+import com.example.plato.game.XOGamePageActivity;
+import com.example.plato.game.startPage.StartGamePageActivity;
 
 public class GameFrag extends Fragment {
     View view;
@@ -30,7 +32,9 @@ public class GameFrag extends Fragment {
         xo_game_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(view.getContext(), XOGame.class));
+                Intent intent=new Intent(view.getContext(), StartGamePageActivity.class);
+                intent.putExtra("GAME", SingletonGameContainer.getXoInstance());
+                startActivity(intent);
             }
         });
 

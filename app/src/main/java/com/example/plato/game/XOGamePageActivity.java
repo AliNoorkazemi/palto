@@ -9,10 +9,9 @@ import android.widget.Toast;
 
 import com.example.plato.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
-public class XOGame extends AppCompatActivity {
+public class XOGamePageActivity extends AppCompatActivity {
 
     Button btn1;
     Button btn2;
@@ -56,7 +55,7 @@ public class XOGame extends AppCompatActivity {
                     btn1.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[0] = "o";
                     if (check().equals("o"))
-                        Toast.makeText(XOGame.this, "you win", Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this, "you win", Toast.LENGTH_LONG).show();
                 } else {
                     btn1.setBackground(getDrawable(R.drawable.x_background));
 
@@ -73,7 +72,7 @@ public class XOGame extends AppCompatActivity {
                     btn2.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[1] = "o";
                     if (check().equals("o"))
-                        Toast.makeText(XOGame.this, "you win", Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this, "you win", Toast.LENGTH_LONG).show();
                 } else {
                     btn2.setBackground(getDrawable(R.drawable.x_background));
                     xo_table[1] = "x";
@@ -89,7 +88,7 @@ public class XOGame extends AppCompatActivity {
                     btn3.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[2] = "o";
                     if(check().equals("o"))
-                        Toast.makeText(XOGame.this,"you win",Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this,"you win",Toast.LENGTH_LONG).show();
                 } else {
                     btn3.setBackground(getDrawable(R.drawable.x_background));
                     xo_table[2] = "x";
@@ -105,7 +104,7 @@ public class XOGame extends AppCompatActivity {
                     btn4.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[3] = "o";
                     if(check().equals("o"))
-                        Toast.makeText(XOGame.this,"you win",Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this,"you win",Toast.LENGTH_LONG).show();
                 } else {
                     btn4.setBackground(getDrawable(R.drawable.x_background));
                     xo_table[3] = "x";
@@ -121,7 +120,7 @@ public class XOGame extends AppCompatActivity {
                     btn5.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[4] = "o";
                     if(check().equals("o"))
-                        Toast.makeText(XOGame.this,"you win",Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this,"you win",Toast.LENGTH_LONG).show();
                 } else {
                     btn5.setBackground(getDrawable(R.drawable.x_background));
                     xo_table[4] = "x";
@@ -137,7 +136,7 @@ public class XOGame extends AppCompatActivity {
                     btn6.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[5] = "o";
                     if(check().equals("o"))
-                        Toast.makeText(XOGame.this,"you win",Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this,"you win",Toast.LENGTH_LONG).show();
                 } else {
                     btn6.setBackground(getDrawable(R.drawable.x_background));
                     xo_table[5] = "x";
@@ -152,7 +151,7 @@ public class XOGame extends AppCompatActivity {
                     btn7.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[6] = "o";
                     if(check().equals("o"))
-                        Toast.makeText(XOGame.this,"you win",Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this,"you win",Toast.LENGTH_LONG).show();
                 } else {
                     btn7.setBackground(getDrawable(R.drawable.x_background));
                     xo_table[6] = "x";
@@ -167,7 +166,7 @@ public class XOGame extends AppCompatActivity {
                     btn8.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[7] = "o";
                     if(check().equals("o"))
-                        Toast.makeText(XOGame.this,"you win",Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this,"you win",Toast.LENGTH_LONG).show();
                 } else {
                     btn8.setBackground(getDrawable(R.drawable.x_background));
                     xo_table[7] = "x";
@@ -183,12 +182,12 @@ public class XOGame extends AppCompatActivity {
                     btn9.setBackground(getDrawable(R.drawable.o_background));
                     xo_table[8] = "o";
                     if(check().equals("o"))
-                        Toast.makeText(XOGame.this,"you win",Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this,"you win",Toast.LENGTH_LONG).show();
                 } else {
                     btn9.setBackground(getDrawable(R.drawable.x_background));
                     xo_table[8] = "x";
                     if(check().equals("x"))
-                        Toast.makeText(XOGame.this,"you win",Toast.LENGTH_LONG).show();
+                        Toast.makeText(XOGamePageActivity.this,"you win",Toast.LENGTH_LONG).show();
                 }
                 btn9.setClickable(false);
             }

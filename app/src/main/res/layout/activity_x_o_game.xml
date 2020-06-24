@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/xo_game_background"
     android:fitsSystemWindows="true"
-    tools:context=".game.XOGame">
+    tools:context=".game.XOGamePageActivity">
 
 
 
