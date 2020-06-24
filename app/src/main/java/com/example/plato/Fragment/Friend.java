@@ -14,6 +14,8 @@ public class Friend implements Serializable {
 
 
     public ArrayList<Date> getDates() {
+        if(dates==null)
+            dates = new ArrayList<Date>();
         return dates;
     }
 
@@ -23,6 +25,8 @@ public class Friend implements Serializable {
     }
 
     public ArrayList<String> getChats_message() {
+        if(chats_message==null)
+            chats_message = new ArrayList<String>();
         return chats_message;
     }
 
@@ -32,6 +36,8 @@ public class Friend implements Serializable {
     }
 
     public ArrayList<Boolean> getIs_it_incomeMessage() {
+        if(is_it_incomeMessage==null)
+            is_it_incomeMessage=new ArrayList<Boolean>();
         return is_it_incomeMessage;
     }
 
