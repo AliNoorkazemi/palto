@@ -43,7 +43,7 @@ public class RegisterPageActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    socket = new Socket("198.162.1.4", 6666);
+                    socket = new Socket("192.168.1.4", 666);
                     Log.i("message","ERROR");
 
                     dis = new DataInputStream(socket.getInputStream());

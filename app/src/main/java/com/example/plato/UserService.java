@@ -44,12 +44,7 @@ public class UserService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        create = new Thread(new Runnable() {
-            @Override
-            public void run() {
-            }
-        });
-        create.start();
+        Log.i("where", "onStartCommand: ");
         return Service.START_STICKY;
     }
 

@@ -35,6 +35,7 @@ public class GameFrag extends Fragment {
             public void onClick(View v) {
                 Intent intent=new Intent(view.getContext(), StartGamePageActivity.class);
                 intent.putExtra("GAME", SingletonGameContainer.getXoInstance());
+                onStart();
                 startActivity(intent);
             }
         });

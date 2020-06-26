@@ -20,6 +20,7 @@ import com.example.plato.Fragment.Chat.ChatFrag;
 import com.example.plato.Fragment.friends.FriendFrag;
 import com.example.plato.Fragment.GameFrag;
 import com.example.plato.Fragment.HomeFrag;
+import com.example.plato.entry.EntryActivity;
 import com.example.plato.profile.ProfileActivity;
 import com.example.plato.setting.SettingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         networkHandler = new NetworkThreadHandler();
         networkHandler.start();
-
 
 
         toolbar = findViewById(R.id.toolbar_mainActivity);
@@ -133,5 +133,13 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         Log.i("where", "onDestroy: ");
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, EntryActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

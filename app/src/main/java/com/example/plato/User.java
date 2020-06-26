@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class User implements Serializable {
-    private LinkedList<Friend> friends;
+    public LinkedList<Friend> friends;
 
     public LinkedList<Friend> getFriends() {
         if(friends==null){

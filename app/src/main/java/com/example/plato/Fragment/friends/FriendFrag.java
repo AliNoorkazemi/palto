@@ -102,7 +102,7 @@ public class FriendFrag extends Fragment {
                                         });
                                         return;
                                     }if(validation.equals("OK")){
-                                        Friend friend=new Friend();
+                                        final Friend friend=new Friend();
                                         friend.setName(editText.getText().toString());
                                         friend.setImg_id(R.drawable.ic_person_24dp);
                                         ArrayList<Boolean> is_income = new ArrayList<>();

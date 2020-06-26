@@ -38,7 +38,7 @@ public class LoginPageActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    socket = new Socket("192.168.2.102", 6666);
+                    socket = new Socket("192.168.1.4", 666);
                     dis = new DataInputStream(socket.getInputStream());
                     dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("Login");

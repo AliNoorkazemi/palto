@@ -31,13 +31,14 @@ public class NetworkThreadHandler extends Thread {
         received data from server ....
          */
         try{
-            socket = new Socket("192.168.2.102", 6666);
+            socket = new Socket("192.168.1.4", 666);
             dis = new DataInputStream(socket.getInputStream());
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("Service");
             dos.flush();
             dos.writeUTF(MainActivity.userName);
             dos.flush();
+
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             Map<String, ArrayList<String>> friendName_to_message = (Map<String,ArrayList<String>>)ois.readObject();
             Map<String,ArrayList<Date>> friendName_to_messageTime=(Map<String,ArrayList<Date>>)ois.readObject();
