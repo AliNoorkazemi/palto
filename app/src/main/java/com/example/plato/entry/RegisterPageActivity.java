@@ -45,7 +45,6 @@ public class RegisterPageActivity extends AppCompatActivity {
                 try {
                     Log.i("message","ERROR");
                     socket = new Socket("192.168.2.102", 6666);
-                    Log.i("message","ERROR");
                     dis = new DataInputStream(socket.getInputStream());
                     dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("Register");
@@ -172,5 +171,10 @@ public class RegisterPageActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

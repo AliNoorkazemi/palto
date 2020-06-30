@@ -1,5 +1,6 @@
 package com.example.plato.Fragment.friends;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,18 +16,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.MainActivity;
-import com.example.plato.NetworkThreadHandler;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.network.MessageListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -34,12 +37,44 @@ import java.util.LinkedList;
 import static android.app.Activity.RESULT_OK;
 
 public class FriendFrag extends Fragment {
-    View view;
-    RecyclerView recyclerView;
-    AdapterFriend adapter;
-    LinkedList<Friend> friends;
+    static View view;
+    static RecyclerView recyclerView;
+    static AdapterFriend adapter;
+    static LinkedList<Friend> friends;
     FloatingActionButton fab;
-    private int current_friend_position;
+    static private int current_friend_position;
+    public static MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage = new MessageListener.OnUpdateUiForIncomingMessage() {
+        @Override
+        public void onUpdateUiForIncomingMessage() {
+            if(adapter==null){
+                friends=SingletonUserContainer.getInstance().getFriends();
+                recyclerView=view.findViewById(R.id.rc_friendFrag_recycler);
+                adapter=new AdapterFriend(view.getContext(), friends, new AdapterFriend.OnFriendItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        Intent intent=new Intent(view.getContext(), ChatPageActivity.class);
+                        Friend friend = friends.get(position);
+                        current_friend_position = position;
+                        intent.putExtra("FRIEND", friend);
+                        Activity origin = (Activity) adapter.context;
+                        origin.startActivityForResult(intent, ChatPageActivity.REQUEST_CODE);
+                    }
+                });
+                LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+
+            Activity origin = (Activity)adapter.context;
+            origin.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                    Log.i("message","onUpdateUiForIncomingMessage for friend frag....");
+                }
+            });
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +103,6 @@ public class FriendFrag extends Fragment {
                 builder.setPositiveButton("Search", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //just for test , this is must handle by service :)
 
                         if(editText.getText().toString().equals(MainActivity.userName)) {
                             Toast.makeText(view.getContext(), "this is your userName", Toast.LENGTH_SHORT).show();
@@ -77,7 +111,7 @@ public class FriendFrag extends Fragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                if(NetworkThreadHandler.friendNames.contains(editText.getText().toString())){
+                                if(MainActivity.friend_names.contains(editText.getText().toString())){
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -87,12 +121,14 @@ public class FriendFrag extends Fragment {
                                     return;
                                 }
                                 try {
-                                    NetworkThreadHandler.dos.writeUTF("AddFriend");
-                                    NetworkThreadHandler.dos.flush();
-                                    NetworkThreadHandler.dos.writeUTF(editText.getText().toString());
-                                    NetworkThreadHandler.dos.flush();
-                                    Thread.sleep(1000);
-                                    String validation =NetworkThreadHandler.getMessage();
+                                    Socket socket = new Socket("192.168.2.102", 6666);
+                                    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                                    dos.writeUTF("AddFriend");
+                                    dos.flush();
+                                    dos.writeUTF(editText.getText().toString());
+                                    dos.flush();
+                                    DataInputStream dis = new DataInputStream(socket.getInputStream());
+                                    String validation = dis.readUTF();
                                     if(validation.equals("ERROR")){
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
@@ -102,6 +138,7 @@ public class FriendFrag extends Fragment {
                                         });
                                         return;
                                     }if(validation.equals("OK")){
+                                        dos.writeUTF(MainActivity.userName);
                                         Friend friend=new Friend();
                                         friend.setName(editText.getText().toString());
                                         friend.setImg_id(R.drawable.ic_person_24dp);
@@ -115,14 +152,13 @@ public class FriendFrag extends Fragment {
                                             @Override
                                             public void run() {
                                                 Toast.makeText(view.getContext(),editText.getText().toString()+" saved",Toast.LENGTH_SHORT).show();
-//                                                SingletonUserContainer.getInstance().getFriends().add(friend);
-                                                friends.add(friend);
-                                                NetworkThreadHandler.friendNames.add(friend.getName());
-                                                adapter.notifyItemInserted(SingletonUserContainer.getInstance().getFriends().size());
+                                                SingletonUserContainer.getInstance().getFriends().add(friend);
+                                                MainActivity.friend_names.add(friend.getName());
+                                                adapter.notifyItemInserted(SingletonUserContainer.getInstance().getFriends().size()-1);
                                             }
                                         });
                                     }
-                                }catch(IOException | InterruptedException io){
+                                }catch(IOException io){
                                     io.printStackTrace();
                                 }
                             }
@@ -137,7 +173,7 @@ public class FriendFrag extends Fragment {
         return view;
     }
 
-    private void initRecycler() {
+    private  void initRecycler() {
         recyclerView=view.findViewById(R.id.rc_friendFrag_recycler);
         adapter=new AdapterFriend(view.getContext(), friends, new AdapterFriend.OnFriendItemClickListener() {
             @Override

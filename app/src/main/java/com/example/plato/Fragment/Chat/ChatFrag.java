@@ -1,5 +1,6 @@
 package com.example.plato.Fragment.Chat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -12,28 +13,58 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.network.MessageListener;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedList;
 
 import static android.app.Activity.RESULT_OK;
 
 public class ChatFrag extends Fragment {
 
-    LinkedList<Friend> friends;
-    RecyclerView recyclerView;
-    AdapterFriendinChat adapter;
-    private int current_friend_position;
-    View view;
+    static LinkedList<Friend> friends;
+    static RecyclerView recyclerView;
+    static AdapterFriendinChat adapter;
+    private static int current_friend_position;
+    static View view;
+    public static MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage = new MessageListener.OnUpdateUiForIncomingMessage() {
+        @Override
+        public void onUpdateUiForIncomingMessage() {
+            if(adapter == null){
+                friends=SingletonUserContainer.getInstance().getFriends();
+                sort_list();
+                recyclerView = view.findViewById(R.id.rc_chatFrag_recycler);
+                adapter = new AdapterFriendinChat(view.getContext(), friends, new AdapterFriendinChat.OnItemINChatFragClicked() {
+                    @Override
+                    public void onClick(int position) {
+                        Intent intent = new Intent(view.getContext(), ChatPageActivity.class);
+                        Friend friend = friends.get(position);
+                        current_friend_position = position;
+                        intent.putExtra("FRIEND", friend);
+                        Activity origin = (Activity)adapter.context;
+                        origin.startActivityForResult(intent, ChatPageActivity.REQUEST_CODE);
+                    }
+                });
+                LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+            }
+            Activity origin = (Activity)adapter.context;
+            origin.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                    Log.i("message","onUpdateUiForIncomingMessage for Chat frag....");
+                }
+            });
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +80,6 @@ public class ChatFrag extends Fragment {
 
         friends=SingletonUserContainer.getInstance().getFriends();
 
-
         initRecycler();
 
 
@@ -57,7 +87,7 @@ public class ChatFrag extends Fragment {
 
     }
 
-    private void sort_list() {
+    private static void sort_list() {
         if(friends==null||friends.size()==0)
             return;
         Collections.sort(friends, new Comparator<Friend>() {
