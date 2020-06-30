@@ -8,11 +8,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.plato.NetworkThreadHandler;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class CreateNewRoomActivity extends AppCompatActivity {
@@ -39,6 +43,20 @@ public class CreateNewRoomActivity extends AppCompatActivity {
                     if(names.contains(roomname)){
                         Toast.makeText(CreateNewRoomActivity.this,"already,this room exist ,enter another name!",Toast.LENGTH_LONG).show();
                     }else {
+//                       new Thread(new Runnable() {
+//                           @Override
+//                           public void run() {
+//
+//
+//                               try {
+//                                   NetworkThreadHandler.dos.writeUTF("game");
+//
+//                               } catch (IOException e) {
+//                                   e.printStackTrace();
+//                               }
+//
+//                           }
+//                       }).start();
                         Room room=new Room();
                         room.setMax_players(2);
                         room.setIs_join_enable(true);

@@ -1,6 +1,8 @@
 package com.example.plato;
 
 import com.example.plato.Fragment.Friend;
+import com.example.plato.game.Room;
+import com.example.plato.game.SingletonGameContainer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -11,10 +13,11 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
+import java.util.Vector;
 
 public class NetworkThreadHandler extends Thread {
 
-    private Socket socket;
+    public Socket socket;
     public static DataInputStream dis;
     public static DataOutputStream dos;
     private User currentUser ;
@@ -66,8 +69,8 @@ public class NetworkThreadHandler extends Thread {
         thread to message listener....
          */
 
-        Thread messageListener = new Thread(new Receiver(dis));
-        messageListener.start();
+        //Thread messageListener = new Thread(new Receiver(dis));
+       // messageListener.start();
 
 
 

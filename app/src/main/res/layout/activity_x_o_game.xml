@@ -4,103 +4,172 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/xo_game_background"
+    android:background="@android:color/background_dark"
     android:fitsSystemWindows="true"
     tools:context=".game.XOGamePageActivity">
 
 
+<ProgressBar
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:id="@+id/progress_xoGamePageActivity_countdown"
+    android:layout_alignParentRight="true"
+    android:layout_marginTop="28dp"
+    android:layout_marginRight="23dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="64dp"/>
 
-    <RelativeLayout
-        android:layout_width="500dp"
-        android:layout_height="450dp"
-        android:layout_centerHorizontal="true"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:fitsSystemWindows="true">
+        android:layout_below="@id/progress_xoGamePageActivity_countdown"
+        android:padding="16dp">
 
         <Button
             android:id="@+id/btn_xogame_btn1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_xogame_btn2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_xogame_btn2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_toRightOf="@id/btn_xogame_btn1"
-            android:background="@android:color/transparent" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_xogame_btn3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_xogame_btn1"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btn_xogame_btn3"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
-            android:layout_toRightOf="@id/btn_xogame_btn2"
-            android:background="@android:color/transparent" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_xogame_btn2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="4dp"
+            android:layout_height="300dp"
+            android:layout_margin="16dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/btn_xogame_btn1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view10"
+            android:layout_width="4dp"
+            android:layout_height="300dp"
+            android:layout_margin="16dp"
+            android:background="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/btn_xogame_btn2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <View
+            android:id="@+id/view12"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_margin="16dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_xogame_btn2" />
+
+        <View
+            android:id="@+id/view11"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_margin="16dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_xogame_btn5" />
 
         <Button
             android:id="@+id/btn_xogame_btn4"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/btn_xogame_btn1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_marginTop="32dp"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/view3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_xogame_btn1" />
 
         <Button
             android:id="@+id/btn_xogame_btn5"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/btn_xogame_btn2"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="28dp"
-            android:layout_toRightOf="@id/btn_xogame_btn4"
-            android:background="@android:color/transparent" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/view10"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/view3"
+            app:layout_constraintTop_toBottomOf="@+id/btn_xogame_btn2" />
 
         <Button
             android:id="@+id/btn_xogame_btn6"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/btn_xogame_btn3"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="28dp"
-            android:layout_toRightOf="@id/btn_xogame_btn5"
-            android:background="@android:color/transparent" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="32dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.353"
+            app:layout_constraintStart_toEndOf="@+id/view10"
+            app:layout_constraintTop_toBottomOf="@+id/btn_xogame_btn3" />
 
         <Button
             android:id="@+id/btn_xogame_btn7"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/btn_xogame_btn4"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="32dp"
-            android:background="@android:color/transparent" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="28dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_xogame_btn8"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_xogame_btn4" />
 
         <Button
             android:id="@+id/btn_xogame_btn8"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/btn_xogame_btn5"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_toRightOf="@id/btn_xogame_btn7"
-            android:background="@android:color/transparent" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_xogame_btn9"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_xogame_btn7" />
 
         <Button
             android:id="@+id/btn_xogame_btn9"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_below="@id/btn_xogame_btn6"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_toRightOf="@id/btn_xogame_btn8"
-            android:background="@android:color/transparent" />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="28dp"
+            android:background="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_xogame_btn8"
+            app:layout_constraintTop_toBottomOf="@+id/btn_xogame_btn6" />
 
-
-    </RelativeLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

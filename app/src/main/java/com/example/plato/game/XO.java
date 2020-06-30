@@ -18,7 +18,13 @@ public class XO extends Game  {
         return rooms;
     }
 
-    private void addRoom(Room room){
+    public void setRooms(List<Room> rooms) {
+        if(this.rooms==null)
+            this.rooms=new ArrayList<>();
+        this.rooms = rooms;
+    }
+
+    public void addRoom(Room room){
         if(rooms==null)
             rooms=new ArrayList<>();
         rooms.add(room);

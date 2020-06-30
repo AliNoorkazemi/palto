@@ -9,6 +9,16 @@ import java.util.LinkedList;
 public class User implements Serializable {
     public LinkedList<Friend> friends;
 
+    public String myName;
+
+    public String getMyName() {
+        return myName;
+    }
+
+    public void setMyName(String myName) {
+        this.myName = myName;
+    }
+
     public LinkedList<Friend> getFriends() {
         if(friends==null){
             friends=new LinkedList<Friend>();
