@@ -75,40 +75,55 @@ public class LoginPageActivity extends AppCompatActivity {
                     warningText.setVisibility(View.VISIBLE);
                     return;
                 }
-                Thread validation = new Thread(new Runnable() {
-                    String validationMessage = null;
-
-                    @Override
-                    public void run() {
-                        try {
-                            dos.writeUTF(username_et.getText().toString());
-                            dos.flush();
-                            dos.writeUTF(password_et.getText().toString());
-                            dos.flush();
-                            validationMessage = dis.readUTF();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (!validationMessage.startsWith("ERROR")) {
-                            Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
-                            intent.putExtra("userName", username_et.getText().toString());
-                            intent.putExtra("password", password_et.getText().toString());
-                            startActivity(intent);
-                            finish();
-                        }else{
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    warningText.setText(validationMessage);
-                                    warningText.setVisibility(View.VISIBLE);
-                                }
-                            });
-                        }
-                    }
-                });
-                validation.start();
+                validateLogin();
             }
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void validateLogin(){
+        Thread validation = new Thread(new Runnable() {
+            String validationMessage = null;
+
+            @Override
+            public void run() {
+                try {
+                    dos.writeUTF(username_et.getText().toString());
+                    dos.flush();
+                    dos.writeUTF(password_et.getText().toString());
+                    dos.flush();
+                    validationMessage = dis.readUTF();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (!validationMessage.startsWith("ERROR")) {
+                    Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
+                    intent.putExtra("userName", username_et.getText().toString());
+                    intent.putExtra("password", password_et.getText().toString());
+                    startActivity(intent);
+                    finish();
+                }else{
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            warningText.setText(validationMessage);
+                            warningText.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+            }
+        });
+        validation.start();
+    }
 }
+

@@ -26,6 +26,15 @@ public class User implements Serializable {
         return friends;
     }
 
+    public Friend getTargetFriend(String targetName){
+        Friend friend=null;
+        for(int i = 0 ; i < friends.size();i++){
+            if(friends.get(i).getName().equals(targetName))
+                return friends.get(i);
+        }
+        return friend;
+    }
+
     public void setFriends(LinkedList<Friend> friends) {
         this.friends = friends;
     }

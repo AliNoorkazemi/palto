@@ -20,11 +20,16 @@ import com.example.plato.Fragment.Chat.ChatFrag;
 import com.example.plato.Fragment.friends.FriendFrag;
 import com.example.plato.Fragment.GameFrag;
 import com.example.plato.Fragment.HomeFrag;
+
 import com.example.plato.entry.EntryActivity;
+import com.example.plato.network.DataReceiver;
+import com.example.plato.network.MessageListener;
 import com.example.plato.profile.ProfileActivity;
 import com.example.plato.setting.SettingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
     TextView toolbarTitle_tv;
     DrawerLayout drawerLayout;
     NavigationView drawerNavigationView;
-    public static UserService userService;
     public static String userName;
-    public static NetworkThreadHandler networkHandler;
+    public static ArrayList<String> friend_names;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
         userName = getIntent().getStringExtra("userName");
 
-        networkHandler = new NetworkThreadHandler();
-        networkHandler.start();
+
+        DataReceiver dataReceiver = new DataReceiver();
+        dataReceiver.start();
+
+        MessageListener messageListener = new MessageListener();
+        messageListener.start();
 
 
         toolbar = findViewById(R.id.toolbar_mainActivity);
@@ -113,8 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
-
     }
 
     private boolean setFragment(Fragment fragment) {

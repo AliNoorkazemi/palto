@@ -46,7 +46,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".UserService" />
     </application>
 
 </manifest>
