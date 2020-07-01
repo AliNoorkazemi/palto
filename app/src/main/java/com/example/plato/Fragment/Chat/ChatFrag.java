@@ -36,31 +36,15 @@ public class ChatFrag extends Fragment {
     public static MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage = new MessageListener.OnUpdateUiForIncomingMessage() {
         @Override
         public void onUpdateUiForIncomingMessage() {
-            if(adapter == null){
-                friends=SingletonUserContainer.getInstance().getFriends();
-                sort_list();
-                recyclerView = view.findViewById(R.id.rc_chatFrag_recycler);
-                adapter = new AdapterFriendinChat(view.getContext(), friends, new AdapterFriendinChat.OnItemINChatFragClicked() {
-                    @Override
-                    public void onClick(int position) {
-                        Intent intent = new Intent(view.getContext(), ChatPageActivity.class);
-                        Friend friend = friends.get(position);
-                        current_friend_position = position;
-                        intent.putExtra("FRIEND", friend);
-                        Activity origin = (Activity)adapter.context;
-                        origin.startActivityForResult(intent, ChatPageActivity.REQUEST_CODE);
-                    }
-                });
-                LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+            if (adapter == null) {
+                return;
             }
-            Activity origin = (Activity)adapter.context;
+            Activity origin = (Activity) adapter.context;
             origin.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     adapter.notifyDataSetChanged();
-                    Log.i("message","onUpdateUiForIncomingMessage for Chat frag....");
+                    Log.i("message", "onUpdateUiForIncomingMessage for Chat frag....");
                 }
             });
         }
@@ -77,8 +61,7 @@ public class ChatFrag extends Fragment {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
 
 
-
-        friends=SingletonUserContainer.getInstance().getFriends();
+        friends = SingletonUserContainer.getInstance().getFriends();
 
         initRecycler();
 
@@ -88,14 +71,14 @@ public class ChatFrag extends Fragment {
     }
 
     private static void sort_list() {
-        if(friends==null||friends.size()==0)
+        if (friends == null || friends.size() == 0)
             return;
         Collections.sort(friends, new Comparator<Friend>() {
             @Override
             public int compare(Friend o1, Friend o2) {
-                if(o1.getChats_message().size()==0)
+                if (o1.getChats_message().size() == 0)
                     return 1;
-                if(o2.getChats_message().size()==0)
+                if (o2.getChats_message().size() == 0)
                     return -1;
                 return -1 * o1.getDates().get(o1.getChats_message().size() - 1).compareTo(o2.getDates().get(o2.getChats_message().size() - 1));
             }

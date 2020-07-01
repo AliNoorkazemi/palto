@@ -8,15 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.plato.NetworkThreadHandler;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 public class CreateNewRoomActivity extends AppCompatActivity {
