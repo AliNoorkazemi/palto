@@ -46,33 +46,16 @@ public class FriendFrag extends Fragment {
     public static MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage = new MessageListener.OnUpdateUiForIncomingMessage() {
         @Override
         public void onUpdateUiForIncomingMessage() {
-            if(adapter==null){
-                friends=SingletonUserContainer.getInstance().getFriends();
-                recyclerView=view.findViewById(R.id.rc_friendFrag_recycler);
-                adapter=new AdapterFriend(view.getContext(), friends, new AdapterFriend.OnFriendItemClickListener() {
+            if(adapter!=null) {
+                Activity origin = (Activity) adapter.context;
+                origin.runOnUiThread(new Runnable() {
                     @Override
-                    public void onClick(int position) {
-                        Intent intent=new Intent(view.getContext(), ChatPageActivity.class);
-                        Friend friend = friends.get(position);
-                        current_friend_position = position;
-                        intent.putExtra("FRIEND", friend);
-                        Activity origin = (Activity) adapter.context;
-                        origin.startActivityForResult(intent, ChatPageActivity.REQUEST_CODE);
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        Log.i("message", "onUpdateUiForIncomingMessage for friend frag....");
                     }
                 });
-                LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
             }
-
-            Activity origin = (Activity)adapter.context;
-            origin.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-                    Log.i("message","onUpdateUiForIncomingMessage for friend frag....");
-                }
-            });
         }
     };
 
