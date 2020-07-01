@@ -89,7 +89,8 @@ public class ChatPageActivity extends AppCompatActivity {
                 if(chatBox_et.getText().toString().equals(""))
                     return;
                 friend.getChats_message().add(chatBox_et.getText().toString());
-                friend.getIs_it_incomeMessage().add(false);
+//                friend.getIs_it_incomeMessage().add(false);
+                friend.getType_of_messages().add(1);
                 Date date = new Date();
                 friend.getDates().add(date);
                 sendMessage(chatBox_et.getText().toString(),date);

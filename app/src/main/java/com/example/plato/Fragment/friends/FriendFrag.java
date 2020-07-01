@@ -121,11 +121,13 @@ public class FriendFrag extends Fragment {
                                         Friend friend = new Friend();
                                         friend.setName(editText.getText().toString());
                                         friend.setImg_id(R.drawable.ic_person_24dp);
-                                        ArrayList<Boolean> is_income = new ArrayList<>();
+//                                        ArrayList<Boolean> is_income = new ArrayList<>();
+                                        ArrayList<Integer> type_of_message = new ArrayList<>();
                                         ArrayList<Date> dates = new ArrayList<>();
                                         ArrayList<String> message = new ArrayList<>();
                                         friend.setChats_message(message);
-                                        friend.setIs_it_incomeMessage(is_income);
+//                                        friend.setIs_it_incomeMessage(is_income);
+                                        friend.setType_of_messages(type_of_message);
                                         friend.setDates(dates);
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
@@ -176,7 +178,8 @@ public class FriendFrag extends Fragment {
             Friend oldFriend = SingletonUserContainer.getInstance().getFriends().get(current_friend_position);
             Friend newFriend = (Friend) data.getSerializableExtra("FINISH");
             oldFriend.setChats_message(newFriend.getChats_message());
-            oldFriend.setIs_it_incomeMessage(newFriend.getIs_it_incomeMessage());
+//            oldFriend.setIs_it_incomeMessage(newFriend.getIs_it_incomeMessage());
+            oldFriend.setType_of_messages(newFriend.getType_of_messages());
             oldFriend.setDates(newFriend.getDates());
         }
     }
