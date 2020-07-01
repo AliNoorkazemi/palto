@@ -20,6 +20,8 @@ import com.example.plato.Fragment.Chat.ChatFrag;
 import com.example.plato.Fragment.friends.FriendFrag;
 import com.example.plato.Fragment.GameFrag;
 import com.example.plato.Fragment.HomeFrag;
+
+import com.example.plato.entry.EntryActivity;
 import com.example.plato.network.DataReceiver;
 import com.example.plato.network.MessageListener;
 import com.example.plato.profile.ProfileActivity;
@@ -54,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         messageListener.start();
 
 
-
         toolbar = findViewById(R.id.toolbar_mainActivity);
         toolbarTitle_tv = findViewById(R.id.tv_mainActivity_toolbarTitle);
         setSupportActionBar(toolbar);
@@ -86,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
-
                 return false;
             }
         });
@@ -132,5 +132,20 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("where", "onDestroy: ");
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, EntryActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

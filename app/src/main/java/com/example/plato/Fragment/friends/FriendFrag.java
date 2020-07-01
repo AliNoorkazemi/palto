@@ -46,7 +46,7 @@ public class FriendFrag extends Fragment {
     public static MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage = new MessageListener.OnUpdateUiForIncomingMessage() {
         @Override
         public void onUpdateUiForIncomingMessage() {
-            if(adapter!=null) {
+            if (adapter != null) {
                 Activity origin = (Activity) adapter.context;
                 origin.runOnUiThread(new Runnable() {
                     @Override
@@ -68,18 +68,18 @@ public class FriendFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view=inflater.inflate(R.layout.fragment_friend, container, false);
+        view = inflater.inflate(R.layout.fragment_friend, container, false);
 
-        friends=SingletonUserContainer.getInstance().getFriends();
+        friends = SingletonUserContainer.getInstance().getFriends();
 
         initRecycler();
 
-        fab=view.findViewById(R.id.fab_friendFrag_fab);
+        fab = view.findViewById(R.id.fab_friendFrag_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final EditText editText=new EditText(view.getContext());
-                AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
+                final EditText editText = new EditText(view.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setCancelable(true);
                 builder.setTitle("search by plato username");
                 builder.setView(editText);
@@ -87,24 +87,24 @@ public class FriendFrag extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if(editText.getText().toString().equals(MainActivity.userName)) {
+                        if (editText.getText().toString().equals(MainActivity.userName)) {
                             Toast.makeText(view.getContext(), "this is your userName", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                if(MainActivity.friend_names.contains(editText.getText().toString())){
+                                if (MainActivity.friend_names.contains(editText.getText().toString())) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(view.getContext(),editText.getText().toString()+" already existed" , Toast.LENGTH_LONG).show();
+                                            Toast.makeText(view.getContext(), editText.getText().toString() + " already existed", Toast.LENGTH_LONG).show();
                                         }
                                     });
                                     return;
                                 }
                                 try {
-                                    Socket socket = new Socket("192.168.2.102", 6666);
+                                    Socket socket = new Socket("192.168.1.4", 6666);
                                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                                     dos.writeUTF("AddFriend");
                                     dos.flush();
@@ -112,17 +112,18 @@ public class FriendFrag extends Fragment {
                                     dos.flush();
                                     DataInputStream dis = new DataInputStream(socket.getInputStream());
                                     String validation = dis.readUTF();
-                                    if(validation.equals("ERROR")){
+                                    if (validation.equals("ERROR")) {
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Toast.makeText(view.getContext(),"this username dose not exist",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(view.getContext(), "this username dose not exist", Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                         return;
-                                    }if(validation.equals("OK")){
+                                    }
+                                    if (validation.equals("OK")) {
                                         dos.writeUTF(MainActivity.userName);
-                                        Friend friend=new Friend();
+                                        Friend friend = new Friend();
                                         friend.setName(editText.getText().toString());
                                         friend.setImg_id(R.drawable.ic_person_24dp);
                                         ArrayList<Boolean> is_income = new ArrayList<>();
@@ -134,14 +135,14 @@ public class FriendFrag extends Fragment {
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Toast.makeText(view.getContext(),editText.getText().toString()+" saved",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(view.getContext(), editText.getText().toString() + " saved", Toast.LENGTH_SHORT).show();
                                                 SingletonUserContainer.getInstance().getFriends().add(friend);
                                                 MainActivity.friend_names.add(friend.getName());
-                                                adapter.notifyItemInserted(SingletonUserContainer.getInstance().getFriends().size()-1);
+                                                adapter.notifyItemInserted(SingletonUserContainer.getInstance().getFriends().size() - 1);
                                             }
                                         });
                                     }
-                                }catch(IOException io){
+                                } catch (IOException io) {
                                     io.printStackTrace();
                                 }
                             }
@@ -156,12 +157,12 @@ public class FriendFrag extends Fragment {
         return view;
     }
 
-    private  void initRecycler() {
-        recyclerView=view.findViewById(R.id.rc_friendFrag_recycler);
-        adapter=new AdapterFriend(view.getContext(), friends, new AdapterFriend.OnFriendItemClickListener() {
+    private void initRecycler() {
+        recyclerView = view.findViewById(R.id.rc_friendFrag_recycler);
+        adapter = new AdapterFriend(view.getContext(), friends, new AdapterFriend.OnFriendItemClickListener() {
             @Override
             public void onClick(int position) {
-                Intent intent=new Intent(view.getContext(), ChatPageActivity.class);
+                Intent intent = new Intent(view.getContext(), ChatPageActivity.class);
                 Friend friend = friends.get(position);
                 current_friend_position = position;
                 intent.putExtra("FRIEND", friend);
@@ -176,7 +177,7 @@ public class FriendFrag extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode==ChatPageActivity.REQUEST_CODE && resultCode==RESULT_OK && data!=null){
+        if (requestCode == ChatPageActivity.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             Friend oldFriend = friends.get(current_friend_position);
             Friend newFriend = (Friend) data.getSerializableExtra("FINISH");
             oldFriend.setChats_message(newFriend.getChats_message());
@@ -184,7 +185,6 @@ public class FriendFrag extends Fragment {
             oldFriend.setDates(newFriend.getDates());
         }
     }
-
 
 
 }

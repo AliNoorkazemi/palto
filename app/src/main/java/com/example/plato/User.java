@@ -2,11 +2,22 @@ package com.example.plato;
 
 import com.example.plato.Fragment.Friend;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class User {
+public class User implements Serializable {
     public LinkedList<Friend> friends;
+
+    public String myName;
+
+    public String getMyName() {
+        return myName;
+    }
+
+    public void setMyName(String myName) {
+        this.myName = myName;
+    }
 
     public LinkedList<Friend> getFriends() {
         if(friends==null){

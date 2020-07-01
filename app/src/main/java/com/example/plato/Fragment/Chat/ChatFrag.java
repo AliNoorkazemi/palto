@@ -36,16 +36,16 @@ public class ChatFrag extends Fragment {
     public static MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage = new MessageListener.OnUpdateUiForIncomingMessage() {
         @Override
         public void onUpdateUiForIncomingMessage() {
-            if (adapter != null){
-            Activity origin = (Activity) adapter.context;
-            origin.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-                    Log.i("message", "onUpdateUiForIncomingMessage for Chat frag....");
-                }
-            });
-        }
+            if (adapter != null) {
+                Activity origin = (Activity) adapter.context;
+                origin.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        Log.i("message", "onUpdateUiForIncomingMessage for Chat frag....");
+                    }
+                });
+            }
         }
     };
 
@@ -60,8 +60,7 @@ public class ChatFrag extends Fragment {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
 
 
-
-        friends=SingletonUserContainer.getInstance().getFriends();
+        friends = SingletonUserContainer.getInstance().getFriends();
 
         initRecycler();
 
@@ -71,14 +70,14 @@ public class ChatFrag extends Fragment {
     }
 
     private static void sort_list() {
-        if(friends==null||friends.size()==0)
+        if (friends == null || friends.size() == 0)
             return;
         Collections.sort(friends, new Comparator<Friend>() {
             @Override
             public int compare(Friend o1, Friend o2) {
-                if(o1.getChats_message().size()==0)
+                if (o1.getChats_message().size() == 0)
                     return 1;
-                if(o2.getChats_message().size()==0)
+                if (o2.getChats_message().size() == 0)
                     return -1;
                 return -1 * o1.getDates().get(o1.getChats_message().size() - 1).compareTo(o2.getDates().get(o2.getChats_message().size() - 1));
             }

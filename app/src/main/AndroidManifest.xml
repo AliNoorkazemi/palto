@@ -11,9 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Fragment.Chat.chatPage.ChatPageActivity" android:theme="@style/NoActionBar">
-
-        </activity>
+        <activity android:name=".game.startPage.fragment.casual.CreateNewRoomActivity"></activity>
+        <activity
+            android:name=".game.startPage.StartGamePageActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".game.XOGamePageActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".Fragment.Chat.chatPage.ChatPageActivity"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".setting.AboutUsActivity"
             android:theme="@style/noActionBarLight" />

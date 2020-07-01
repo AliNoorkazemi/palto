@@ -32,7 +32,7 @@ public class ChatPageActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE=1001;
     static AdapterChatPage adapter;
-    RecyclerView recyclerView;
+    static RecyclerView recyclerView;
     public static Friend friend;
     public static MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage = new MessageListener.OnUpdateUiForIncomingMessage() {
         @Override
@@ -44,6 +44,7 @@ public class ChatPageActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     adapter.notifyDataSetChanged();
+                    recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
                     Log.i("message","onUpdateUiForIncomingMessage for Chat page Activity....");
                 }
             });
@@ -108,7 +109,7 @@ public class ChatPageActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket("192.168.2.102", 6666);
+                    Socket socket = new Socket("192.168.1.4", 6666);
                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("sendMessage");
                     dos.flush();
