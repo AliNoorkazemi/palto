@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,6 @@ public class ChatFrag extends Fragment {
                     @Override
                     public void run() {
                         adapter.notifyDataSetChanged();
-                        Log.i("message", "onUpdateUiForIncomingMessage for Chat frag....");
                     }
                 });
             }
@@ -106,7 +104,6 @@ public class ChatFrag extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == ChatPageActivity.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Log.i("where?", "onActivityResult: ");
             Friend oldFriend = friends.get(current_friend_position);
             Friend newFriend = (Friend) data.getSerializableExtra("FINISH");
             oldFriend.setChats_message(newFriend.getChats_message());

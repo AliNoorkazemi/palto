@@ -1,6 +1,5 @@
 package com.example.plato.network;
 
-import android.util.Log;
 
 import com.example.plato.Fragment.Chat.ChatFrag;
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
@@ -23,19 +22,15 @@ public class MessageListener extends Thread {
     @Override
     public void run() {
         try{
-            Log.i("message","enter to listening before connecting...");
             Socket socket = new Socket("192.168.1.4", 6666);
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("messageListener");
             dos.writeUTF(MainActivity.userName);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
-            Log.i("message","start for listening ... ");
             while (true){
                 String sender_name = dis.readUTF();
                 String message = dis.readUTF();
-                Log.i("message","message is : " + message+"    sender_name is : "+sender_name );
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                Log.i("message","test for doing something ... ");
                 Date time = (Date)ois.readObject();
                 dis = new DataInputStream(socket.getInputStream());
                 if(MainActivity.friend_names.contains(sender_name)){
@@ -52,7 +47,6 @@ public class MessageListener extends Thread {
                     friend.getDates().add(time);
                     SingletonUserContainer.getInstance().getFriends().add(friend);
                 }
-                Log.i("message","message receive from friend ... ");
                 onUpdateUiForIncomingMessage = FriendFrag.onUpdateUiForIncomingMessage;
                 onUpdateUiForIncomingMessage.onUpdateUiForIncomingMessage();
                 onUpdateUiForIncomingMessage = ChatFrag.onUpdateUiForIncomingMessage;

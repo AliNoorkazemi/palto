@@ -1,6 +1,5 @@
 package com.example.plato.network;
 
-import android.util.Log;
 
 import com.example.plato.Fragment.Friend;
 import com.example.plato.MainActivity;
@@ -44,9 +43,6 @@ public class DataReceiver extends Thread {
             Map<String,ArrayList<Boolean>> friendsName_to_messageBoolean=(Map<String,ArrayList<Boolean>>)ois.readObject();
             MainActivity.friend_names  = new ArrayList<>(friendName_to_message.keySet());
             String message = String.valueOf(MainActivity.friend_names.size());
-            Log.i("LOG",  message);
-            if(MainActivity.friend_names.size()>0)
-                Log.i("LOG",  MainActivity.friend_names.get(0));
             for(int i = 0 ; i < friendName_to_message.size() ;i++){
                 Friend friend = new Friend();
                 friend.setName(MainActivity.friend_names.get(i));

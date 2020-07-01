@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         drawerNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Log.i("MainLog", "onNavigationItemSelected: ");
                 switch (menuItem.getItemId()) {
                     case R.id.btn_drawerNavigation_profile:
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
@@ -137,8 +135,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("where", "onDestroy: ");
-
     }
 
     @Override
