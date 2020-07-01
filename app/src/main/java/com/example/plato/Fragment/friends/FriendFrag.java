@@ -31,7 +31,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -39,7 +38,6 @@ public class FriendFrag extends Fragment {
     static View view;
     static RecyclerView recyclerView;
     static AdapterFriend adapter;
-    static LinkedList<Friend> friends;
     FloatingActionButton fab;
     static private int current_friend_position;
     public static MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage = new MessageListener.OnUpdateUiForIncomingMessage() {
@@ -68,7 +66,6 @@ public class FriendFrag extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_friend, container, false);
 
-        friends = SingletonUserContainer.getInstance().getFriends();
 
         initRecycler();
 
@@ -102,7 +99,7 @@ public class FriendFrag extends Fragment {
                                     return;
                                 }
                                 try {
-                                    Socket socket = new Socket("192.168.1.4", 6666);
+                                    Socket socket = new Socket("192.168.2.102", 6666);
                                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                                     dos.writeUTF("AddFriend");
                                     dos.flush();
@@ -157,11 +154,11 @@ public class FriendFrag extends Fragment {
 
     private void initRecycler() {
         recyclerView = view.findViewById(R.id.rc_friendFrag_recycler);
-        adapter = new AdapterFriend(view.getContext(), friends, new AdapterFriend.OnFriendItemClickListener() {
+        adapter = new AdapterFriend(view.getContext(), SingletonUserContainer.getInstance().getFriends(), new AdapterFriend.OnFriendItemClickListener() {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(view.getContext(), ChatPageActivity.class);
-                Friend friend = friends.get(position);
+                Friend friend = SingletonUserContainer.getInstance().getFriends().get(position);
                 current_friend_position = position;
                 intent.putExtra("FRIEND", friend);
                 startActivityForResult(intent, ChatPageActivity.REQUEST_CODE);
@@ -176,7 +173,7 @@ public class FriendFrag extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == ChatPageActivity.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Friend oldFriend = friends.get(current_friend_position);
+            Friend oldFriend = SingletonUserContainer.getInstance().getFriends().get(current_friend_position);
             Friend newFriend = (Friend) data.getSerializableExtra("FINISH");
             oldFriend.setChats_message(newFriend.getChats_message());
             oldFriend.setIs_it_incomeMessage(newFriend.getIs_it_incomeMessage());

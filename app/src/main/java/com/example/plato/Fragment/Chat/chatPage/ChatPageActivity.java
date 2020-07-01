@@ -107,7 +107,7 @@ public class ChatPageActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket("192.168.1.4", 6666);
+                    Socket socket = new Socket("192.168.2.102", 6666);
                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("sendMessage");
                     dos.flush();

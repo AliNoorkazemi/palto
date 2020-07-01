@@ -21,13 +21,11 @@ import com.example.plato.network.MessageListener;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedList;
 
 import static android.app.Activity.RESULT_OK;
 
 public class ChatFrag extends Fragment {
 
-    static LinkedList<Friend> friends;
     static RecyclerView recyclerView;
     static AdapterFriendinChat adapter;
     private static int current_friend_position;
@@ -58,7 +56,6 @@ public class ChatFrag extends Fragment {
         view = inflater.inflate(R.layout.fragment_chat, container, false);
 
 
-        friends = SingletonUserContainer.getInstance().getFriends();
 
         initRecycler();
 
@@ -68,9 +65,9 @@ public class ChatFrag extends Fragment {
     }
 
     private static void sort_list() {
-        if (friends == null || friends.size() == 0)
+        if (SingletonUserContainer.getInstance().getFriends() == null || SingletonUserContainer.getInstance().getFriends().size() == 0)
             return;
-        Collections.sort(friends, new Comparator<Friend>() {
+        Collections.sort(SingletonUserContainer.getInstance().getFriends(), new Comparator<Friend>() {
             @Override
             public int compare(Friend o1, Friend o2) {
                 if (o1.getChats_message().size() == 0)
@@ -86,11 +83,11 @@ public class ChatFrag extends Fragment {
     private void initRecycler() {
         sort_list();
         recyclerView = view.findViewById(R.id.rc_chatFrag_recycler);
-        adapter = new AdapterFriendinChat(view.getContext(), friends, new AdapterFriendinChat.OnItemINChatFragClicked() {
+        adapter = new AdapterFriendinChat(view.getContext(), SingletonUserContainer.getInstance().getFriends(), new AdapterFriendinChat.OnItemINChatFragClicked() {
             @Override
             public void onClick(int position) {
                 Intent intent = new Intent(view.getContext(), ChatPageActivity.class);
-                Friend friend = friends.get(position);
+                Friend friend = SingletonUserContainer.getInstance().getFriends().get(position);
                 current_friend_position = position;
                 intent.putExtra("FRIEND", friend);
                 startActivityForResult(intent, ChatPageActivity.REQUEST_CODE);
@@ -104,7 +101,7 @@ public class ChatFrag extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == ChatPageActivity.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
-            Friend oldFriend = friends.get(current_friend_position);
+            Friend oldFriend = SingletonUserContainer.getInstance().getFriends().get(current_friend_position);
             Friend newFriend = (Friend) data.getSerializableExtra("FINISH");
             oldFriend.setChats_message(newFriend.getChats_message());
             oldFriend.setIs_it_incomeMessage(newFriend.getIs_it_incomeMessage());
