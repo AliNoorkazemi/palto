@@ -13,9 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.plato.game.guessword.WaitingForGuessActivity.setOnUpdateUiForGuessWordGameChanges;
 import com.example.plato.R;
 
-import org.w3c.dom.Text;
 
 public class GuessWordActivity extends AppCompatActivity {
 
@@ -26,6 +26,7 @@ public class GuessWordActivity extends AppCompatActivity {
     private EditText guess_word_et;
     private Button validation_guess_btn;
     private TextView chances_number_tv;
+    private setOnUpdateUiForGuessWordGameChanges setOnUpdateUiForGuessWordGameChanges;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,8 @@ public class GuessWordActivity extends AppCompatActivity {
                                             converted += guess_word_tv.getText().toString().charAt(i);
                                     }
                                     guess_word_tv.setText(converted);
+                                    setOnUpdateUiForGuessWordGameChanges = WaitingForGuessActivity.setOnUpdateUiForGuessWordGameChanges;
+                                    setOnUpdateUiForGuessWordGameChanges.onUpdateUiForGuessWordGameChanges(converted);
                                 }
                             }
                         }
