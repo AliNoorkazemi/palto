@@ -1,5 +1,6 @@
 package com.example.plato.game.startPage.fragment.casual;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,22 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ThemedSpinnerAdapter;
 import android.widget.Toast;
 
+import com.example.plato.MainActivity;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
+import com.example.plato.network.AddRoomListener;
+import com.example.plato.network.MessageListener;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
@@ -34,9 +44,26 @@ public class CasualFrag extends Fragment {
 
     Button create_room_btn;
     RecyclerView recyclerView;
-    AdapterCasual adapter;
+    static AdapterCasual adapter;
 
-    ArrayList<Room> rooms;
+
+    public static AddRoomListener.onUpdateUiForAddRoom onUpdateUiForAddRoom=new AddRoomListener.onUpdateUiForAddRoom() {
+        @Override
+        public void onUpdate() {
+            if (adapter != null) {
+                Activity origin = (Activity) adapter.context;
+                origin.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        Log.i("where", "onUpdateUiForIncomingMessage for casual frag...."+adapter.rooms.size());
+                    }
+                });
+            }
+        }
+    };
+
+
 
     View view;
     @Override
@@ -47,6 +74,7 @@ public class CasualFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i("where", "onCreateView: ");
 
         view=inflater.inflate(R.layout.fragment_casual, container, false);
 
@@ -68,16 +96,12 @@ public class CasualFrag extends Fragment {
     }
 
     private void initRecycler() {
-        if(rooms==null){
-            rooms=new ArrayList<>();
-            rooms.addAll(SingletonGameContainer.getXoInstance().getRooms());
-        }
         recyclerView=view.findViewById(R.id.rc_casualFrag_recycler);
-        adapter=new AdapterCasual(rooms, new AdapterCasual.OnItemInCasualClickListener() {
+        adapter=new AdapterCasual(view.getContext(),SingletonGameContainer.getXoInstance().getRooms(), new AdapterCasual.OnItemInCasualClickListener() {
             @Override
             public void onClick(Room room) {
                 if(room.getMax_players()>room.getUsers().size()){
-                    if(room.getUsers().contains(SingletonUserContainer.getInstance())){
+                    if(!room.getUsers().contains(MainActivity.userName)){
                         TextView room_state=view.findViewById(R.id.tv_itemInRecycler_casualFrag_state);
                         room_state.setBackground(getActivity().getDrawable(R.drawable.gray_boarder));
                         room_state.setText("watch");
@@ -121,10 +145,10 @@ public class CasualFrag extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode==1002 && resultCode==RESULT_OK ){
-            rooms.clear();
-            rooms.addAll(SingletonGameContainer.getXoInstance().getRooms());
-            adapter.notifyItemInserted(rooms.size()-1);
-        }
+//        if(requestCode==1002 && resultCode==RESULT_OK ){
+//            rooms.clear();
+//            rooms.addAll(SingletonGameContainer.getXoInstance().getRooms());
+//            adapter.notifyItemInserted(rooms.size()-1);
+//        }
     }
 }

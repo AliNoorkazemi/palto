@@ -1,6 +1,8 @@
 package com.example.plato.network;
 
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Switch;
 
 import com.example.plato.Fragment.Chat.ChatFrag;
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
@@ -8,6 +10,7 @@ import com.example.plato.Fragment.Friend;
 import com.example.plato.Fragment.friends.FriendFrag;
 import com.example.plato.MainActivity;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.game.Room;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,31 +22,34 @@ import java.util.Date;
 public class MessageListener extends Thread {
 
     private OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage;
+    Socket socket;
+    DataOutputStream dos;
+    DataInputStream dis;
 
     @Override
     public void run() {
-        try{
-            Log.i("message","enter to listening before connecting...");
-            Socket socket = new Socket("192.168.1.4", 6666);
-            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+        try {
+            Log.i("message", "enter to listening before connecting...");
+            socket = new Socket("192.168.1.4", 6666);
+            dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("messageListener");
             dos.writeUTF(MainActivity.userName);
-            DataInputStream dis = new DataInputStream(socket.getInputStream());
-            Log.i("message","start for listening ... ");
-            while (true){
+            dis = new DataInputStream(socket.getInputStream());
+            Log.i("message", "start for listening ... ");
+            while (true) {
                 String sender_name = dis.readUTF();
                 String message = dis.readUTF();
-                Log.i("message","message is : " + message+"    sender_name is : "+sender_name );
+                Log.i("message", "message is : " + message + "    sender_name is : " + sender_name);
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                Log.i("message","test for doing something ... ");
-                Date time = (Date)ois.readObject();
+                Log.i("message", "test for doing something ... ");
+                Date time = (Date) ois.readObject();
                 dis = new DataInputStream(socket.getInputStream());
-                if(MainActivity.friend_names.contains(sender_name)){
+                if (MainActivity.friend_names.contains(sender_name)) {
                     Friend friend = SingletonUserContainer.getInstance().getTargetFriend(sender_name);
                     friend.getChats_message().add(message);
                     friend.getIs_it_incomeMessage().add(true);
                     friend.getDates().add(time);
-                }else{
+                } else {
                     MainActivity.friend_names.add(sender_name);
                     Friend friend = new Friend();
                     friend.setName(sender_name);
@@ -52,20 +58,22 @@ public class MessageListener extends Thread {
                     friend.getDates().add(time);
                     SingletonUserContainer.getInstance().getFriends().add(friend);
                 }
-                Log.i("message","message receive from friend ... ");
+                Log.i("message", "message receive from friend ... ");
                 onUpdateUiForIncomingMessage = FriendFrag.onUpdateUiForIncomingMessage;
                 onUpdateUiForIncomingMessage.onUpdateUiForIncomingMessage();
                 onUpdateUiForIncomingMessage = ChatFrag.onUpdateUiForIncomingMessage;
                 onUpdateUiForIncomingMessage.onUpdateUiForIncomingMessage();
                 onUpdateUiForIncomingMessage = ChatPageActivity.onUpdateUiForIncomingMessage;
                 onUpdateUiForIncomingMessage.onUpdateUiForIncomingMessage();
+
             }
-        }catch (IOException | ClassNotFoundException io){
+        } catch (IOException | ClassNotFoundException io) {
             io.printStackTrace();
         }
     }
 
-    public static interface OnUpdateUiForIncomingMessage{
+
+    public static interface OnUpdateUiForIncomingMessage {
         void onUpdateUiForIncomingMessage();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.plato.game.startPage.fragment.casual;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import com.example.plato.game.Room;
 import java.util.ArrayList;
 
 public class AdapterCasual extends RecyclerView.Adapter<AdapterCasual.ViewHolderCasual> {
+    public Context context;
     ArrayList<Room> rooms;
     OnItemInCasualClickListener onItemInCasualClickListener;
 
-    public AdapterCasual(ArrayList<Room> rooms, OnItemInCasualClickListener onItemInCasualClickListener) {
+    public AdapterCasual(Context context,ArrayList<Room> rooms, OnItemInCasualClickListener onItemInCasualClickListener) {
+        this.context=context;
         this.rooms = rooms;
         this.onItemInCasualClickListener = onItemInCasualClickListener;
     }
