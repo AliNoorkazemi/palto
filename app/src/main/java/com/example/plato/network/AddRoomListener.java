@@ -21,7 +21,6 @@ import java.util.Date;
 
 public class AddRoomListener extends Thread {
 
-    private MessageListener.OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage;
     Socket socket;
     DataOutputStream dos;
     DataInputStream dis;
@@ -32,7 +31,7 @@ public class AddRoomListener extends Thread {
             Log.i("message", "enter to listening before connecting...");
             socket = new Socket("192.168.1.4", 6666);
             dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF("addRoomListener");
+            dos.writeUTF("addRoom");
             dos.writeUTF(MainActivity.userName);
             dis = new DataInputStream(socket.getInputStream());
             while (true){

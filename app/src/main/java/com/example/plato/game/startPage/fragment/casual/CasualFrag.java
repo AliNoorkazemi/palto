@@ -29,7 +29,9 @@ import com.example.plato.SingletonUserContainer;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
+import com.example.plato.game.startPage.StartGamePageActivity;
 import com.example.plato.network.AddRoomListener;
+import com.example.plato.network.ChangeInRoomListener;
 import com.example.plato.network.MessageListener;
 
 import java.io.DataOutputStream;
@@ -56,7 +58,23 @@ public class CasualFrag extends Fragment {
                     @Override
                     public void run() {
                         adapter.notifyDataSetChanged();
-                        Log.i("where", "onUpdateUiForIncomingMessage for casual frag...."+adapter.rooms.size());
+                        Log.i("where", "onUpdateUiForIAddRoom for casual frag...."+adapter.rooms.size());
+                    }
+                });
+            }
+        }
+    };
+
+    public static ChangeInRoomListener.onUpdateUiForChangeRoom onUpdateUiForChangeRoom=new ChangeInRoomListener.onUpdateUiForChangeRoom() {
+        @Override
+        public void onUpdate() {
+            if (adapter != null) {
+                Activity origin = (Activity) adapter.context;
+                origin.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                        Log.i("where", "onUpdateUiforChangeRoom for casual frag...."+adapter.rooms.size());
                     }
                 });
             }
@@ -101,10 +119,33 @@ public class CasualFrag extends Fragment {
             @Override
             public void onClick(Room room) {
                 if(room.getMax_players()>room.getUsers().size()){
-                    if(room.getUsers().contains(MainActivity.userName)){
-                        TextView room_state=view.findViewById(R.id.tv_itemInRecycler_casualFrag_state);
-                        room_state.setBackground(getActivity().getDrawable(R.drawable.gray_boarder));
-                        room_state.setText("watch");
+                    if(!room.getUsers().contains(MainActivity.userName)){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Socket socket=new Socket("192.168.1.4",6666);
+                                    DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
+                                    dos.writeUTF("game");
+                                    dos.flush();
+                                    dos.writeUTF("update");
+                                    dos.flush();
+                                    dos.writeUTF(StartGamePageActivity.game.getGame_name());
+                                    dos.flush();
+                                    dos.writeUTF("change");
+                                    dos.flush();
+                                    dos.writeUTF(room.getRoom_name());
+                                    dos.flush();
+                                    dos.writeUTF(MainActivity.userName);
+                                    dos.flush();
+
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }).start();
 
                         ProgressDialog progressDialog;
                         progressDialog = new ProgressDialog(getActivity());
