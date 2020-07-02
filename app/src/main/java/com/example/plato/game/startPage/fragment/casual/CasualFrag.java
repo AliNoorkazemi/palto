@@ -101,7 +101,7 @@ public class CasualFrag extends Fragment {
             @Override
             public void onClick(Room room) {
                 if(room.getMax_players()>room.getUsers().size()){
-                    if(!room.getUsers().contains(MainActivity.userName)){
+                    if(room.getUsers().contains(MainActivity.userName)){
                         TextView room_state=view.findViewById(R.id.tv_itemInRecycler_casualFrag_state);
                         room_state.setBackground(getActivity().getDrawable(R.drawable.gray_boarder));
                         room_state.setText("watch");

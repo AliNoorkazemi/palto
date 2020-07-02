@@ -8,8 +8,9 @@ public class Friend implements Serializable {
     private String name;
     private int img_id;
     ArrayList<String> chats_message;
-    ArrayList<Boolean> is_it_incomeMessage;
+//    ArrayList<Boolean> is_it_incomeMessage;
     ArrayList<Date> dates;
+    ArrayList<Integer> type_of_messages;
 
 
 
@@ -24,6 +25,17 @@ public class Friend implements Serializable {
         this.dates = dates;
     }
 
+    public ArrayList<Integer> getType_of_messages() {
+        if(type_of_messages==null)
+            type_of_messages = new ArrayList<Integer>();
+        return type_of_messages;
+    }
+
+    public void setType_of_messages(ArrayList<Integer> type_of_messages) {
+        this.type_of_messages = new ArrayList<Integer>();
+        this.type_of_messages = type_of_messages;
+    }
+
     public ArrayList<String> getChats_message() {
         if(chats_message==null)
             chats_message = new ArrayList<String>();
@@ -34,17 +46,17 @@ public class Friend implements Serializable {
         this.chats_message=new ArrayList<>();
         this.chats_message.addAll(chats_message);
     }
+//
+//    public ArrayList<Boolean> getIs_it_incomeMessage() {
+//        if(is_it_incomeMessage==null)
+//            is_it_incomeMessage=new ArrayList<Boolean>();
+//        return is_it_incomeMessage;
+//    }
 
-    public ArrayList<Boolean> getIs_it_incomeMessage() {
-        if(is_it_incomeMessage==null)
-            is_it_incomeMessage=new ArrayList<Boolean>();
-        return is_it_incomeMessage;
-    }
-
-    public void setIs_it_incomeMessage(ArrayList<Boolean> is_it_incomeMessage) {
-        this.is_it_incomeMessage=new ArrayList<>();
-        this.is_it_incomeMessage.addAll(is_it_incomeMessage);
-    }
+//    public void setIs_it_incomeMessage(ArrayList<Boolean> is_it_incomeMessage) {
+//        this.is_it_incomeMessage=new ArrayList<>();
+//        this.is_it_incomeMessage.addAll(is_it_incomeMessage);
+//    }
 
     public String getName() {
         return name;

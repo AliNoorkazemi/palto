@@ -1,6 +1,5 @@
 package com.example.plato.network;
 
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Switch;
 
@@ -22,43 +21,38 @@ import java.util.Date;
 public class MessageListener extends Thread {
 
     private OnUpdateUiForIncomingMessage onUpdateUiForIncomingMessage;
-    Socket socket;
-    DataOutputStream dos;
-    DataInputStream dis;
+    private Socket socket;
 
     @Override
     public void run() {
-        try {
-            Log.i("message", "enter to listening before connecting...");
+        try{
             socket = new Socket("192.168.1.4", 6666);
-            dos = new DataOutputStream(socket.getOutputStream());
+            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("messageListener");
             dos.writeUTF(MainActivity.userName);
-            dis = new DataInputStream(socket.getInputStream());
-            Log.i("message", "start for listening ... ");
-            while (true) {
+            DataInputStream dis = new DataInputStream(socket.getInputStream());
+            while (true){
                 String sender_name = dis.readUTF();
                 String message = dis.readUTF();
-                Log.i("message", "message is : " + message + "    sender_name is : " + sender_name);
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                Log.i("message", "test for doing something ... ");
-                Date time = (Date) ois.readObject();
+                Date time = (Date)ois.readObject();
                 dis = new DataInputStream(socket.getInputStream());
                 if (MainActivity.friend_names.contains(sender_name)) {
                     Friend friend = SingletonUserContainer.getInstance().getTargetFriend(sender_name);
                     friend.getChats_message().add(message);
-                    friend.getIs_it_incomeMessage().add(true);
+//                    friend.getIs_it_incomeMessage().add(true);
+                    friend.getType_of_messages().add(0);
                     friend.getDates().add(time);
                 } else {
                     MainActivity.friend_names.add(sender_name);
                     Friend friend = new Friend();
                     friend.setName(sender_name);
                     friend.getChats_message().add(message);
-                    friend.getIs_it_incomeMessage().add(true);
+//                    friend.getIs_it_incomeMessage().add(true);
+                    friend.getType_of_messages().add(0);
                     friend.getDates().add(time);
                     SingletonUserContainer.getInstance().getFriends().add(friend);
                 }
-                Log.i("message", "message receive from friend ... ");
                 onUpdateUiForIncomingMessage = FriendFrag.onUpdateUiForIncomingMessage;
                 onUpdateUiForIncomingMessage.onUpdateUiForIncomingMessage();
                 onUpdateUiForIncomingMessage = ChatFrag.onUpdateUiForIncomingMessage;
@@ -73,7 +67,26 @@ public class MessageListener extends Thread {
     }
 
 
-    public static interface OnUpdateUiForIncomingMessage {
+    public void close(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Socket socket = new Socket("192.168.1.4", 6666);
+                    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                    dos.writeUTF("offline");
+                    dos.flush();
+                    dos.writeUTF(MainActivity.userName);
+                    dos.flush();
+                    Log.i("message","ERRRksdjflafdjkldfjas;ldfkjaslfjdslkfjklsajflj");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public static interface OnUpdateUiForIncomingMessage{
         void onUpdateUiForIncomingMessage();
     }
 }

@@ -1,17 +1,13 @@
 package com.example.plato.entry;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.plato.*;
 
@@ -44,7 +40,6 @@ public class RegisterPageActivity extends AppCompatActivity {
             public void run() {
                 try {
                     socket = new Socket("192.168.1.4", 6666);
-                    Log.i("message","ERROR");
                     dis = new DataInputStream(socket.getInputStream());
                     dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("Register");
@@ -150,7 +145,6 @@ public class RegisterPageActivity extends AppCompatActivity {
                 if (is_valid[0] && is_valid[1] && is_valid[2]) {
                     Intent intent = new Intent(RegisterPageActivity.this, MainActivity.class);
                     intent.putExtra("userName",username_et.getText().toString());
-                    intent.putExtra("password",password_et.getText().toString());
                     new Thread(new Runnable() {
                         @Override
                         public void run() {

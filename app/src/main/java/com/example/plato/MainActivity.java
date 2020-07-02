@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     NavigationView drawerNavigationView;
     public static String userName;
     public static ArrayList<String> friend_names;
+    DataReceiver dataReceiver;
+    MessageListener messageListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
         userName = getIntent().getStringExtra("userName");
 
 
-        DataReceiver dataReceiver = new DataReceiver();
+        dataReceiver = new DataReceiver();
         dataReceiver.start();
 
-        MessageListener messageListener = new MessageListener();
+        messageListener = new MessageListener();
         messageListener.start();
 
 
@@ -71,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         drawerNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Log.i("MainLog", "onNavigationItemSelected: ");
                 switch (menuItem.getItemId()) {
                     case R.id.btn_drawerNavigation_profile:
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
@@ -137,15 +138,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("where", "onDestroy: ");
-
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent intent = new Intent(this, EntryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        Log.i("message","ERROReeeeeeeeeeeeeeeee");
+        messageListener.close();
         startActivity(intent);
     }
 }

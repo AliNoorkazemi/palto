@@ -19,7 +19,8 @@ import java.util.Date;
 public class AdapterChatPage extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     ArrayList<String> messages;
-    ArrayList<Boolean> is_income_message;
+//    ArrayList<Boolean> is_income_message;
+    ArrayList<Integer> type_of_messages;
     ArrayList<Date> dates;
     Friend friend;
 
@@ -27,7 +28,8 @@ public class AdapterChatPage extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.context = context;
         this.friend=friend;
         messages=friend.getChats_message();
-        is_income_message = friend.getIs_it_incomeMessage();
+//        is_income_message = friend.getIs_it_incomeMessage();
+        type_of_messages = friend.getType_of_messages();
         dates=friend.getDates();
     }
 
@@ -45,10 +47,11 @@ public class AdapterChatPage extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if(is_income_message.get(position)){
-            return 0; //0 is income message view type
-        }
-        return 1; //1 is income message view type
+        return type_of_messages.get(position);
+//        if(is_income_message.get(position)){
+//            return 0; //0 is income message view type
+//        }
+//        return 1; //1 is income message view type
     }
 
     @Override

@@ -109,7 +109,6 @@ public class LoginPageActivity extends AppCompatActivity {
                 if (!validationMessage.startsWith("ERROR")) {
                     Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
                     intent.putExtra("userName", username_et.getText().toString());
-                    intent.putExtra("password", password_et.getText().toString());
                     startActivity(intent);
                     finish();
                 }else{

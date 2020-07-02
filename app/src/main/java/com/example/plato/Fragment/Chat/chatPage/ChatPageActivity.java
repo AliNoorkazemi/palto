@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -45,7 +44,6 @@ public class ChatPageActivity extends AppCompatActivity {
                 public void run() {
                     adapter.notifyDataSetChanged();
                     recyclerView.scrollToPosition(recyclerView.getAdapter().getItemCount()-1);
-                    Log.i("message","onUpdateUiForIncomingMessage for Chat page Activity....");
                 }
             });
         }
@@ -91,7 +89,8 @@ public class ChatPageActivity extends AppCompatActivity {
                 if(chatBox_et.getText().toString().equals(""))
                     return;
                 friend.getChats_message().add(chatBox_et.getText().toString());
-                friend.getIs_it_incomeMessage().add(false);
+//                friend.getIs_it_incomeMessage().add(false);
+                friend.getType_of_messages().add(1);
                 Date date = new Date();
                 friend.getDates().add(date);
                 sendMessage(chatBox_et.getText().toString(),date);

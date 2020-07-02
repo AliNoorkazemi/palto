@@ -1,5 +1,6 @@
 package com.example.plato.game.startPage.fragment.casual;
 
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import com.example.plato.SingletonUserContainer;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,63 +30,54 @@ public class CreateNewRoomActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_room);
 
-        final EditText roomName_et=findViewById(R.id.et_createNewRoom_roomname);
-        Button create_btn=findViewById(R.id.btn_createNewRoom_create);
+        final EditText roomName_et = findViewById(R.id.et_createNewRoom_roomname);
+        Button create_btn = findViewById(R.id.btn_createNewRoom_create);
 
 
         create_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String roomname=roomName_et.getText().toString();
-                ArrayList<Room> rooms= (ArrayList<Room>) SingletonGameContainer.getXoInstance().getRooms();
-                if(rooms!=null){
-                    ArrayList<String> names=new ArrayList<>();
-                    for (int i = 0; i <rooms.size() ; i++) {
-                        names.add(rooms.get(i).getRoom_name());
-                    }
-                    if(names.contains(roomname)){
-                        Toast.makeText(CreateNewRoomActivity.this,"already,this room exist ,enter another name!",Toast.LENGTH_LONG).show();
-                    }else {
-                        Room room=new Room();
-                        room.setMax_players(2);
-                        room.setRoom_name(roomname);
-                        room.joinRoom(MainActivity.userName);
-                        //rooms.add(room);
+                String roomname = roomName_et.getText().toString();
 
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Socket socket = new Socket("192.168.1.4", 6666);
+                            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                            DataInputStream dis = new DataInputStream(socket.getInputStream());
+                            dos.writeUTF("game");
+                            dos.writeUTF("addRoom");
+                            dos.writeUTF("xo");
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Socket socket=new Socket("192.168.1.4",6666);
-                                    DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
-                                    dos.writeUTF("game");
-                                    dos.writeUTF("addRoom");
+                            dos.writeUTF(roomname);
+                            if (dis.readBoolean()) {
 
-                                    //send room data to server
-                                    dos.writeUTF("xo");
-                                    dos.writeUTF(roomname);
-                                    dos.writeUTF("2");
-                                    dos.writeUTF(MainActivity.userName);
+                                //send room data to server
+                                dos.writeUTF("2");
+                                dos.writeUTF(MainActivity.userName);
 
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-
+                                finish();
+                            } else {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(CreateNewRoomActivity.this, "already,this room exist ,enter another name!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
-                        }).start();
 
-                        setResult(RESULT_OK);
-                        finish();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                     }
-                }
+                }).start();
+
+
             }
         });
 
     }
 
-    @Override
-    public void onBackPressed() {
-        setResult(RESULT_CANCELED);
-    }
 }
