@@ -19,6 +19,7 @@ import com.example.plato.game.XOGamePageActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
 import com.example.plato.network.AddRoomListener;
 import com.example.plato.network.ChangeInRoomListener;
+import com.example.plato.network.XoGameListener;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -81,18 +82,22 @@ public class GameFrag extends Fragment {
                             new AddRoomListener().start();
                             new ChangeInRoomListener(new ChangeInRoomListener.onStartGame() {
                                 @Override
-                                public void onStart(String username) {
-                                    if (username.equals(MainActivity.userName)) {
+                                public void onStart(Room room) {
+                                    if (room.getUsers().get(0).equals(MainActivity.userName)) {
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Log.i("where", "run: "+username);
+
                                                 Intent intent=new Intent(view.getContext(),XOGamePageActivity.class);
+                                                intent.putExtra("areYouO",true);
+                                                intent.putExtra("opponent",room.getUsers().get(1));
+                                                intent.putExtra("RoomName",room.getRoom_name());
                                                 startActivity(intent);
                                             }
                                         });
                                     }
                                 }
+
                             }).start();
                             startActivity(intent);
 

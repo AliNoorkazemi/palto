@@ -52,14 +52,23 @@ public class ChangeInRoomListener extends Thread {
         String roomName = dis.readUTF();
         String username_thats_want_to_join = dis.readUTF();
 
-        Log.i("where", "changeRoom: ");
-        if (which_game.equals("xo")) {
+        if(username_thats_want_to_join.equals("remove")){
+            if(which_game.equals("xo")){
+                for (Room room: SingletonGameContainer.getXoInstance().getRooms()){
+                    if (room.getRoom_name().equals(roomName)) {
+                        SingletonGameContainer.getXoInstance().getRooms().remove(room);
+                        break;
+                    }
+                }
+            }
+        }
+        else if (which_game.equals("xo")) {
             ArrayList<Room> rooms=SingletonGameContainer.getXoInstance().getRooms();
             for (Room room:rooms
                  ) {
                 if(room.getRoom_name().equals(roomName)){
                     room.joinRoom(username_thats_want_to_join);
-                    onStartGame.onStart(room.getUsers().get(0));
+                    onStartGame.onStart(room);
                     Log.i("where", "changeRoom: "+username_thats_want_to_join);
                     break;
                 }
@@ -78,7 +87,7 @@ public class ChangeInRoomListener extends Thread {
     }
 
     public interface onStartGame{
-       void onStart(String username);
+       void onStart(Room room);
     }
 
 }

@@ -20,7 +20,7 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".Fragment.Chat.chatPage.ChatPageActivity"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/noActionBarDark" />
         <activity
             android:name=".setting.AboutUsActivity"
             android:theme="@style/noActionBarLight" />

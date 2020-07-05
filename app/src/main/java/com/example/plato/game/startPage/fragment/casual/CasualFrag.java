@@ -33,6 +33,7 @@ import com.example.plato.game.startPage.StartGamePageActivity;
 import com.example.plato.network.AddRoomListener;
 import com.example.plato.network.ChangeInRoomListener;
 import com.example.plato.network.MessageListener;
+import com.example.plato.network.XoGameListener;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -132,8 +133,6 @@ public class CasualFrag extends Fragment {
                                     dos.flush();
                                     dos.writeUTF(StartGamePageActivity.game.getGame_name());
                                     dos.flush();
-                                    dos.writeUTF("change");
-                                    dos.flush();
                                     dos.writeUTF(room.getRoom_name());
                                     dos.flush();
                                     dos.writeUTF(MainActivity.userName);
@@ -158,7 +157,7 @@ public class CasualFrag extends Fragment {
                             @Override
                             public void run() {
                                 int jump = 0;
-                                while (jump < 30) {
+                                while (jump < 10) {
                                     try {
                                         sleep(200);
                                         jump+=5;
@@ -172,7 +171,11 @@ public class CasualFrag extends Fragment {
                         };
                         thread.start();
 
-                        startActivity(new Intent(getActivity(),XOGamePageActivity.class));
+
+                        Intent intent=new Intent(getActivity(),XOGamePageActivity.class);
+                        intent.putExtra("areYouO",false);
+                        intent.putExtra("opponent",room.getUsers().get(0));
+                        startActivity(intent);
 
                     }
                 }
