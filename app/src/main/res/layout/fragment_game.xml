@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Fragment.GameFrag">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="XO GAME"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:id="@+id/btn_gameFrag_xo"
-        android:textColor="@color/white"
-        android:background="@color/red"
-        android:layout_margin="16dp"/>
+        android:background="@drawable/xo_background_in_gamefrag"
+        />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="8dp"
+            android:layout_height="190dp"
+            android:id="@+id/btn_gameFrag_guessTheWord"
+            android:background="@drawable/guess_the_word_background_ingamefrag"
+            />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_gameFrag_dotAndBox"
+            android:background="@drawable/dot_and_box_background_ingamefrag"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>

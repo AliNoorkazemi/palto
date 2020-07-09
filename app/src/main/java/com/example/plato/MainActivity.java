@@ -8,11 +8,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -29,16 +33,17 @@ import com.example.plato.setting.SettingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView navigationView;
     Toolbar toolbar;
-    TextView toolbarTitle_tv;
     DrawerLayout drawerLayout;
     NavigationView drawerNavigationView;
     public static String userName;
+    public static Bitmap profile_bitmap;
     public static ArrayList<String> friend_names;
     DataReceiver dataReceiver;
     MessageListener messageListener;
@@ -48,26 +53,40 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_navigation);
 
-        userName = getIntent().getStringExtra("userName");
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
+        byte[] byteArray = intent.getByteArrayExtra("profile");
 
+        Toast.makeText(MainActivity.this, "byte:" + byteArray.length, Toast.LENGTH_LONG).show();
+
+        profile_bitmap = ConvertBitmapByte.byteTobitmap(byteArray);
 
         dataReceiver = new DataReceiver();
         dataReceiver.start();
+
 
         messageListener = new MessageListener();
         messageListener.start();
 
 
         toolbar = findViewById(R.id.toolbar_mainActivity);
-        toolbarTitle_tv = findViewById(R.id.tv_mainActivity_toolbarTitle);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home");
 
 
         drawerLayout = findViewById(R.id.drawerlayout_mainActivity);
         drawerNavigationView = findViewById(R.id.navigationView_main_drawer);
+
+        //header
+        View headerLayout = drawerNavigationView.inflateHeaderView(R.layout.drawer_nav_header);
+        ImageView profile_iv = headerLayout.findViewById(R.id.iv_mainActivity_header_avatarimg);
+        TextView username_in_header = headerLayout.findViewById(R.id.tv_mainActivity_header_username);
+        profile_iv.setImageBitmap(profile_bitmap);
+        username_in_header.setText(userName);
+
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getColor(R.color.white));
+//        actionBarDrawerToggle.getDrawerArrowDrawable().setColor(getColor(R.color.white));
         actionBarDrawerToggle.syncState();
 
         drawerNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -76,10 +95,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case R.id.btn_drawerNavigation_profile:
                         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                        TextView textView = findViewById(R.id.tv_mainActivity_header_username);
-                        ImageView imageView = findViewById(R.id.iv_mainActivity_header_avatarimg);
-                        intent.putExtra("USERNAME", textView.getText().toString());
-                        intent.putExtra("PROFILE_IMAGE", R.drawable.ic_person_24dp);
                         startActivity(intent);
                         break;
 
@@ -102,20 +117,20 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.btn_bottomNavigation_homePage:
-                        toolbarTitle_tv.setText("Home");
+                        getSupportActionBar().setTitle("Home");
                         setFragment(new HomeFrag());
 
                         break;
                     case R.id.btn_bottomNavigation_chatPage:
-                        toolbarTitle_tv.setText("Chat");
+                        getSupportActionBar().setTitle("Chat");
                         setFragment(new ChatFrag());
                         break;
                     case R.id.btn_bottomNavigation_Friends:
-                        toolbarTitle_tv.setText("Friends");
+                        getSupportActionBar().setTitle("Friends");
                         setFragment(new FriendFrag());
                         break;
                     case R.id.btn_bottomNavigation_games:
-                        toolbarTitle_tv.setText("Games");
+                        getSupportActionBar().setTitle("Games");
                         setFragment(new GameFrag());
                         break;
                 }
@@ -144,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this, EntryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        Log.i("message","ERROReeeeeeeeeeeeeeeee");
+        Log.i("message", "ERROReeeeeeeeeeeeeeeee");
         messageListener.close();
         startActivity(intent);
     }

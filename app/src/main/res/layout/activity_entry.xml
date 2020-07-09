@@ -1,34 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1E88E5"
+    android:orientation="vertical"
+    android:background="@drawable/entry_page_background"
     tools:context=".entry.EntryActivity">
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome"
+        android:textStyle="bold"
+        android:textSize="35sp"
+        android:layout_marginTop="300dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="we hope you will enjoy plato app "
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"/>
+
     <Button
         android:id="@+id/LogInButton"
-        android:layout_width="140dp"
+        android:layout_width="280dp"
         android:layout_height="70dp"
-        android:layout_marginTop="272dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
         android:text="@string/log_in"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:background="@drawable/tarnsparent_boarder"
+        />
 
     <Button
         android:id="@+id/RegisterButton"
-        android:layout_width="140dp"
+        android:layout_width="280dp"
         android:layout_height="70dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginBottom="252dp"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginTop="28dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/tarnsparent_boarder"
         android:text="@string/register"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LogInButton" />
+        />
 
     <Button
         android:id="@+id/MainButton"
@@ -40,4 +65,4 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

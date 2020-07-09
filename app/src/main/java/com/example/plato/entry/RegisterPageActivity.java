@@ -1,21 +1,35 @@
 package com.example.plato.entry;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.TypedArrayUtils;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.plato.*;
+import com.example.plato.profile.ProfileActivity;
 
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class RegisterPageActivity extends AppCompatActivity {
@@ -27,6 +41,12 @@ public class RegisterPageActivity extends AppCompatActivity {
     Socket socket;
     DataInputStream dis;
     DataOutputStream dos;
+    TextView usernameWarn;
+    TextView passwordWarn;
+    TextView conifWarn;
+
+    ImageButton profile_ib;
+    Uri profile_uri = null;
 
 
     @Override
@@ -44,7 +64,7 @@ public class RegisterPageActivity extends AppCompatActivity {
                     dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("Register");
                     dos.flush();
-                }catch(IOException io){
+                } catch (IOException io) {
                     io.printStackTrace();
                 }
             }
@@ -57,9 +77,10 @@ public class RegisterPageActivity extends AppCompatActivity {
         username_et = findViewById(R.id.et_registerPage_username);
         password_et = findViewById(R.id.et_registerPage_password);
         confirmPassword_et = findViewById(R.id.et_registerPage_passwordConfirm);
+        usernameWarn = findViewById(R.id.tv_registerPage_usernameWarning);
         register_btn = findViewById(R.id.btn_registerPage_register);
-
-
+        passwordWarn = findViewById(R.id.tv_registerPage_passwordWarning);
+        conifWarn = findViewById(R.id.tv_registerPage_passwordConfWarning);
 
 
         username_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -67,22 +88,22 @@ public class RegisterPageActivity extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     is_valid[0] = true;
+                    usernameWarn.setVisibility(View.INVISIBLE);
                 } else {
                     if (username_et.getText().toString().length() == 0) {
                         username_et.setHint("username should not be empty...");
                         username_et.setHintTextColor(getColor(R.color.red));
                         is_valid[0] = false;
-                    }else{
+                    } else {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                final TextView usernameWarn = findViewById(R.id.tv_registerPage_usernameWarning);
                                 usernameWarn.setVisibility(View.INVISIBLE);
                                 try {
                                     dos.writeUTF(username_et.getText().toString());
                                     dos.flush();
                                     String message = dis.readUTF();
-                                    if(message.equals("Duplicated")){
+                                    if (message.equals("Duplicated")) {
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
@@ -90,9 +111,9 @@ public class RegisterPageActivity extends AppCompatActivity {
                                                 usernameWarn.setVisibility(View.VISIBLE);
                                             }
                                         });
-                                        is_valid[0]=false;
+                                        is_valid[0] = false;
                                     }
-                                }catch(IOException io){
+                                } catch (IOException io) {
                                     io.printStackTrace();
                                 }
                             }
@@ -104,7 +125,7 @@ public class RegisterPageActivity extends AppCompatActivity {
 
 
         password_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            TextView passwordWarn = findViewById(R.id.tv_registerPage_passwordWarning);
+
 
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -121,8 +142,6 @@ public class RegisterPageActivity extends AppCompatActivity {
         });
 
         confirmPassword_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            TextView conifWarn = findViewById(R.id.tv_registerPage_passwordConfWarning);
-
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -144,7 +163,7 @@ public class RegisterPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (is_valid[0] && is_valid[1] && is_valid[2]) {
                     Intent intent = new Intent(RegisterPageActivity.this, MainActivity.class);
-                    intent.putExtra("userName",username_et.getText().toString());
+                    intent.putExtra("userName", username_et.getText().toString());
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -155,16 +174,76 @@ public class RegisterPageActivity extends AppCompatActivity {
                                 dos.flush();
                                 dos.writeUTF(password_et.getText().toString());
                                 dos.flush();
+
+                                Bitmap bitmap;
+                                if (profile_uri != null)
+                                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), profile_uri);
+                                else
+                                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_image);
+                                byte[] byteArray = ConvertBitmapByte.bitmapTobyte(bitmap);
+                                dos.flush();
+                                dos.writeInt(byteArray.length);
+                                dos.flush();
+                                for (int i = 0; i < byteArray.length; i++) {
+                                    dos.writeByte(byteArray[i]);
+                                    dos.flush();
+                                }
+
+                                intent.putExtra("profile", byteArray);
+                                Log.i("Array", "run: " + Arrays.toString(byteArray));
+                                startActivity(intent);
+                                finish();
                             } catch (IOException e) {
                                 e.printStackTrace();
+                            } catch (OutOfMemoryError out) {
+                                RegisterPageActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(RegisterPageActivity.this, "image size is too large!", Toast.LENGTH_LONG).show();
+                                    }
+                                });
                             }
                         }
                     }).start();
-                    startActivity(intent);
-                    finish();
+
+                } else if (!is_valid[0]) {
+                    usernameWarn.setText("username should not be empty...");
+                    usernameWarn.setVisibility(View.VISIBLE);
+                }
+                if (!is_valid[1]) {
+                    passwordWarn.setText("password should not be empty...");
+                    passwordWarn.setVisibility(View.VISIBLE);
+                }
+                if (!is_valid[2]) {
+                    conifWarn.setVisibility(View.VISIBLE);
+                    conifWarn.setText("confirm password should not be empty...");
                 }
             }
         });
+
+        profile_ib =
+
+                findViewById(R.id.ib_registerPageActivity_profileImg);
+        profile_ib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gallery_intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                startActivityForResult(gallery_intent, 1004);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1004 && resultCode == RESULT_OK && data != null) {
+
+            profile_uri = data.getData();
+            if (profile_uri != null)
+                profile_ib.setImageURI(profile_uri);
+
+        }
     }
 
     @Override

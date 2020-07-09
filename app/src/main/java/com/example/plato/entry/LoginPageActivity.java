@@ -2,6 +2,7 @@ package com.example.plato.entry;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.plato.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -43,34 +45,30 @@ public class LoginPageActivity extends AppCompatActivity {
                     dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("Login");
                     dos.flush();
-                }catch(IOException io){
+                } catch (IOException io) {
                     io.printStackTrace();
                 }
             }
         }).start();
 
 
-        username_et=findViewById(R.id.et_loginPage_username);
-        password_et=findViewById(R.id.et_loginPage_password);
-        warningText=findViewById(R.id.tv_loginPage_warning);
-        login_btn=findViewById(R.id.btn_loginPage_login);
+        username_et = findViewById(R.id.et_loginPage_username);
+        password_et = findViewById(R.id.et_loginPage_password);
+        warningText = findViewById(R.id.tv_loginPage_warning);
+        login_btn = findViewById(R.id.btn_loginPage_login);
         warningText.setVisibility(View.INVISIBLE);
-
-
-
-
 
 
         login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(username_et.getText().toString().equals("")){
+                if (username_et.getText().toString().equals("")) {
                     warningText.setText("userName must be filled");
                     warningText.setVisibility(View.VISIBLE);
                     return;
                 }
-                if(password_et.getText().toString().equals("")){
+                if (password_et.getText().toString().equals("")) {
                     warningText.setText("password must be filled");
                     warningText.setVisibility(View.VISIBLE);
                     return;
@@ -91,7 +89,7 @@ public class LoginPageActivity extends AppCompatActivity {
         }
     }
 
-    private void validateLogin(){
+    private void validateLogin() {
         Thread validation = new Thread(new Runnable() {
             String validationMessage = null;
 
@@ -107,11 +105,35 @@ public class LoginPageActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if (!validationMessage.startsWith("ERROR")) {
+
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    try {
+//                        byte[] buffer = new byte[dis.readInt()];
+//                        baos.write(buffer, 0, dis.read(buffer));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    byte[] result = baos.toByteArray();
+
+                    int length;
+                    byte[] result=null;
+                    try {
+                        length=dis.readInt();
+                        result=new byte[length];
+                        for (int i = 0; i < length; i++) {
+                            result[i]=dis.readByte();
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
                     intent.putExtra("userName", username_et.getText().toString());
+                    intent.putExtra("profile", result);
                     startActivity(intent);
                     finish();
-                }else{
+                } else {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -123,6 +145,9 @@ public class LoginPageActivity extends AppCompatActivity {
             }
         });
         validation.start();
+
+
+
     }
 }
 
