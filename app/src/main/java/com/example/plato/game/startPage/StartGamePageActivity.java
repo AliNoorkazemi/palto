@@ -18,7 +18,9 @@ import com.example.plato.game.startPage.fragment.RankedFrag;
 import com.google.android.material.tabs.TabLayout;
 
 public class StartGamePageActivity extends AppCompatActivity {
-    Game game;
+    public static Game game;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -14,9 +14,8 @@ public class SingletonGameContainer {
 
     public static XO getXoInstance(){
         if (xoInstance==null){
-            Log.i("where", "getXoInstance: ");
             xoInstance=new XO();
-            xoInstance.setGame_name("XO");
+            xoInstance.setGame_name("xo");
         }
         return xoInstance;
     }

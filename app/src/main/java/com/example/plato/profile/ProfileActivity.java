@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.plato.MainActivity;
 import com.example.plato.R;
 
 
@@ -29,11 +30,10 @@ public class ProfileActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        Intent intent=getIntent();
         TextView username=findViewById(R.id.tv_profileActivity_username);
-        username.setText(intent.getStringExtra("USERNAME"));
+        username.setText(MainActivity.userName);
         ImageView avatarImg=findViewById(R.id.iv_profileActivity_avatarImg);
-        avatarImg.setImageResource(intent.getIntExtra("PROFILE_IMAGE",R.drawable.ic_person_24dp));
+        avatarImg.setImageBitmap(MainActivity.profile_bitmap);
 
         initRecycler();
 

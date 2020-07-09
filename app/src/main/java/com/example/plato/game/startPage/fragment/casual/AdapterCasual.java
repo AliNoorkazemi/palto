@@ -1,5 +1,6 @@
 package com.example.plato.game.startPage.fragment.casual;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import com.example.plato.game.Room;
 import java.util.ArrayList;
 
 public class AdapterCasual extends RecyclerView.Adapter<AdapterCasual.ViewHolderCasual> {
+    public Context context;
     ArrayList<Room> rooms;
     OnItemInCasualClickListener onItemInCasualClickListener;
 
-    public AdapterCasual(ArrayList<Room> rooms, OnItemInCasualClickListener onItemInCasualClickListener) {
+    public AdapterCasual(Context context, ArrayList<Room> rooms, OnItemInCasualClickListener onItemInCasualClickListener) {
+        this.context = context;
         this.rooms = rooms;
         this.onItemInCasualClickListener = onItemInCasualClickListener;
     }
@@ -35,9 +38,14 @@ public class AdapterCasual extends RecyclerView.Adapter<AdapterCasual.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCasual holder, int position) {
 
-        final Room room=rooms.get(position);
+        final Room room = rooms.get(position);
+
+        if (room.getMax_players() <= room.getUsers().size()) {
+            holder.roomState_tv.setBackground(context.getDrawable(R.drawable.gray_boarder));
+            holder.roomState_tv.setText("watch");
+        }
         holder.roomName_tv.setText(room.getRoom_name());
-        holder.countPlayers_tv.setText(room.getUsers().size()+"/"+room.getMax_players()+"  players");
+        holder.countPlayers_tv.setText(room.getUsers().size() + "/" + room.getMax_players() + "  players");
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,15 +61,17 @@ public class AdapterCasual extends RecyclerView.Adapter<AdapterCasual.ViewHolder
 
     public class ViewHolderCasual extends RecyclerView.ViewHolder {
         TextView roomName_tv;
+        TextView roomState_tv;
         TextView countPlayers_tv;
         RelativeLayout relativeLayout;
 
         public ViewHolderCasual(@NonNull View itemView) {
             super(itemView);
 
-            relativeLayout=itemView.findViewById(R.id.relative_itemINRecycler_casualFrag);
-            countPlayers_tv=itemView.findViewById(R.id.tv_itemInRecycler_casualFrag_countplayer);
-            roomName_tv=itemView.findViewById(R.id.tv_itemInRecycler_casualFrag_roomName);
+            relativeLayout = itemView.findViewById(R.id.relative_itemINRecycler_casualFrag);
+            countPlayers_tv = itemView.findViewById(R.id.tv_itemInRecycler_casualFrag_countplayer);
+            roomName_tv = itemView.findViewById(R.id.tv_itemInRecycler_casualFrag_roomName);
+            roomState_tv = itemView.findViewById(R.id.tv_itemInRecycler_casualFrag_state);
         }
     }
 

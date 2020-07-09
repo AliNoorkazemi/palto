@@ -8,9 +8,9 @@ import java.util.List;
 
 public class Room implements Serializable {
     private int max_players;
-    private boolean is_join_enable;
     private String room_name;
-    private List<User> users;
+    private List<String> users=new ArrayList<>();
+
 
     public Room() {
         users = new ArrayList<>();
@@ -25,14 +25,6 @@ public class Room implements Serializable {
     }
 
 
-    public boolean isIs_join_enable() {
-        return is_join_enable;
-    }
-
-    public void setIs_join_enable(boolean is_join_enable) {
-        this.is_join_enable = is_join_enable;
-    }
-
     public String getRoom_name() {
         return room_name;
     }
@@ -41,16 +33,16 @@ public class Room implements Serializable {
         this.room_name = room_name;
     }
 
-    public List<User> getUsers() {
+    public List<String> getUsers() {
         return users;
     }
 
-    public boolean joinRoom(User user) {
+    public boolean joinRoom(String username) {
         //check is room empty?
         if (users.size() >= max_players)
             return false;
 
-        users.add(user);
+        users.add(username);
         return true;
     }
 

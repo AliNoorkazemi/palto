@@ -1,7 +1,7 @@
 package com.example.plato.network;
 
-
 import android.util.Log;
+import android.widget.Switch;
 
 import com.example.plato.Fragment.Chat.ChatFrag;
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
@@ -9,6 +9,7 @@ import com.example.plato.Fragment.Friend;
 import com.example.plato.Fragment.friends.FriendFrag;
 import com.example.plato.MainActivity;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.game.Room;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -25,7 +26,7 @@ public class MessageListener extends Thread {
     @Override
     public void run() {
         try{
-            socket = new Socket("192.168.2.102", 6666);
+            socket = new Socket("192.168.1.4", 6666);
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("messageListener");
             dos.writeUTF(MainActivity.userName);
@@ -36,13 +37,13 @@ public class MessageListener extends Thread {
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 Date time = (Date)ois.readObject();
                 dis = new DataInputStream(socket.getInputStream());
-                if(MainActivity.friend_names.contains(sender_name)){
+                if (MainActivity.friend_names.contains(sender_name)) {
                     Friend friend = SingletonUserContainer.getInstance().getTargetFriend(sender_name);
                     friend.getChats_message().add(message);
 //                    friend.getIs_it_incomeMessage().add(true);
                     friend.getType_of_messages().add(0);
                     friend.getDates().add(time);
-                }else{
+                } else {
                     MainActivity.friend_names.add(sender_name);
                     Friend friend = new Friend();
                     friend.setName(sender_name);
@@ -58,18 +59,20 @@ public class MessageListener extends Thread {
                 onUpdateUiForIncomingMessage.onUpdateUiForIncomingMessage();
                 onUpdateUiForIncomingMessage = ChatPageActivity.onUpdateUiForIncomingMessage;
                 onUpdateUiForIncomingMessage.onUpdateUiForIncomingMessage();
+
             }
-        }catch (IOException | ClassNotFoundException io){
+        } catch (IOException | ClassNotFoundException io) {
             io.printStackTrace();
         }
     }
+
 
     public void close(){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket("192.168.2.102", 6666);
+                    Socket socket = new Socket("192.168.1.4", 6666);
                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("offline");
                     dos.flush();

@@ -9,6 +9,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
@@ -16,15 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
-            <TextView
-                android:id="@+id/tv_mainActivity_toolbarTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
-                android:text="Home"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 

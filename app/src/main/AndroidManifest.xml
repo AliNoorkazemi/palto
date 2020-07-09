@@ -3,6 +3,8 @@
     package="com.example.plato">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="true"
@@ -22,7 +24,7 @@
             android:theme="@style/NoActionBar" />
         <activity
             android:name=".Fragment.Chat.chatPage.ChatPageActivity"
-            android:theme="@style/NoActionBar" />
+            android:theme="@style/noActionBarDark" />
         <activity
             android:name=".setting.AboutUsActivity"
             android:theme="@style/noActionBarLight" />
@@ -35,12 +37,12 @@
         <activity
             android:name=".entry.EntryActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".entry.LoginPageActivity" />
-        <activity android:name=".entry.RegisterPageActivity" />
+        <activity android:name=".entry.LoginPageActivity" android:theme="@style/NoActionBar" />
+        <activity android:name=".entry.RegisterPageActivity"  android:theme="@style/NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".SplashScreenActivity" android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
