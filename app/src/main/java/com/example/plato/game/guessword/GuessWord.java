@@ -8,19 +8,19 @@ import java.util.List;
 
 public class GuessWord extends Game {
 
-    private List<Room> rooms;
+    private ArrayList<Room> rooms;
 
     public GuessWord(){
 
     }
 
-    public List<Room> getRooms() {
+    public ArrayList<Room> getRooms() {
         if(rooms==null)
             rooms=new ArrayList<>();
         return rooms;
     }
 
-    public void setRooms(List<Room> rooms) {
+    public void setRooms(ArrayList<Room> rooms) {
         if(this.rooms==null)
             this.rooms=new ArrayList<>();
         this.rooms = rooms;

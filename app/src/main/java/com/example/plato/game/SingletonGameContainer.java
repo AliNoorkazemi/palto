@@ -23,7 +23,7 @@ public class SingletonGameContainer {
     public static GuessWord getGuessWord(){
         if(guessWordInstance==null){
             guessWordInstance = new GuessWord();
-            guessWordInstance.setGame_name("Guess Word");
+            guessWordInstance.setGame_name("guess word");
         }
         return guessWordInstance;
     }

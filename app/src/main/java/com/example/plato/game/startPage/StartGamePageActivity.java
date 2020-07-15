@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.plato.R;
 import com.example.plato.game.Game;
 import com.example.plato.game.XO;
+import com.example.plato.game.guessword.GuessWord;
 import com.example.plato.game.startPage.fragment.casual.CasualFrag;
 import com.example.plato.game.startPage.fragment.LeaderBoardFrag;
 import com.example.plato.game.startPage.fragment.RankedFrag;
@@ -19,6 +20,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class StartGamePageActivity extends AppCompatActivity {
     public static Game game;
+    public static String game_name;
 
 
 
@@ -29,6 +31,7 @@ public class StartGamePageActivity extends AppCompatActivity {
 
         Intent intent=getIntent();
         setGame(intent);
+        game_name = intent.getStringExtra("game name");
 
 
         Toolbar toolbar=findViewById(R.id.toobar_startPageActivity);
@@ -50,6 +53,8 @@ public class StartGamePageActivity extends AppCompatActivity {
         Game g= (Game) intent.getSerializableExtra("GAME");
         if(g instanceof XO){
             game=(XO)g;
+        }else if(g instanceof GuessWord){
+            game = (GuessWord)g;
         }
     }
 
