@@ -16,6 +16,8 @@ import com.example.plato.R;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
+import com.example.plato.game.guessword.GuessWordActivity;
+import com.example.plato.game.guessword.WaitingForGuessActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
 import com.example.plato.network.AddRoomListener;
 import com.example.plato.network.ChangeInRoomListener;
@@ -52,7 +54,7 @@ public class GameFrag extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            Socket socket = new Socket("192.168.1.4", 6666);
+                            Socket socket = new Socket("192.168.2.102", 6666);
                             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                             dos.writeUTF("game");
                             dos.writeUTF("getAllRooms");
@@ -78,6 +80,7 @@ public class GameFrag extends Fragment {
 
 
                             Intent intent = new Intent(view.getContext(), StartGamePageActivity.class);
+                            intent.putExtra("game name","xo");
                             intent.putExtra("GAME", SingletonGameContainer.getXoInstance());
                             new AddRoomListener().start();
                             new ChangeInRoomListener(new ChangeInRoomListener.onStartGame() {
@@ -109,6 +112,74 @@ public class GameFrag extends Fragment {
                 }).start();
 
 
+            }
+        });
+
+
+        Button guessWord_game_btn = view.findViewById(R.id.btn_gameFrag_guessTheWord);
+        guessWord_game_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            Socket socket = new Socket("192.168.2.102", 6666);
+                            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                            dos.writeUTF("game");
+                            dos.writeUTF("getAllRooms");
+                            dos.writeUTF("guess word");
+
+                            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                            Map<String, ArrayList<String>> roomName_to_joined_user = (Map<String, ArrayList<String>>) ois.readObject();
+                            Map<String, Integer> roomName_to_maxPlayers = (Map<String, Integer>) ois.readObject();
+                            ArrayList<Room> rooms = new ArrayList<>();
+
+                            for (String str : roomName_to_joined_user.keySet()) {
+                                Room room = new Room();
+                                room.setRoom_name(str);
+                                room.setMax_players(roomName_to_maxPlayers.get(str));
+                                ArrayList<String> joined_user = roomName_to_joined_user.get(str);
+                                for (int i = 0; i < joined_user.size(); i++) {
+                                    room.joinRoom(joined_user.get(i));
+                                }
+                                rooms.add(room);
+                            }
+
+                            SingletonGameContainer.getGuessWord().setRooms(rooms);
+
+                            Intent intent = new Intent(view.getContext(), StartGamePageActivity.class);
+                            intent.putExtra("game name","guess word");
+                            intent.putExtra("GAME", SingletonGameContainer.getGuessWord());
+                            new AddRoomListener().start();
+                            new ChangeInRoomListener(new ChangeInRoomListener.onStartGame() {
+                                @Override
+                                public void onStart(Room room) {
+                                    Log.i("nafar aval",room.getUsers().get(0));
+                                    if (room.getUsers().get(0).equals(MainActivity.userName)) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Intent intent=new Intent(view.getContext(), WaitingForGuessActivity.class);
+                                                intent.putExtra("areYouO",true);
+                                                intent.putExtra("round",1);
+                                                intent.putExtra("opponent",room.getUsers().get(1));
+                                                intent.putExtra("RoomName",room.getRoom_name());
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                }
+
+                            }).start();
+                            startActivity(intent);
+
+
+                        }catch(IOException | ClassNotFoundException io){
+                            io.printStackTrace();
+                        }
+                    }
+                }).start();
             }
         });
 

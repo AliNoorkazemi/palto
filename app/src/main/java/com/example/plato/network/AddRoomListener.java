@@ -29,7 +29,7 @@ public class AddRoomListener extends Thread {
     public void run() {
         try {
             Log.i("message", "enter to listening before connecting...");
-            socket = new Socket("192.168.1.4", 6666);
+            socket = new Socket("192.168.2.102", 6666);
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("addRoom");
             dos.writeUTF(MainActivity.userName);
@@ -58,8 +58,10 @@ public class AddRoomListener extends Thread {
         room.setMax_players(maxPlayer);
         room.joinRoom(userjoined);
 
-
-        SingletonGameContainer.getXoInstance().getRooms().add(room);
+        if (which_game.equals("xo"))
+            SingletonGameContainer.getXoInstance().getRooms().add(room);
+        else if (which_game.equals("guess word"))
+            SingletonGameContainer.getGuessWord().getRooms().add(room);
 
         onUpdateUiForAddRoom onUpdateUiForAddRoom=CasualFrag.onUpdateUiForAddRoom;
         onUpdateUiForAddRoom.onUpdate();

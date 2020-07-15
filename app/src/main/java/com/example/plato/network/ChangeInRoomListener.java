@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.plato.MainActivity;
+import com.example.plato.SingletonUserContainer;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
@@ -16,6 +17,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ChangeInRoomListener extends Thread {
@@ -32,7 +34,7 @@ public class ChangeInRoomListener extends Thread {
     public void run() {
         try {
             Log.i("message", "enter to listening before connecting...");
-            socket = new Socket("192.168.1.4", 6666);
+            socket = new Socket("192.168.2.102", 6666);
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("changeRoom");
             dos.writeUTF(MainActivity.userName);
@@ -60,18 +62,31 @@ public class ChangeInRoomListener extends Thread {
                         break;
                     }
                 }
+            }else if(which_game.equals("guess word")){
+                for(Room room : SingletonGameContainer.getGuessWord().getRooms()){
+                    if(room.getRoom_name().equals(roomName)){
+                        SingletonGameContainer.getGuessWord().getRooms().remove(room);
+                        break;
+                    }
+                }
             }
         }
         else if (which_game.equals("xo")) {
-            ArrayList<Room> rooms=SingletonGameContainer.getXoInstance().getRooms();
-            for (Room room:rooms
-                 ) {
+            ArrayList<Room> rooms= SingletonGameContainer.getXoInstance().getRooms();
+            for (Room room:rooms) {
                 if(room.getRoom_name().equals(roomName)){
                     room.joinRoom(username_thats_want_to_join);
                     onStartGame.onStart(room);
                     Log.i("where", "changeRoom: "+username_thats_want_to_join);
                     break;
                 }
+            }
+        }else if (which_game.equals("guess word")) {
+            List<Room> rooms = SingletonGameContainer.getGuessWord().getRooms();
+            for (Room room : rooms){
+                room.joinRoom(username_thats_want_to_join);
+                onStartGame.onStart(room);
+                break;
             }
         }
 

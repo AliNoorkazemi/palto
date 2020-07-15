@@ -29,6 +29,7 @@ import com.example.plato.SingletonUserContainer;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
+import com.example.plato.game.guessword.GuessWordActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
 import com.example.plato.network.AddRoomListener;
 import com.example.plato.network.ChangeInRoomListener;
@@ -40,6 +41,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -102,7 +104,9 @@ public class CasualFrag extends Fragment {
         create_room_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(view.getContext(),CreateNewRoomActivity.class),1002);
+                Intent intent = new Intent(view.getContext(),CreateNewRoomActivity.class);
+                Log.i("go to create activity " , "go to create activity ");
+                startActivityForResult(intent,1002);
             }
         });
 
@@ -116,7 +120,12 @@ public class CasualFrag extends Fragment {
 
     private void initRecycler() {
         recyclerView=view.findViewById(R.id.rc_casualFrag_recycler);
-        adapter=new AdapterCasual(view.getContext(),SingletonGameContainer.getXoInstance().getRooms(), new AdapterCasual.OnItemInCasualClickListener() {
+        ArrayList<Room> rooms = new ArrayList<>();
+        if(StartGamePageActivity.game_name.equals("xo"))
+            rooms = SingletonGameContainer.getXoInstance().getRooms();
+        else if (StartGamePageActivity.game_name.equals("guess word"))
+            rooms = SingletonGameContainer.getGuessWord().getRooms();
+        adapter=new AdapterCasual(view.getContext(),rooms, new AdapterCasual.OnItemInCasualClickListener() {
             @Override
             public void onClick(Room room) {
                 if(room.getMax_players()>room.getUsers().size()){
@@ -125,7 +134,7 @@ public class CasualFrag extends Fragment {
                             @Override
                             public void run() {
                                 try {
-                                    Socket socket=new Socket("192.168.1.4",6666);
+                                    Socket socket=new Socket("192.168.2.102",6666);
                                     DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
                                     dos.writeUTF("game");
                                     dos.flush();
@@ -172,10 +181,18 @@ public class CasualFrag extends Fragment {
                         thread.start();
 
 
-                        Intent intent=new Intent(getActivity(),XOGamePageActivity.class);
-                        intent.putExtra("areYouO",false);
-                        intent.putExtra("opponent",room.getUsers().get(0));
-                        startActivity(intent);
+                        if (StartGamePageActivity.game_name.equals("xo")){
+                            Intent intent=new Intent(getActivity(),XOGamePageActivity.class);
+                            intent.putExtra("areYouO",false);
+                            intent.putExtra("opponent",room.getUsers().get(0));
+                            startActivity(intent);
+                        }else if (StartGamePageActivity.game_name.equals("guess word")){
+                            Intent intent = new Intent(getActivity(), GuessWordActivity.class);
+                            intent.putExtra("areYouO",false);
+                            intent.putExtra("round", 1);
+                            intent.putExtra("opponent",room.getUsers().get(0));
+                            startActivity(intent);
+                        }
 
                     }
                 }

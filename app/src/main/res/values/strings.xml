@@ -18,4 +18,6 @@
     <string name="type_message_here">type message here...</string>
     <string name="room_name">Room name:</string>
     <string name="create">create</string>
+    <string name="validate">validate</string>
+    <string name="wrong">wrong</string>
 </resources>
