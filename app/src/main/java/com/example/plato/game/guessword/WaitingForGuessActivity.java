@@ -86,12 +86,14 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                         back_to_start_game.putExtra("game name","guess word");
                         back_to_start_game.putExtra("GAME", SingletonGameContainer.getGuessWord());
                         startActivity(back_to_start_game);
+                        finish();
                     }else {
                         Intent intent_to_guess_activity = new Intent(WaitingForGuessActivity.this, GuessWordActivity.class);
                         intent_to_guess_activity.putExtra("opponent", opponent);
                         intent_to_guess_activity.putExtra("round", round + 1);
                         intent_to_guess_activity.putExtra("result",result);
                         startActivity(intent_to_guess_activity);
+                        finish();
                     }
                 }catch (IOException io){
                     io.printStackTrace();

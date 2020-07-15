@@ -172,6 +172,7 @@ public class GuessWordActivity extends AppCompatActivity {
                                             back_to_start_game.putExtra("game name","guess word");
                                             back_to_start_game.putExtra("GAME", SingletonGameContainer.getGuessWord());
                                             startActivity(back_to_start_game);
+                                            finish();
                                         }else {
                                             new Thread(new Runnable() {
                                                 @Override
@@ -191,6 +192,7 @@ public class GuessWordActivity extends AppCompatActivity {
                                             intent_to_waiting_activity.putExtra("round", round + 1);
                                             intent_to_waiting_activity.putExtra("win", true);
                                             startActivity(intent_to_waiting_activity);
+                                            finish();
                                         }
                                     }
                                 }
@@ -214,6 +216,7 @@ public class GuessWordActivity extends AppCompatActivity {
                                     back_to_start_game.putExtra("game name","guess word");
                                     back_to_start_game.putExtra("GAME", SingletonGameContainer.getGuessWord());
                                     startActivity(back_to_start_game);
+                                    finish();
                                 }else {
                                     new Thread(new Runnable() {
                                         @Override
@@ -233,6 +236,7 @@ public class GuessWordActivity extends AppCompatActivity {
                                     intent_to_waiting_activity.putExtra("round", round + 1);
                                     intent_to_waiting_activity.putExtra("win", false);
                                     startActivity(intent_to_waiting_activity);
+                                    finish();
                                 }
                             }
                         }
