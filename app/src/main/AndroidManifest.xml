@@ -3,8 +3,7 @@
     package="com.example.plato">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".game.startPage.fragment.casual.CreateNewRoomActivity"></activity>
+        <activity android:name=".game.DotAndBoxPageActivity" android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".game.startPage.fragment.casual.CreateNewRoomActivity" />
         <activity
             android:name=".game.startPage.StartGamePageActivity"
             android:theme="@style/NoActionBar" />
@@ -35,19 +35,24 @@
         <activity
             android:name=".entry.EntryActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".entry.LoginPageActivity" android:theme="@style/NoActionBar" />
-        <activity android:name=".entry.RegisterPageActivity"  android:theme="@style/NoActionBar"/>
+        <activity
+            android:name=".entry.LoginPageActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".entry.RegisterPageActivity"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/NoActionBar" />
-        <activity android:name=".SplashScreenActivity" android:theme="@style/NoActionBar">
+        <activity
+            android:name=".SplashScreenActivity"
+            android:theme="@style/NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
