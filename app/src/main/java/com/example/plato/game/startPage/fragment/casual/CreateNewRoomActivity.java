@@ -3,6 +3,7 @@ package com.example.plato.game.startPage.fragment.casual;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,6 +73,7 @@ public class CreateNewRoomActivity extends AppCompatActivity {
                                 dos.writeUTF(MainActivity.userName);
                                 dos.flush();
 
+                                setResult(1001,new Intent().putExtra("roomname",roomname));
                                 finish();
                             } else {
                                 runOnUiThread(new Runnable() {

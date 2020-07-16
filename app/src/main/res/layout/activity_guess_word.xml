@@ -69,4 +69,70 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:layout_width="400dp"
+        android:layout_height="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/color_boarder"
+        android:visibility="gone"
+        android:id="@+id/frameLayout_GuessWordActivity_wonOrLoseBox">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="you won!"
+            android:textStyle="bold"
+            android:textSize="28sp"
+            android:padding="16dp"
+            android:textAlignment="center"
+            android:background="@drawable/green_boarder"
+            android:id="@+id/tv_GuessWordActivity_wonOrloseTxt"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_GuessWordActivity_player1Name_inWonBox"
+                android:text="player1"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VS"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:textSize="25sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_GuessWordActivity_player2Name_inWonBox"
+                android:text="player2"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:text="close"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:id="@+id/btn_GuessWordActivity_closeBtn"/>
+
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

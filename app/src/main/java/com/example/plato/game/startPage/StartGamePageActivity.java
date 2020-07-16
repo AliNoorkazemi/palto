@@ -1,5 +1,6 @@
 package com.example.plato.game.startPage;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -57,5 +58,4 @@ public class StartGamePageActivity extends AppCompatActivity {
             game = (GuessWord)g;
         }
     }
-
 }

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,13 @@ public class WaitingForGuessActivity extends AppCompatActivity {
     DataOutputStream dos;
     String opponent ;
     Integer round;
+    String result;
+    String room_name;
+    private FrameLayout wonOrlose_frameLayout;
+    private TextView wonOrLose_tv;
+    private TextView player1_inbox_tv;
+    private TextView player2_inbox_tv;
+    private Button close_btn;
 
     public static  setOnUpdateUiForGuessWordGameChanges setOnUpdateUiForGuessWordGameChanges =
             new setOnUpdateUiForGuessWordGameChanges() {
@@ -64,6 +72,8 @@ public class WaitingForGuessActivity extends AppCompatActivity {
         opponent = intent.getStringExtra("opponent");
         round = intent.getIntExtra("round",1);
         Log.i("listening round two",String.valueOf(round));
+        result = intent.getStringExtra("winOrLose");
+        room_name = intent.getStringExtra("RoomName");
 
         new Thread(new Runnable() {
             @Override
@@ -77,21 +87,39 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                     dos.flush();
                     dos.writeUTF(MainActivity.userName);
                     dos.flush();
-                    String result = dis.readUTF();
+                    String winOrLose = dis.readUTF();
                     dos.writeUTF("exit");
                     dos.flush();
                     socket.close();
                     if(round==2){
-                        Intent back_to_start_game = new Intent(WaitingForGuessActivity.this, StartGamePageActivity.class);
-                        back_to_start_game.putExtra("game name","guess word");
-                        back_to_start_game.putExtra("GAME", SingletonGameContainer.getGuessWord());
-                        startActivity(back_to_start_game);
-                        finish();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                wonOrlose_frameLayout.setVisibility(View.VISIBLE);
+                                if (winOrLose.equals("win") && result.equals("win"))
+                                    wonOrLose_tv.setText("you won");
+                                else if ( winOrLose.equals("lose")&& result.equals("lose"))
+                                    wonOrLose_tv.setText("you lost");
+                                else if ( (winOrLose.equals("win") && result.equals("lose"))||
+                                    (winOrLose.equals("lose")&& result.equals("win"))) {
+                                    wonOrLose_tv.setText("you are equal");
+                                }
+                                player1_inbox_tv.setText(MainActivity.userName);
+                                player2_inbox_tv.setText(opponent);
+                                close_btn.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        finish();
+                                    }
+                                });
+                            }
+                        });
                     }else {
                         Intent intent_to_guess_activity = new Intent(WaitingForGuessActivity.this, GuessWordActivity.class);
                         intent_to_guess_activity.putExtra("opponent", opponent);
                         intent_to_guess_activity.putExtra("round", round + 1);
-                        intent_to_guess_activity.putExtra("result",result);
+                        intent_to_guess_activity.putExtra("winOrLose",winOrLose);
+                        intent_to_guess_activity.putExtra("roomname",room_name);
                         startActivity(intent_to_guess_activity);
                         finish();
                     }
@@ -100,6 +128,7 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
 
 
         main_word_tv = findViewById(R.id.main_word);
@@ -112,6 +141,13 @@ public class WaitingForGuessActivity extends AppCompatActivity {
         choose_word_tobe_guessed_btn = findViewById(R.id.choose_word_tobe_guessed);
         choose_word_tobe_guessed_btn.setVisibility(View.VISIBLE);
         choose_word_tobe_guessed_et.setVisibility(View.VISIBLE);
+
+        wonOrlose_frameLayout = findViewById(R.id.frameLayout_WaitingActivity_wonOrLoseBox);
+        wonOrLose_tv = findViewById(R.id.tv_WaitingActivity_wonOrloseTxt);
+        player1_inbox_tv = findViewById(R.id.tv_WaitingActivity_player1Name_inWonBox);
+        player2_inbox_tv = findViewById(R.id.tv_WaitingActivity_player2Name_inWonBox);
+        close_btn = findViewById(R.id.btn_WaitingActivity_closeBtn);
+
         constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
