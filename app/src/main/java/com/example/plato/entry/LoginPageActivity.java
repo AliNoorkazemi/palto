@@ -129,6 +129,7 @@ public class LoginPageActivity extends AppCompatActivity {
                     }
 
                     Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
+                    intent.putExtra("Activity","LoginPageActivity");
                     intent.putExtra("userName", username_et.getText().toString());
                     intent.putExtra("profile", result);
                     startActivity(intent);

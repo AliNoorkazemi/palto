@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_profile_activity_constrain_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".profile.EditProfileActivity">
+
+        <LinearLayout
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_edit_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="edit :"
+                android:textColor="#050505"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/relative_profile_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@drawable/edit_text_border"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tv_username_profile_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="username :"
+                    android:textColor="#050505"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_profile_change_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_username_profile_change"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/edit_text_border"
+                    android:hint="@string/username"
+                    android:padding="8dp" />
+
+                <TextView
+                    android:id="@+id/tv_profile_change_usernameWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_profile_change_username"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/red"
+                    android:visibility="invisible"
+                    tools:text="username warning..." />
+
+                <TextView
+                    android:id="@+id/tv_password_profile_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_profile_change_usernameWarning"
+                    android:text="password :"
+                    android:textColor="#050505"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_profile_change_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_password_profile_change"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/edit_text_border"
+                    android:hint="@string/password"
+                    android:padding="8dp"
+                    android:password="true" />
+
+                <TextView
+                    android:id="@+id/tv_profile_change_passwordWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_profile_change_password"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/red"
+                    android:visibility="invisible"
+                    tools:text="password warning..." />
+
+                <TextView
+                    android:id="@+id/tv_profile_change_passwordConf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_profile_change_passwordWarning"
+                    android:text="confirm_password :"
+                    android:textColor="#050505"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+
+
+                <EditText
+                    android:id="@+id/et_profile_change_passwordConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_profile_change_passwordConf"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/edit_text_border"
+                    android:hint="@string/confirm_password"
+                    android:padding="8dp"
+                    android:password="true"
+                    android:visibility="invisible" />
+
+
+                <TextView
+                    android:id="@+id/tv_profile_change_passwordConfWarning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_profile_change_passwordConfirm"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/red"
+                    android:visibility="invisible"
+                    tools:text="password warning..." />
+
+                <Button
+                    android:id="@+id/btn_ok_edit_profile_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_profile_change_passwordConfWarning"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/btn_background"
+                    android:text="ok"
+                    android:textColor="#050505"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btn_cancel_edit_profile_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_profile_change_passwordConfWarning"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/btn_background"
+                    android:text="cancel"
+                    android:textColor="#050505"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

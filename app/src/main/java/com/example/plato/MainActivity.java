@@ -26,6 +26,8 @@ import com.example.plato.Fragment.GameFrag;
 import com.example.plato.Fragment.HomeFrag;
 
 import com.example.plato.entry.EntryActivity;
+import com.example.plato.entry.LoginPageActivity;
+import com.example.plato.entry.RegisterPageActivity;
 import com.example.plato.network.DataReceiver;
 import com.example.plato.network.MessageListener;
 import com.example.plato.profile.ProfileActivity;
@@ -45,21 +47,27 @@ public class MainActivity extends AppCompatActivity {
     public static String userName;
     public static Bitmap profile_bitmap;
     public static ArrayList<String> friend_names;
-    DataReceiver dataReceiver;
-    MessageListener messageListener;
+    public static DataReceiver dataReceiver;
+    public static MessageListener messageListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_navigation);
 
+
         Intent intent = getIntent();
-        userName = intent.getStringExtra("userName");
-        byte[] byteArray = intent.getByteArrayExtra("profile");
+        String activity = intent.getStringExtra("Activity");
+        if(activity!=null) {
+            if (activity.equals("RegisterPageActivity") || activity.equals("LoginPageActivity")) {
+                userName = intent.getStringExtra("userName");
+                byte[] byteArray = intent.getByteArrayExtra("profile");
+                Toast.makeText(MainActivity.this, "byte:" + byteArray.length, Toast.LENGTH_LONG).show();
+                profile_bitmap = ConvertBitmapByte.byteTobitmap(byteArray);
+                Log.i("to main activity", "to main activity from register page or login page come in....");
+            }
+        }
 
-        Toast.makeText(MainActivity.this, "byte:" + byteArray.length, Toast.LENGTH_LONG).show();
-
-        profile_bitmap = ConvertBitmapByte.byteTobitmap(byteArray);
 
         dataReceiver = new DataReceiver();
         dataReceiver.start();
@@ -157,10 +165,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, EntryActivity.class);
+        Intent intent = new Intent(MainActivity.this, EntryActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         Log.i("message", "ERROReeeeeeeeeeeeeeeee");
         messageListener.close();
         startActivity(intent);
+        finish();
     }
 }

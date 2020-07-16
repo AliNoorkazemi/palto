@@ -31,8 +31,10 @@ public class MessageListener extends Thread {
             dos.writeUTF("messageListener");
             dos.writeUTF(MainActivity.userName);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
+            Log.i("message received ","message listening started .....");
             while (true){
                 String sender_name = dis.readUTF();
+                Log.i("message received ",sender_name);
                 String message = dis.readUTF();
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 Date time = (Date)ois.readObject();
@@ -40,7 +42,6 @@ public class MessageListener extends Thread {
                 if (MainActivity.friend_names.contains(sender_name)) {
                     Friend friend = SingletonUserContainer.getInstance().getTargetFriend(sender_name);
                     friend.getChats_message().add(message);
-//                    friend.getIs_it_incomeMessage().add(true);
                     friend.getType_of_messages().add(0);
                     friend.getDates().add(time);
                 } else {
@@ -48,7 +49,6 @@ public class MessageListener extends Thread {
                     Friend friend = new Friend();
                     friend.setName(sender_name);
                     friend.getChats_message().add(message);
-//                    friend.getIs_it_incomeMessage().add(true);
                     friend.getType_of_messages().add(0);
                     friend.getDates().add(time);
                     SingletonUserContainer.getInstance().getFriends().add(friend);
@@ -78,7 +78,6 @@ public class MessageListener extends Thread {
                     dos.flush();
                     dos.writeUTF(MainActivity.userName);
                     dos.flush();
-                    Log.i("message","ERRRksdjflafdjkldfjas;ldfkjaslfjdslkfjklsajflj");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
