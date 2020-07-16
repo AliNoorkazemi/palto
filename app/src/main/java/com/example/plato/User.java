@@ -11,6 +11,22 @@ public class User implements Serializable {
 
     public String myName;
 
+    private ArrayList<Integer> gameScore; // 0->xo 1->guessWord 2->dotandbox
+
+    public ArrayList<Integer> getGameScore() {
+        if(gameScore==null){
+            gameScore=new ArrayList<>();
+            gameScore.add(0);
+            gameScore.add(0);
+            gameScore.add(0);
+        }
+        return gameScore;
+    }
+
+    public void setGameScore(ArrayList<Integer> gameScore) {
+        this.gameScore = gameScore;
+    }
+
     public String getMyName() {
         return myName;
     }

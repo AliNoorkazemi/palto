@@ -9,6 +9,7 @@ import com.example.plato.Fragment.Friend;
 import com.example.plato.Fragment.friends.FriendFrag;
 import com.example.plato.MainActivity;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.Room;
 
 import java.io.DataInputStream;
@@ -26,7 +27,7 @@ public class MessageListener extends Thread {
     @Override
     public void run() {
         try{
-            socket = new Socket("192.168.2.102", 6666);
+            socket = new Socket(SplashScreenActivity.IP, 6666);
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("messageListener");
             dos.writeUTF(MainActivity.userName);

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.example.plato.MainActivity;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
@@ -34,7 +35,7 @@ public class ChangeInRoomListener extends Thread {
     public void run() {
         try {
             Log.i("message", "enter to listening before connecting...");
-            socket = new Socket("192.168.2.102", 6666);
+            socket = new Socket(SplashScreenActivity.IP, 6666);
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("changeRoom");
             dos.writeUTF(MainActivity.userName);

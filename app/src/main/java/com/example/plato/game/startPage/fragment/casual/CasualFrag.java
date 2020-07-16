@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.plato.MainActivity;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
@@ -134,7 +135,7 @@ public class CasualFrag extends Fragment {
                             @Override
                             public void run() {
                                 try {
-                                    Socket socket=new Socket("192.168.2.102",6666);
+                                    Socket socket=new Socket(SplashScreenActivity.IP,6666);
                                     DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
                                     dos.writeUTF("game");
                                     dos.flush();
@@ -183,6 +184,7 @@ public class CasualFrag extends Fragment {
 
                         if (StartGamePageActivity.game_name.equals("xo")){
                             Intent intent=new Intent(getActivity(),XOGamePageActivity.class);
+                            intent.putExtra("gameState","Casual");//***
                             intent.putExtra("areYouO",false);
                             intent.putExtra("opponent",room.getUsers().get(0));
                             startActivity(intent);

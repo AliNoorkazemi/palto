@@ -8,7 +8,7 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:id="@+id/btn_gameFrag_xo"
         android:background="@drawable/xo_background_in_gamefrag"
         />
@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_marginRight="8dp"
-            android:layout_height="190dp"
+            android:layout_height="170dp"
             android:id="@+id/btn_gameFrag_guessTheWord"
             android:background="@drawable/guess_the_word_background_ingamefrag"
             />
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/btn_gameFrag_dotAndBox"
-            android:background="@drawable/dot_and_box_background_ingamefrag"
+            android:background="@drawable/dot_and_box_background_ingamefragjpg"
             />
 
 

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.plato.MainActivity;
 import com.example.plato.R;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.startPage.StartGamePageActivity;
 
@@ -70,7 +71,7 @@ public class WaitingForGuessActivity extends AppCompatActivity {
             public void run() {
                 try{
                     Log.i("listening round two","ksfjdlajfld;lsafl;as;flsdafjlsadfsdjf;s");
-                    Socket socket = new Socket("192.168.2.102",6666);
+                    Socket socket = new Socket("192.168.1.4",6666);
                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                     DataInputStream dis = new DataInputStream(socket.getInputStream());
                     dos.writeUTF("listening round two");
@@ -132,7 +133,7 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
-                                socket = new Socket("192.168.2.102",6666);
+                                socket = new Socket(SplashScreenActivity.IP,6666);
                                 dis = new DataInputStream(socket.getInputStream());
                                 dos = new DataOutputStream(socket.getOutputStream());
                                 dos.writeUTF("guess word send data");

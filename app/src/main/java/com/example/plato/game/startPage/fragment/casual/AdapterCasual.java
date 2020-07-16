@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,6 +45,13 @@ public class AdapterCasual extends RecyclerView.Adapter<AdapterCasual.ViewHolder
             holder.roomState_tv.setBackground(context.getDrawable(R.drawable.gray_boarder));
             holder.roomState_tv.setText("watch");
         }
+
+        if(room.getRoom_name().equals("xo")){
+            holder.roomImage_iv.setBackground(context.getDrawable(R.drawable.xo_icon));
+        }else if(room.getRoom_name().equals("guess word"))
+            holder.roomImage_iv.setBackground(context.getDrawable(R.drawable.guessword_icon));
+
+
         holder.roomName_tv.setText(room.getRoom_name());
         holder.countPlayers_tv.setText(room.getUsers().size() + "/" + room.getMax_players() + "  players");
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +72,7 @@ public class AdapterCasual extends RecyclerView.Adapter<AdapterCasual.ViewHolder
         TextView roomState_tv;
         TextView countPlayers_tv;
         RelativeLayout relativeLayout;
+        ImageView roomImage_iv;
 
         public ViewHolderCasual(@NonNull View itemView) {
             super(itemView);
@@ -72,6 +81,7 @@ public class AdapterCasual extends RecyclerView.Adapter<AdapterCasual.ViewHolder
             countPlayers_tv = itemView.findViewById(R.id.tv_itemInRecycler_casualFrag_countplayer);
             roomName_tv = itemView.findViewById(R.id.tv_itemInRecycler_casualFrag_roomName);
             roomState_tv = itemView.findViewById(R.id.tv_itemInRecycler_casualFrag_state);
+            roomImage_iv = itemView.findViewById(R.id.iv_itemInRecycler_casualFrag_photo);
         }
     }
 

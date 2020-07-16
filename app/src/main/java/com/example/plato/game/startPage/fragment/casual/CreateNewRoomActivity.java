@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.plato.MainActivity;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.startPage.StartGamePageActivity;
@@ -49,7 +50,7 @@ public class CreateNewRoomActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            Socket socket = new Socket("192.168.2.102", 6666);
+                            Socket socket = new Socket(SplashScreenActivity.IP, 6666);
                             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                             DataInputStream dis = new DataInputStream(socket.getInputStream());
                             dos.writeUTF("game");

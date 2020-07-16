@@ -5,7 +5,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -15,7 +14,7 @@ import com.example.plato.game.XO;
 import com.example.plato.game.guessword.GuessWord;
 import com.example.plato.game.startPage.fragment.casual.CasualFrag;
 import com.example.plato.game.startPage.fragment.LeaderBoardFrag;
-import com.example.plato.game.startPage.fragment.RankedFrag;
+import com.example.plato.game.startPage.fragment.ranked.RankedFrag;
 import com.google.android.material.tabs.TabLayout;
 
 public class StartGamePageActivity extends AppCompatActivity {

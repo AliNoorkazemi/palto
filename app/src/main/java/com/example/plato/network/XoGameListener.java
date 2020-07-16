@@ -3,6 +3,7 @@ package com.example.plato.network;
 import android.content.Intent;
 
 import com.example.plato.MainActivity;
+import com.example.plato.SplashScreenActivity;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,7 +21,7 @@ public class XoGameListener extends Thread {
     @Override
     public void run() {
         try {
-            Socket socket=new Socket("192.168.2.102",6666);
+            Socket socket=new Socket(SplashScreenActivity.IP,6666);
             DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
             DataInputStream dis=new DataInputStream(socket.getInputStream());
             dos.writeUTF("XoListener");

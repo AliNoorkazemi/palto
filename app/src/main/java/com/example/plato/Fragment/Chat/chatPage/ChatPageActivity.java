@@ -19,6 +19,7 @@ import com.example.plato.Fragment.Friend;
 import com.example.plato.MainActivity;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.network.MessageListener;
 
 import java.io.DataOutputStream;
@@ -108,7 +109,7 @@ public class ChatPageActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket("192.168.2.102", 6666);
+                    Socket socket = new Socket(SplashScreenActivity.IP, 6666);
                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("sendMessage");
                     dos.flush();

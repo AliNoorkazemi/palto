@@ -16,7 +16,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/blueGray"
         android:textColor="@color/white"
         android:id="@+id/btn_casualFrag_createNewRoom"
         android:layout_alignParentBottom="true"
