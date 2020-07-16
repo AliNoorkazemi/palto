@@ -112,6 +112,8 @@ public class RegisterPageActivity extends AppCompatActivity {
                                             }
                                         });
                                         is_valid[0] = false;
+                                    }else{
+                                        is_valid[0] = true;
                                     }
                                 } catch (IOException io) {
                                     io.printStackTrace();
@@ -161,51 +163,75 @@ public class RegisterPageActivity extends AppCompatActivity {
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!password_et.getText().toString().equals(confirmPassword_et.getText().toString())) {
+                    conifWarn.setText("Password and confirm password don't match");
+                    conifWarn.setVisibility(View.VISIBLE);
+                    return;
+                }
                 if (is_valid[0] && is_valid[1] && is_valid[2]) {
-                    Intent intent = new Intent(RegisterPageActivity.this, MainActivity.class);
-                    intent.putExtra("userName", username_et.getText().toString());
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+                            usernameWarn.setVisibility(View.INVISIBLE);
                             try {
-                                dos.writeUTF("UserEnteredCorrectly");
-                                dos.flush();
                                 dos.writeUTF(username_et.getText().toString());
                                 dos.flush();
-                                dos.writeUTF(password_et.getText().toString());
-                                dos.flush();
+                                String message = dis.readUTF();
+                                if (message.equals("Duplicated")) {
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            usernameWarn.setText("The username has been already exited");
+                                            usernameWarn.setVisibility(View.VISIBLE);
+                                        }
+                                    });
+                                    is_valid[0] = false;
+                                } else {
+                                    Intent intent = new Intent(RegisterPageActivity.this, MainActivity.class);
+                                    intent.putExtra("Activity", "RegisterPageActivity");
+                                    intent.putExtra("userName", username_et.getText().toString());
+                                    try {
+                                        dos.writeUTF("UserEnteredCorrectly");
+                                        dos.flush();
+                                        dos.writeUTF(username_et.getText().toString());
+                                        dos.flush();
+                                        dos.writeUTF(password_et.getText().toString());
+                                        dos.flush();
 
-                                Bitmap bitmap;
-                                if (profile_uri != null)
-                                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), profile_uri);
-                                else
-                                    bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_image);
-                                byte[] byteArray = ConvertBitmapByte.bitmapTobyte(bitmap);
-                                dos.flush();
-                                dos.writeInt(byteArray.length);
-                                dos.flush();
-                                for (int i = 0; i < byteArray.length; i++) {
-                                    dos.writeByte(byteArray[i]);
-                                    dos.flush();
-                                }
+                                        Bitmap bitmap;
+                                        if (profile_uri != null)
+                                            bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), profile_uri);
+                                        else
+                                            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_image);
+                                        byte[] byteArray = ConvertBitmapByte.bitmapTobyte(bitmap);
+                                        dos.flush();
+                                        dos.writeInt(byteArray.length);
+                                        dos.flush();
+                                        for (int i = 0; i < byteArray.length; i++) {
+                                            dos.writeByte(byteArray[i]);
+                                            dos.flush();
+                                        }
 
-                                intent.putExtra("profile", byteArray);
-                                Log.i("Array", "run: " + Arrays.toString(byteArray));
-                                startActivity(intent);
-                                finish();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (OutOfMemoryError out) {
-                                RegisterPageActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(RegisterPageActivity.this, "image size is too large!", Toast.LENGTH_LONG).show();
+                                        intent.putExtra("profile", byteArray);
+                                        Log.i("Array", "run: " + Arrays.toString(byteArray));
+                                        startActivity(intent);
+                                        finish();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    } catch (OutOfMemoryError out) {
+                                        RegisterPageActivity.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(RegisterPageActivity.this, "image size is too large!", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
                                     }
-                                });
+                                }
+                            } catch (IOException io) {
+                                io.printStackTrace();
                             }
                         }
                     }).start();
-
                 } else if (!is_valid[0]) {
                     usernameWarn.setText("username should not be empty...");
                     usernameWarn.setVisibility(View.VISIBLE);

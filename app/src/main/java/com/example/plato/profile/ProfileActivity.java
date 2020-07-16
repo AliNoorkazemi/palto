@@ -2,8 +2,12 @@ package com.example.plato.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 
@@ -19,6 +23,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     AdapterProfile adapter;
+    TextView edit_tv ;
+    TextView username;
 
 
     @Override
@@ -26,17 +32,44 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
+        edit_tv = findViewById(R.id.tv_profileActivity_edit);
         Toolbar toolbar=findViewById(R.id.toolbar_profileActivity);
         setSupportActionBar(toolbar);
 
+        edit_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this,EditProfileActivity.class);
+                startActivityForResult(intent,1001);
+            }
+        });
 
-        TextView username=findViewById(R.id.tv_profileActivity_username);
+
+        username=findViewById(R.id.tv_profileActivity_username);
         username.setText(MainActivity.userName);
         ImageView avatarImg=findViewById(R.id.iv_profileActivity_avatarImg);
         avatarImg.setImageBitmap(MainActivity.profile_bitmap);
 
         initRecycler();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==1001){
+            String new_username = data.getStringExtra("new_username");
+            username.setText(new_username);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent ( ProfileActivity.this,MainActivity.class);
+        intent.putExtra("Activity", "ProfileActivity");
+        startActivity(intent);
+        finish();
     }
 
     private void initRecycler() {

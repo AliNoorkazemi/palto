@@ -12,8 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".game.DotAndBoxPageActivity" android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".profile.EditProfileActivity"
+            android:theme="@style/NoActionBar">
+        </activity>
         <activity android:name=".game.guessword.WaitingForGuessActivity" />
         <activity android:name=".game.guessword.GuessWordActivity" />
 
