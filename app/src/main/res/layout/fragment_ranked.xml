@@ -1,14 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".game.startPage.fragment.RankedFrag">
+    android:id="@+id/cdl_rankedFrag_coordinatoorLayout"
+    tools:context=".game.startPage.fragment.ranked.RankedFrag">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+        <ImageView
+            android:id="@+id/iv_rankedFragment_gameImage"
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            android:src="@drawable/xo_rankedfrag_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.13999999" />
+
+        <TextView
+            android:id="@+id/tv_rankedFrag_gameName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XO GAME"
+            android:textColor="@android:color/black"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_rankedFragment_gameImage"
+            app:layout_constraintVertical_bias="0.13999999" />
+
+        <FrameLayout
+            android:id="@+id/frameLayout_rankedFrag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_rankedFrag_gameName"
+            app:layout_constraintVertical_bias="0.120000005">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_gravity="center"
+                android:background="@color/blueGray" />
+
+            <Button
+                android:id="@+id/btn_rankedFrag_play"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/green_boarder"
+                android:text="play"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/tv_rankedFrag_gameScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frameLayout_rankedFrag"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout_rankedFrag"
+            app:layout_constraintVertical_bias="0.59000003"
+            tools:text="score: 100" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

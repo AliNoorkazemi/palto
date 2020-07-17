@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import com.example.plato.MainActivity;
 import com.example.plato.R;
+import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
+import com.example.plato.network.SendScoreToServer;
 import com.example.plato.network.XoGameListener;
 
 import java.io.DataOutputStream;
@@ -52,6 +55,8 @@ public class XOGamePageActivity extends AppCompatActivity {
 
     String[] xo_table;
 
+    String gameState;
+
     boolean are_you_O;
 
     boolean is_it_your_turn = false; //nobat
@@ -74,21 +79,51 @@ public class XOGamePageActivity extends AppCompatActivity {
         close_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(are_you_O){
+                if (are_you_O) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                Socket socket=new Socket("192.168.2.102",6666);
-                                DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
-                                dos.writeUTF("game");
+                                Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                                if (gameState.equals("Casual")) {//***
+                                    dos.writeUTF("game");
+                                    dos.flush();
+                                    dos.writeUTF("removeRoom");
+                                    dos.flush();
+                                    dos.writeUTF("xo");
+                                    dos.flush();
+                                    dos.writeUTF(roomName);
+                                    dos.flush();
+                                } else {
+                                    dos.writeUTF("removePlayerFromRankedGame");
+                                    dos.flush();
+                                    dos.writeInt(0);
+                                    dos.flush();
+                                    dos.writeUTF(MainActivity.userName);
+                                    dos.flush();
+                                }
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }).start();
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                                dos.writeUTF("removePlayerFromRankedGame");
                                 dos.flush();
-                                dos.writeUTF("removeRoom");
+                                dos.writeInt(0);
                                 dos.flush();
-                                dos.writeUTF("xo");
+                                dos.writeUTF(MainActivity.userName);
                                 dos.flush();
-                                dos.writeUTF(roomName);
-                                dos.flush();
+
 
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -97,6 +132,8 @@ public class XOGamePageActivity extends AppCompatActivity {
                         }
                     }).start();
                 }
+
+
                 finish();
             }
         });
@@ -281,6 +318,7 @@ public class XOGamePageActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
+        gameState = intent.getStringExtra("gameState");
         are_you_O = intent.getBooleanExtra("areYouO", true);
         opponent_name = intent.getStringExtra("opponent");
         if (are_you_O) {
@@ -291,7 +329,8 @@ public class XOGamePageActivity extends AppCompatActivity {
             player2NameInBox_tv.setText(opponent_name);
             button_background = getDrawable(R.drawable.o_background);
             xORo = "o";
-            roomName=intent.getStringExtra("RoomName");
+            if (gameState.equals("Casual"))
+                roomName = intent.getStringExtra("RoomName");
         } else {
             player1Name_tv.setText(opponent_name + ":");
             player2Name_tv.setText(MainActivity.userName + ":");
@@ -376,7 +415,7 @@ public class XOGamePageActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket("192.168.2.102", 6666);
+                    Socket socket = new Socket(SplashScreenActivity.IP, 6666);
                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
 
                     dos.writeUTF("XoSendData");
@@ -445,6 +484,13 @@ public class XOGamePageActivity extends AppCompatActivity {
                     wonOrLose_tv.setText("you lose!");
                 } else {
                     wonOrLose_tv.setText("you won!");
+                    if (gameState.equals("Ranked")) {//***
+                        int score = SingletonUserContainer.getInstance().getGameScore().get(0);
+                        SingletonUserContainer.getInstance().getGameScore().set(0, score + 10);
+                        SendScoreToServer sendScoreToServer = new SendScoreToServer(0, score + 10);
+                        Thread thread = new Thread(sendScoreToServer);
+                        thread.start();
+                    }
                 }
                 break;
             } else if (line.equals("ooo")) {
@@ -453,6 +499,13 @@ public class XOGamePageActivity extends AppCompatActivity {
                     wonOrLose_tv.setText("you lose!");
                 } else {
                     wonOrLose_tv.setText("you won!");
+                    if (gameState.equals("Ranked")) {//***
+                        int score = SingletonUserContainer.getInstance().getGameScore().get(0);
+                        SingletonUserContainer.getInstance().getGameScore().set(0, score + 10);
+                        SendScoreToServer sendScoreToServer = new SendScoreToServer(0, score + 10);
+                        Thread thread = new Thread(sendScoreToServer);
+                        thread.start();
+                    }
                 }
                 break;
             }
@@ -460,3 +513,4 @@ public class XOGamePageActivity extends AppCompatActivity {
     }
 
 }
+

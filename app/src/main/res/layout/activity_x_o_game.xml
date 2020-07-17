@@ -225,7 +225,7 @@
         android:layout_height="300dp"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/color_boarder"
+        android:background="@drawable/close_box"
         android:visibility="gone"
         android:id="@+id/frameLayout_xoGamePageActivity_wonOrLoseBox">
 
@@ -234,10 +234,11 @@
             android:layout_height="wrap_content"
             android:text="you won!"
             android:textStyle="bold"
+            android:layout_marginTop="32dp"
             android:textSize="28sp"
+            android:textColor="@color/white"
             android:padding="16dp"
             android:textAlignment="center"
-            android:background="@drawable/green_boarder"
             android:id="@+id/tv_xoGamePageActivity_wonOrloseTxt"/>
 
         <LinearLayout
@@ -251,12 +252,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_xoGamePageActivity_player1Name_inWonBox"
                 android:text="player1"
+                android:textColor="@color/white"
                 android:textSize="20sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="VS"
+                android:textColor="@color/white"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
                 android:textSize="25sp"
@@ -267,18 +270,17 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_xoGamePageActivity_player2Name_inWonBox"
                 android:text="player2"
+                android:textColor="@color/white"
                 android:textSize="20sp"/>
 
         </LinearLayout>
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/colorPrimary"
-            android:text="close"
-            android:textStyle="bold"
-            android:textColor="@color/white"
+            android:layout_gravity="right"
+            android:layout_margin="8dp"
+            android:background="@drawable/ic_close"
             android:id="@+id/btn_xoGamePageActivity_closeBtn"/>
 
 

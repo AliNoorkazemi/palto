@@ -10,12 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.plato.entry.EntryActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
-
+    public static String IP;
     private static int SPLASH_TIME_OUT = 2500;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+
+        IP="192.168.1.4";
 
         new Handler().postDelayed(new Runnable() {
             @Override

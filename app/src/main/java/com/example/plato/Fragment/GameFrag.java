@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.example.plato.MainActivity;
 import com.example.plato.R;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
@@ -54,7 +55,7 @@ public class GameFrag extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            Socket socket = new Socket("192.168.2.102", 6666);
+                            Socket socket = new Socket("192.168.1.4", 6666);
                             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                             dos.writeUTF("game");
                             dos.writeUTF("getAllRooms");
@@ -67,6 +68,7 @@ public class GameFrag extends Fragment {
                             for (String str : roomName_to_joined_user.keySet()
                             ) {
                                 Room room = new Room();
+                                room.setGame_name("xo");
                                 room.setRoom_name(str);
                                 room.setMax_players(roomName_to_maxPlayers.get(str));
                                 ArrayList<String> joined_user = roomName_to_joined_user.get(str);
@@ -92,6 +94,7 @@ public class GameFrag extends Fragment {
                                             public void run() {
 
                                                 Intent intent=new Intent(view.getContext(),XOGamePageActivity.class);
+                                                intent.putExtra("gameState","Casual");//***
                                                 intent.putExtra("areYouO",true);
                                                 intent.putExtra("opponent",room.getUsers().get(1));
                                                 intent.putExtra("RoomName",room.getRoom_name());
@@ -124,7 +127,7 @@ public class GameFrag extends Fragment {
                     @Override
                     public void run() {
                         try{
-                            Socket socket = new Socket("192.168.2.102", 6666);
+                            Socket socket = new Socket(SplashScreenActivity.IP, 6666);
                             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                             dos.writeUTF("game");
                             dos.writeUTF("getAllRooms");
@@ -137,6 +140,7 @@ public class GameFrag extends Fragment {
 
                             for (String str : roomName_to_joined_user.keySet()) {
                                 Room room = new Room();
+                                room.setGame_name("guess word");
                                 room.setRoom_name(str);
                                 room.setMax_players(roomName_to_maxPlayers.get(str));
                                 ArrayList<String> joined_user = roomName_to_joined_user.get(str);

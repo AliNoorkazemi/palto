@@ -12,13 +12,16 @@
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:elevation="3dp"
+            android:elevation="2dp"
+            android:background="#F5F5F5"
             android:id="@+id/toobar_startPageActivity"/>
 
 
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="3dp"
             android:id="@+id/tablayout_startgamePageActivity"/>
 
     </com.google.android.material.appbar.AppBarLayout>

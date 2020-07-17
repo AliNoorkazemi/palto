@@ -8,6 +8,7 @@ import com.example.plato.Fragment.Friend;
 import com.example.plato.Fragment.friends.FriendFrag;
 import com.example.plato.MainActivity;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.startPage.fragment.casual.CasualFrag;
@@ -29,7 +30,7 @@ public class AddRoomListener extends Thread {
     public void run() {
         try {
             Log.i("message", "enter to listening before connecting...");
-            socket = new Socket("192.168.2.102", 6666);
+            socket = new Socket(SplashScreenActivity.IP, 6666);
             dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("addRoom");
             dos.writeUTF(MainActivity.userName);
@@ -54,6 +55,7 @@ public class AddRoomListener extends Thread {
 
 
         Room room = new Room();
+        room.setGame_name(which_game);
         room.setRoom_name(roomName);
         room.setMax_players(maxPlayer);
         room.joinRoom(userjoined);

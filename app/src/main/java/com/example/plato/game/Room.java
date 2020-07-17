@@ -7,10 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Room implements Serializable {
+    private String game_name;
     private int max_players;
     private String room_name;
     private List<String> users=new ArrayList<>();
 
+    public String getGame_name() {
+        return game_name;
+    }
+
+    public void setGame_name(String game_name) {
+        this.game_name = game_name;
+    }
 
     public Room() {
         users = new ArrayList<>();

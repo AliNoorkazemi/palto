@@ -4,6 +4,7 @@ package com.example.plato.network;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.MainActivity;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class DataReceiver extends Thread {
         Receive data from server .
          */
         try{
-            socket = new Socket("192.168.2.102", 6666);
+            socket = new Socket(SplashScreenActivity.IP, 6666);
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("giveData");
             dos.flush();
@@ -42,6 +43,8 @@ public class DataReceiver extends Thread {
             Map<String,ArrayList<Date>> friendName_to_messageTime=(Map<String,ArrayList<Date>>)ois.readObject();
 //            Map<String,ArrayList<Boolean>> friendsName_to_messageBoolean=(Map<String,ArrayList<Boolean>>)ois.readObject();
             Map<String,ArrayList<Integer>> friendName_to_messageType = (Map<String,ArrayList<Integer>>)ois.readObject();
+            ArrayList<Integer> gameScoreList= (ArrayList<Integer>) ois.readObject();
+            SingletonUserContainer.getInstance().setGameScore(gameScoreList);
             MainActivity.friend_names  = new ArrayList<>(friendName_to_message.keySet());
             String message = String.valueOf(MainActivity.friend_names.size());
             for(int i = 0 ; i < friendName_to_message.size() ;i++){
