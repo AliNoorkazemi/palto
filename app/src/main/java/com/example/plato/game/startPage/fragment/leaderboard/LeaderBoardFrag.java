@@ -1,4 +1,4 @@
-package com.example.plato.game.startPage.fragment;
+package com.example.plato.game.startPage.fragment.leaderboard;
 
 import android.os.Bundle;
 
@@ -14,6 +14,7 @@ public class LeaderBoardFrag extends Fragment {
 
     View view;
     @Override
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

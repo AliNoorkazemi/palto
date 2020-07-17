@@ -207,10 +207,29 @@ public class RegisterPageActivity extends AppCompatActivity {
                                         dos.flush();
                                         dos.writeInt(byteArray.length);
                                         dos.flush();
-                                        for (int i = 0; i < byteArray.length; i++) {
-                                            dos.writeByte(byteArray[i]);
+//                                        for (int i = 0; i < byteArray.length; i++) {
+//                                            dos.writeByte(byteArray[i]);
+//                                            dos.flush();
+//                                        }
+
+                                        int start=0;
+                                        int len=0;
+                                        int count=byteArray.length;
+                                        Log.i("lenght", "lenght: "+count);
+                                        while (count>0){
+                                            if(count<4096){
+                                                len=count;
+                                            }else
+                                                len=4096;
+
+                                            dos.write(byteArray,start,len);
                                             dos.flush();
+                                            start+=len;
+                                            count-=len;
                                         }
+
+
+
 
                                         intent.putExtra("profile", byteArray);
                                         Log.i("Array", "run: " + Arrays.toString(byteArray));
