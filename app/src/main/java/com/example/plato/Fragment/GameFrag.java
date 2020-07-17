@@ -55,7 +55,7 @@ public class GameFrag extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            Socket socket = new Socket("192.168.1.4", 6666);
+                            Socket socket = new Socket(SplashScreenActivity.IP, 6666);
                             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                             dos.writeUTF("game");
                             dos.writeUTF("getAllRooms");
@@ -165,7 +165,7 @@ public class GameFrag extends Fragment {
                                             @Override
                                             public void run() {
                                                 Intent intent=new Intent(view.getContext(), WaitingForGuessActivity.class);
-                                                intent.putExtra("areYouO",true);
+                                                intent.putExtra("gameState","Casual");
                                                 intent.putExtra("round",1);
                                                 intent.putExtra("opponent",room.getUsers().get(1));
                                                 intent.putExtra("RoomName",room.getRoom_name());

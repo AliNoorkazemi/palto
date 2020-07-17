@@ -190,6 +190,7 @@ public class CasualFrag extends Fragment {
                             startActivity(intent);
                         }else if (StartGamePageActivity.game_name.equals("guess word")){
                             Intent intent = new Intent(getActivity(), GuessWordActivity.class);
+                            intent.putExtra("gameState","Casual");
                             intent.putExtra("round", 1);
                             intent.putExtra("opponent",room.getUsers().get(0));
                             startActivity(intent);

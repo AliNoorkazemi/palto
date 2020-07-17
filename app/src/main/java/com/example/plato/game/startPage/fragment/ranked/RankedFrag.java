@@ -19,6 +19,8 @@ import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
 import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.XOGamePageActivity;
+import com.example.plato.game.guessword.GuessWordActivity;
+import com.example.plato.game.guessword.WaitingForGuessActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
 import com.example.plato.network.XoGameListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -112,13 +114,17 @@ public class RankedFrag extends Fragment {
                                             intent.putExtra("areYouO", false);
                                             intent.putExtra("opponent", opponentName);
                                         } else if (gameIndex == 1) {//guess word
-
+                                            intent = new Intent(view.getContext(), GuessWordActivity.class);
+                                            intent.putExtra("gameState","Ranked");
+                                            intent.putExtra("round",1);
+                                            intent.putExtra("opponent",opponentName);
                                         } else if (gameIndex == 2) {//dotAndBox
 
                                         }
                                         play_btn.setClickable(true);
+                                        if ( snackbar!= null)
+                                            snackbar.dismiss();
                                         startActivity(intent);
-                                        snackbar.dismiss();
                                         play_btn.setBackground(getContext().getDrawable(R.drawable.green_boarder));
                                     }
                                 });
@@ -155,10 +161,15 @@ public class RankedFrag extends Fragment {
                                                 intent.putExtra("areYouO", true);
                                                 intent.putExtra("opponent", opponentName);
                                             } else if (gameIndex == 1) {//guess word
-
+                                                intent = new Intent(view.getContext(), WaitingForGuessActivity.class);
+                                                intent.putExtra("gameState","Ranked");
+                                                intent.putExtra("round",1);
+                                                intent.putExtra("opponent",opponentName);
                                             } else if (gameIndex == 2) {//dotAndBox
 
                                             }
+                                            if ( snackbar!= null)
+                                                snackbar.dismiss();
                                             startActivity(intent);
                                             getActivity().runOnUiThread(new Runnable() {
                                                 @Override
