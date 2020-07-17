@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/relative_itemInRecycler_leaderBoardFrag"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_itemInRecycler_leaderboardFrag_queNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="28sp"
+        tools:text="4" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView1"
+        android:layout_width="80dp"
+        android:layout_toRightOf="@id/tv_itemInRecycler_leaderboardFrag_queNo"
+        android:layout_height="80dp"
+        android:layout_marginLeft="16dp"
+        app:cardCornerRadius="40dp">
+
+
+        <ImageView
+            android:id="@+id/iv_itemInRecycler_leaderboardFrag_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_person_75dp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_itemInRecycler_leaderboardFrag_playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/cardView1"
+        android:layout_marginLeft="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        tools:text="player4" />
+
+    <TextView
+        android:id="@+id/tv_itemInRecycler_leaderboardFrag_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="28dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/blue_circle_boarder"
+        android:paddingTop="8dp"
+        android:textAlignment="center"
+        android:textColor="#80DEEA"
+        android:textStyle="bold"
+        tools:text="25"
+        tools:ignore="RtlCompat" />
+
+</RelativeLayout>

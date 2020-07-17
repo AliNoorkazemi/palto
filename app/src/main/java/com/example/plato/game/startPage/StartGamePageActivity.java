@@ -1,6 +1,5 @@
 package com.example.plato.game.startPage;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -14,7 +13,7 @@ import com.example.plato.game.Game;
 import com.example.plato.game.XO;
 import com.example.plato.game.guessword.GuessWord;
 import com.example.plato.game.startPage.fragment.casual.CasualFrag;
-import com.example.plato.game.startPage.fragment.LeaderBoardFrag;
+import com.example.plato.game.startPage.fragment.leaderboard.LeaderBoardFrag;
 import com.example.plato.game.startPage.fragment.ranked.RankedFrag;
 import com.google.android.material.tabs.TabLayout;
 
