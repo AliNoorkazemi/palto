@@ -96,6 +96,7 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 wonOrlose_frameLayout.setVisibility(View.VISIBLE);
+                                Log.v("message","message"+winOrLose + " "+ result);
                                 if (winOrLose.equals("win") && result.equals("win"))
                                     wonOrLose_tv.setText("you won");
                                 else if ( winOrLose.equals("lose")&& result.equals("lose"))
