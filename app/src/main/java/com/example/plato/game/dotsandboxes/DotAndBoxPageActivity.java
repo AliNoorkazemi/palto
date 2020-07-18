@@ -7,12 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.plato.MainActivity;
 import com.example.plato.R;
+import com.example.plato.SingletonUserContainer;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
+import com.example.plato.network.SendScoreToServer;
 
 import java.util.ArrayList;
 
@@ -24,18 +29,61 @@ public class DotAndBoxPageActivity extends AppCompatActivity {
     static Context context;
     static ArrayList<String> members;
     String room_name;
-    String gameState;
+    static String gameState;
     static int my_color;
     static int my_score = 0;
+    static FrameLayout frameLayout;
+    static Button close_btn;
+    static TextView player1_tv;
+    static TextView player2_tv;
+    static TextView vs_tv;
+    static TextView winOrLose_tv;
+
 
     static DotsAndBoxesListener.OnFinishGame onFinishGame = new DotsAndBoxesListener.OnFinishGame() {
         @Override
-        public void onFinishGame() {
+        public void onFinishGame(String winner) {
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     gridView.setVisibility(View.INVISIBLE);
-                    
+                    frameLayout.setVisibility(View.VISIBLE);
+                    if ( gameState.equals("Casual")){
+                        if ( members.size()==2){
+                            player1_tv.setText(members.get(0));
+                            player2_tv.setText(members.get(1));
+                        }else {
+                            player1_tv.setVisibility(View.INVISIBLE);
+                            player2_tv.setVisibility(View.INVISIBLE);
+                            vs_tv.setVisibility(View.INVISIBLE);
+                        }
+                        if ( !winner.equals(MainActivity.userName))
+                            winOrLose_tv.setText(winner + " won!");
+                        close_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                    }else if ( gameState.equals("Ranked")){
+                        player1_tv.setText(members.get(0));
+                        player2_tv.setText(members.get(1));
+                        if ( !winner.equals(MainActivity.userName))
+                            winOrLose_tv.setText(winner + " won!");
+                        else{
+                            int score = SingletonUserContainer.getInstance().getGameScore().get(2);
+                            SingletonUserContainer.getInstance().getGameScore().set(2, score + 30);
+                            SendScoreToServer sendScoreToServer = new SendScoreToServer(2, score + 30);
+                            Thread thread = new Thread(sendScoreToServer);
+                            thread.start();
+                        }
+                        close_btn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ((Activity)context).finish();
+                            }
+                        });
+                    }
                 }
             });
         }
@@ -124,6 +172,12 @@ public class DotAndBoxPageActivity extends AppCompatActivity {
 
         context = DotAndBoxPageActivity.this;
         gridView = findViewById(R.id.grid_view_dots_and_boxes);
+        frameLayout = findViewById(R.id.frameLayout_dots_and_boxes_wonOrLoseBox);
+        close_btn = findViewById(R.id.btn_dots_and_boxes_closeBtn);
+        player1_tv = findViewById(R.id.tv_dots_and_boxes_player1Name_inWonBox);
+        player2_tv = findViewById(R.id.tv_dots_and_boxes_player2Name_inWonBox);
+        winOrLose_tv = findViewById(R.id.tv_dots_and_boxes_wonOrloseTxt);
+        vs_tv = findViewById(R.id.vs_dots_and_boxes);
 
         new Thread(new DotsAndBoxesListener(context)).start();
 

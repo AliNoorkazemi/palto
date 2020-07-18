@@ -19,6 +19,7 @@ public class DotsAndBoxesListener implements Runnable {
     private Context context;
     private OnChangeForGridView onChangeForGridView;
     private OnFinishGame onFinishGame ;
+    private String winner;
 
     DotsAndBoxesListener(Context context) {
         this.context = context;
@@ -55,7 +56,7 @@ public class DotsAndBoxesListener implements Runnable {
                     case "finish":{
                         dos.writeInt(DotAndBoxPageActivity.my_score);
                         dos.flush();
-                        String winner = dis.readUTF();
+                        winner = dis.readUTF();
                         break LOOP;
                     }
                 }
@@ -64,7 +65,7 @@ public class DotsAndBoxesListener implements Runnable {
             io.printStackTrace();
         }
         onFinishGame = DotAndBoxPageActivity.onFinishGame ;
-        onFinishGame.onFinishGame();
+        onFinishGame.onFinishGame(winner);
     }
 
     interface OnChangeForGridView{
@@ -72,6 +73,6 @@ public class DotsAndBoxesListener implements Runnable {
     }
 
     interface OnFinishGame{
-        void onFinishGame();
+        void onFinishGame(String winner);
     }
 }
