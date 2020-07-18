@@ -17,6 +17,8 @@ public class DotsAndBoxesListener implements Runnable {
     private DataOutputStream dos;
     private DataInputStream dis;
     private Context context;
+    private OnChangeForGridView onChangeForGridView;
+    private OnFinishGame onFinishGame ;
 
     DotsAndBoxesListener(Context context) {
         this.context = context;
@@ -26,6 +28,7 @@ public class DotsAndBoxesListener implements Runnable {
     @Override
     public void run() {
         try{
+            DotAndBoxPageActivity.my_score = 0;
             socket = new Socket(SplashScreenActivity.IP,6666);
             dos = new DataOutputStream(socket.getOutputStream());
             dis = new DataInputStream(socket.getInputStream());
@@ -33,20 +36,42 @@ public class DotsAndBoxesListener implements Runnable {
             dos.flush();
             dos.writeUTF(MainActivity.userName);
             dos.flush();
-            String message ;
-            while (true){
-                message = dis.readUTF();
-                switch (message){
-                    case "your turn":
+            String purpose ;
+            LOOP:while (true){
+                purpose = dis.readUTF();
+                switch (purpose){
+                    case "your turn": {
                         DotAndBoxPageActivity.is_my_turn = true;
+                    }
                         break;
-                    case "change":
-
+                    case "change": {
+                        int position = dis.readInt();
+                        String location_line = dis.readUTF();
+                        int color = dis.readInt();
+                        onChangeForGridView = DotAndBoxPageActivity.onChangeForGridView;
+                        onChangeForGridView.onChangeForGridView(position, location_line, color);
+                    }
                         break;
+                    case "finish":{
+                        dos.writeInt(DotAndBoxPageActivity.my_score);
+                        dos.flush();
+                        String winner = dis.readUTF();
+                        break LOOP;
+                    }
                 }
             }
         }catch (IOException io){
             io.printStackTrace();
         }
+        onFinishGame = DotAndBoxPageActivity.onFinishGame ;
+        onFinishGame.onFinishGame();
+    }
+
+    interface OnChangeForGridView{
+        void onChangeForGridView(int position , String location_line , int color);
+    }
+
+    interface OnFinishGame{
+        void onFinishGame();
     }
 }
