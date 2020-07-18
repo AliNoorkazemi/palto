@@ -3,11 +3,13 @@ package com.example.plato.game;
 import android.util.Log;
 
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.game.dotsandboxes.DotsAndBoxes;
 import com.example.plato.game.guessword.GuessWord;
 
 public class SingletonGameContainer {
     private static XO xoInstance;
     private static GuessWord guessWordInstance;
+    private static DotsAndBoxes dotsAndBoxesInstance;
 
     private SingletonGameContainer(){
     }
@@ -26,6 +28,14 @@ public class SingletonGameContainer {
             guessWordInstance.setGame_name("guess word");
         }
         return guessWordInstance;
+    }
+
+    public static DotsAndBoxes getDotsAndBoxes(){
+        if( dotsAndBoxesInstance == null){
+            dotsAndBoxesInstance = new DotsAndBoxes();
+            dotsAndBoxesInstance.setGame_name("dost and boxes");
+        }
+        return dotsAndBoxesInstance;
     }
 
 }

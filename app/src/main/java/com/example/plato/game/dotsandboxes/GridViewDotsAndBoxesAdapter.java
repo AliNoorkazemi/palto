@@ -9,6 +9,9 @@ import android.widget.ImageView;
 
 import com.example.plato.R;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class GridViewDotsAndBoxesAdapter extends BaseAdapter {
@@ -59,8 +62,7 @@ public class GridViewDotsAndBoxesAdapter extends BaseAdapter {
         viewHolder.line_vertical_top.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int color = context.getResources().getColor(R.color.colorPrimary);
-                viewHolder.line_vertical_top.setBackgroundColor(color);
+
             }
         });
         viewHolder.line_vertical_bottom.setOnClickListener(new View.OnClickListener(){
