@@ -41,9 +41,9 @@ public class StartGamePageActivity extends AppCompatActivity {
         ViewPager viewPager=findViewById(R.id.viewPager_startGamePageActivity);
         TabLayout tabLayout=findViewById(R.id.tablayout_startgamePageActivity);
         StartGameFragmentPagerAdapter adapter=new StartGameFragmentPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new CasualFrag(),"casual");
-        adapter.addFragment(new RankedFrag(),"ranked");
-        adapter.addFragment(new LeaderBoardFrag(),"leaderBoard");
+        adapter.addFragment(new CasualFrag(),"Casual");
+        adapter.addFragment(new RankedFrag(),"Ranked");
+        adapter.addFragment(new LeaderBoardFrag(),"LeaderBoard");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }

@@ -4,34 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".game.startPage.fragment.casual.CreateNewRoomActivity">
 
     <TextView
+        android:id="@+id/tv_createNewRoom_roomnametxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/room_name"
-        android:id="@+id/tv_createNewRoom_roomnametxt"/>
+        android:layout_margin="16dp"
+        android:text="@string/room_name" />
+
     <EditText
+        android:id="@+id/et_createNewRoom_roomname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_border"
-        android:id="@+id/et_createNewRoom_roomname"
         android:layout_below="@id/tv_createNewRoom_roomnametxt"
-        android:layout_margin="8dp"/>
-    <Button
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/edit_text_border"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/tv_createNewRoom_roommaxplayer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create"
-        android:background="@android:color/holo_orange_light"
-        android:textColor="@color/white"
-        android:textStyle="bold"
+        android:layout_below="@id/et_createNewRoom_roomname"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="95dp"
+        android:text="@string/room_capacity" />
+
+
+    <NumberPicker
+        android:id="@+id/np_createNewRoom_numberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_createNewRoom_roomname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp" />
+
+    <Button
         android:id="@+id/btn_createNewRoom_create"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="48dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="16dp"
-        android:layout_below="@id/et_createNewRoom_roomname"/>
+        android:background="@color/blueGray"
+        android:text="@string/create"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>
