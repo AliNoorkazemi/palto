@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.example.plato.MainActivity;
@@ -28,8 +29,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class CreateNewRoomActivity extends AppCompatActivity {
-
-    String game_name ;
+    NumberPicker numberPicker;
+    String game_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,14 @@ public class CreateNewRoomActivity extends AppCompatActivity {
 
         final EditText roomName_et = findViewById(R.id.et_createNewRoom_roomname);
         Button create_btn = findViewById(R.id.btn_createNewRoom_create);
+
+
+        numberPicker = findViewById(R.id.np_createNewRoom_numberPicker);
+        numberPicker.setMinValue(2);
+        if (game_name.equals("dots and boxes")) {
+            numberPicker.setMaxValue(4);
+        } else
+            numberPicker.setMaxValue(2);
 
 
         create_btn.setOnClickListener(new View.OnClickListener() {
@@ -58,23 +67,23 @@ public class CreateNewRoomActivity extends AppCompatActivity {
                             dos.flush();
                             dos.writeUTF("addRoom");
                             dos.flush();
-                            Log.i("game_name",game_name);
-                            if(game_name.equals("xo"))
+                            Log.i("game_name", game_name);
+                            if (game_name.equals("xo"))
                                 dos.writeUTF("xo");
-                            else if(game_name.equals("guess word"))
+                            else if (game_name.equals("guess word"))
                                 dos.writeUTF("guess word");
+                            else
+                                dos.writeUTF(game_name);
+
                             dos.flush();
                             dos.writeUTF(roomname);
                             dos.flush();
                             if (dis.readBoolean()) {
-
                                 //send room data to server
-                                dos.writeUTF("2");
+                                dos.writeInt(numberPicker.getValue());
                                 dos.flush();
                                 dos.writeUTF(MainActivity.userName);
                                 dos.flush();
-
-                                setResult(1001,new Intent().putExtra("roomname",roomname));
                                 finish();
                             } else {
                                 runOnUiThread(new Runnable() {

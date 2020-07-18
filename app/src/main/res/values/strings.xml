@@ -20,4 +20,5 @@
     <string name="create">create</string>
     <string name="validate">validate</string>
     <string name="wrong">wrong</string>
+    <string name="room_capacity">Room capacity</string>
 </resources>

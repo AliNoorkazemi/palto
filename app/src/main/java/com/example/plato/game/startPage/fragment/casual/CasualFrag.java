@@ -207,12 +207,4 @@ public class CasualFrag extends Fragment {
     }
 
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        if(requestCode==1002 && resultCode==RESULT_OK ){
-//            rooms.clear();
-//            rooms.addAll(SingletonGameContainer.getXoInstance().getRooms());
-//            adapter.notifyItemInserted(rooms.size()-1);
-//        }
-    }
 }
