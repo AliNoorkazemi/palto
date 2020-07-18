@@ -158,6 +158,7 @@ public class CasualFrag extends Fragment {
                             }
                         }).start();
 
+
                         ProgressDialog progressDialog;
                         progressDialog = new ProgressDialog(getActivity());
                         progressDialog.setTitle("joining to the game...");

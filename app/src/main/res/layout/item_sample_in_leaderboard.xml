@@ -11,18 +11,19 @@
         android:id="@+id/tv_itemInRecycler_leaderboardFrag_queNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_centerVertical="true"
         android:textColor="@android:color/black"
         android:textSize="28sp"
         tools:text="4" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView1"
-        android:layout_width="80dp"
+        android:layout_width="50dp"
         android:layout_toRightOf="@id/tv_itemInRecycler_leaderboardFrag_queNo"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
-        app:cardCornerRadius="40dp">
+        app:cardCornerRadius="25dp">
 
 
         <ImageView
@@ -48,11 +49,12 @@
         android:id="@+id/tv_itemInRecycler_leaderboardFrag_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+
         android:layout_marginRight="28dp"
         android:layout_alignParentRight="true"
         android:background="@drawable/blue_circle_boarder"
         android:paddingTop="8dp"
+        android:layout_centerVertical="true"
         android:textAlignment="center"
         android:textColor="#80DEEA"
         android:textStyle="bold"

@@ -14,10 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.plato.ConvertBitmapByte;
+import com.example.plato.MainActivity;
 import com.example.plato.R;
+import com.example.plato.SingletonUserContainer;
 import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
 
@@ -27,6 +30,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,22 +41,32 @@ public class LeaderBoardFrag extends Fragment {
     RecyclerView recyclerView;
     AdapterLeaderBoard adapter;
 
+    LinearLayout linearLayout1;
     TextView player1Name_tv;
     TextView player1Score_tv;
-    ImageView player1Score_iv;
+    ImageView player1Image_iv;
+    LinearLayout linearLayout2;
     TextView player2Name_tv;
     TextView player2Score_tv;
-    ImageView player2Score_iv;
+    ImageView player2Image_iv;
+    LinearLayout linearLayout3;
     TextView player3Name_tv;
     TextView player3Score_tv;
-    ImageView player3Score_iv;
+    ImageView player3Image_iv;
 
+    TextView myName_tv;
+    TextView myScore_tv;
+    ImageView myImage_iv;
 
     View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread thread = new Thread(new GetBestPlayerThread());
+        thread.start();
+        Log.i("where", "onCreate: leaderboard");
+
     }
 
     @Override
@@ -61,8 +76,36 @@ public class LeaderBoardFrag extends Fragment {
 
         Log.i("where", "onCreateView: leaderboard");
 
-        Thread thread = new Thread(new GetBestPlayerThread());
-        thread.start();
+        linearLayout1=view.findViewById(R.id.line1_linear);
+        linearLayout2=view.findViewById(R.id.line2_linear);
+        linearLayout3=view.findViewById(R.id.line3_linear);
+        player1Name_tv=view.findViewById(R.id.tv_leaderboard_1_name);
+        player2Name_tv=view.findViewById(R.id.tv_leaderboard_2_name);
+        player3Name_tv=view.findViewById(R.id.tv_leaderboard_3_name);
+        player1Score_tv=view.findViewById(R.id.tv_leaderboard_1_score);
+        player2Score_tv=view.findViewById(R.id.tv_leaderboard_2_score);
+        player3Score_tv=view.findViewById(R.id.tv_leaderboard_3_score);
+        player1Image_iv=view.findViewById(R.id.iv_leaderboard_1_image);
+        player2Image_iv=view.findViewById(R.id.iv_leaderboard_2_image);
+        player3Image_iv=view.findViewById(R.id.iv_leaderboard_3_image);
+
+
+        myName_tv=view.findViewById(R.id.tv_leaderboardFrag_MyName);
+        myImage_iv=view.findViewById(R.id.iv_leaderboardFrag_MyImage);
+        myScore_tv=view.findViewById(R.id.tv_leaderboardFrag_MyScore);
+
+
+        myName_tv.setText(MainActivity.userName);
+        int gameIndex=0;
+        if(StartGamePageActivity.game.getGame_name().equals("xo"))
+            gameIndex=0;
+        else if(StartGamePageActivity.game.getGame_name().equals("guess word"))
+            gameIndex=1;
+        else
+            gameIndex=2;
+        myScore_tv.setText(String.valueOf(SingletonUserContainer.getInstance().getGameScore().get(gameIndex)));
+        myImage_iv.setImageBitmap(MainActivity.profile_bitmap);
+
 
         bestPlayers=new ArrayList<>();
 
@@ -102,6 +145,13 @@ public class LeaderBoardFrag extends Fragment {
                     bestPlayers.add(bestPlayer);
 
                 }
+                Collections.sort(bestPlayers, new Comparator<BestPlayer>() {
+                    @Override
+                    public int compare(BestPlayer o1, BestPlayer o2) {
+                        return o1.getQueNo()-o2.getQueNo();
+                    }
+                });
+
                 Log.i("where", "bestplayerlenght : "+bestPlayers.size());
                 ArrayList<BestPlayer> bestPlayerAdapter = new ArrayList<>();
                 for (int i = 3; i < bestPlayers.size(); i++) {
@@ -112,6 +162,28 @@ public class LeaderBoardFrag extends Fragment {
                     public void run() {
                         Log.i("where", "bestplayeradapterlenght : "+bestPlayerAdapter.size()
                         );
+
+                        if(bestPlayers.size()>0){
+                            linearLayout1.setVisibility(View.VISIBLE);
+                            //player1Image_iv.setImageBitmap(ConvertBitmapByte.byteTobitmap(bestPlayers.get(0).getImage_bytes()));
+                            player1Name_tv.setText(bestPlayers.get(0).getName());
+                            player1Score_tv.setText(String.valueOf(bestPlayers.get(0).getScore()));
+                        }
+                        if(bestPlayers.size()>1){
+                            linearLayout2.setVisibility(View.VISIBLE);
+                           // player2Image_iv.setImageBitmap(ConvertBitmapByte.byteTobitmap(bestPlayers.get(1).getImage_bytes()));
+                            player2Name_tv.setText(bestPlayers.get(1).getName());
+                            player2Score_tv.setText(String.valueOf(bestPlayers.get(1).getScore()));
+                        }
+                        if(bestPlayers.size()>2){
+                            linearLayout3.setVisibility(View.VISIBLE);
+
+                            //player3Image_iv.setImageBitmap(ConvertBitmapByte.byteTobitmap(bestPlayers.get(2).getImage_bytes()));
+                            player3Name_tv.setText(bestPlayers.get(2).getName());
+                            player3Score_tv.setText(String.valueOf(bestPlayers.get(2).getScore()));
+                        }
+
+
                         recyclerView = view.findViewById(R.id.rc_leaderboardFrag_recyclerView);
                         adapter = new AdapterLeaderBoard(view.getContext(), bestPlayerAdapter);
                         recyclerView.setAdapter(adapter);

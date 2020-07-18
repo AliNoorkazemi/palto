@@ -112,7 +112,7 @@ public class RegisterPageActivity extends AppCompatActivity {
                                             }
                                         });
                                         is_valid[0] = false;
-                                    }else{
+                                    } else {
                                         is_valid[0] = true;
                                     }
                                 } catch (IOException io) {
@@ -209,8 +209,8 @@ public class RegisterPageActivity extends AppCompatActivity {
                                         dos.flush();
                                         for (int i = 0; i < byteArray.length; i++) {
                                             dos.writeByte(byteArray[i]);
-                                            dos.flush();
                                         }
+                                        dos.flush();
 
 
                                         intent.putExtra("profile", byteArray);
