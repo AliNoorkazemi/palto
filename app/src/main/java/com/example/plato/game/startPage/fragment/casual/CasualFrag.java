@@ -100,6 +100,8 @@ public class CasualFrag extends Fragment {
 
         view=inflater.inflate(R.layout.fragment_casual, container, false);
 
+        Log.i("where", "onCreateView: casualfrag");
+
 
         create_room_btn=view.findViewById(R.id.btn_casualFrag_createNewRoom);
         create_room_btn.setOnClickListener(new View.OnClickListener() {

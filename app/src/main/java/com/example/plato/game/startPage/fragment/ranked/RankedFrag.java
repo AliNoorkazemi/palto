@@ -52,6 +52,9 @@ public class RankedFrag extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_ranked, container, false);
 
+        Log.i("where", "onCreateView: rankedfrag");
+
+
         gameName_tv = view.findViewById(R.id.tv_rankedFrag_gameName);
         gameScore_tv = view.findViewById(R.id.tv_rankedFrag_gameScore);
         play_btn = view.findViewById(R.id.btn_rankedFrag_play);

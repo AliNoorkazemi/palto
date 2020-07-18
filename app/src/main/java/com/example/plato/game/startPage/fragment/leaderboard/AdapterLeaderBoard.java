@@ -37,8 +37,8 @@ public class AdapterLeaderBoard extends RecyclerView.Adapter<AdapterLeaderBoard.
     @Override
     public void onBindViewHolder(@NonNull ViewHolderAdapterLeaderBoard holder, int position) {
         BestPlayer bestPlayer=bestPlayers.get(position);
-        holder.queNo_tv.setText(bestPlayer.getQueNo());
         holder.name_tv.setText(bestPlayer.getName());
+        holder.queNo_tv.setText(bestPlayer.getQueNo());
         holder.score_tv.setText(bestPlayer.getScore());
         holder.image_iv.setImageBitmap(ConvertBitmapByte.byteTobitmap(bestPlayer.getImage_bytes()));
 
