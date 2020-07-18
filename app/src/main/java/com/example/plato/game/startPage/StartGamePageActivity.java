@@ -11,6 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.plato.R;
 import com.example.plato.game.Game;
 import com.example.plato.game.XO;
+import com.example.plato.game.dotsandboxes.DotsAndBoxes;
 import com.example.plato.game.guessword.GuessWord;
 import com.example.plato.game.startPage.fragment.casual.CasualFrag;
 import com.example.plato.game.startPage.fragment.leaderboard.LeaderBoardFrag;
@@ -54,6 +55,8 @@ public class StartGamePageActivity extends AppCompatActivity {
             game=(XO)g;
         }else if(g instanceof GuessWord){
             game = (GuessWord)g;
+        }else if(g instanceof DotsAndBoxes){
+            game=(DotsAndBoxes)g;
         }
     }
 }

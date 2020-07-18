@@ -19,6 +19,7 @@ import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
 import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.XOGamePageActivity;
+import com.example.plato.game.dotsandboxes.DotAndBoxPageActivity;
 import com.example.plato.game.guessword.GuessWordActivity;
 import com.example.plato.game.guessword.WaitingForGuessActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
@@ -122,7 +123,8 @@ public class RankedFrag extends Fragment {
                                             intent.putExtra("round",1);
                                             intent.putExtra("opponent",opponentName);
                                         } else if (gameIndex == 2) {//dotAndBox
-
+                                            intent=new Intent(view.getContext(), DotAndBoxPageActivity.class);
+                                            //put extra
                                         }
                                         play_btn.setClickable(true);
                                         if ( snackbar!= null)
@@ -169,7 +171,8 @@ public class RankedFrag extends Fragment {
                                                 intent.putExtra("round",1);
                                                 intent.putExtra("opponent",opponentName);
                                             } else if (gameIndex == 2) {//dotAndBox
-
+                                                intent=new Intent(view.getContext(), DotAndBoxPageActivity.class);
+                                                //put extra
                                             }
                                             if ( snackbar!= null)
                                                 snackbar.dismiss();
