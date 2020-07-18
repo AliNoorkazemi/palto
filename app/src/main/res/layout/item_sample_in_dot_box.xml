@@ -4,48 +4,48 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="13dp"
         android:id="@+id/iv_itemIn_dotBox_circle1"
-        android:layout_height="wrap_content"
+        android:layout_height="13dp"
         android:background="@drawable/brown_circle_boarder"/>
 
     <ImageView
-        android:layout_width="100dp"
+        android:layout_width="35dp"
         android:id="@+id/iv_itemIn_dotBox_linetop"
-        android:layout_height="24dp"
+        android:layout_height="10dp"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/iv_itemIn_dotBox_circle1"
         android:background="@drawable/brown_rectangle"/>
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="13dp"
         android:id="@+id/iv_itemIn_dotBox_circle2"
-        android:layout_height="wrap_content"
+        android:layout_height="13dp"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/iv_itemIn_dotBox_linetop"
         android:background="@drawable/brown_circle_boarder"/>
 
     <ImageView
-        android:layout_width="24dp"
+        android:layout_width="10dp"
         android:id="@+id/iv_itemIn_dotBox_lineleft"
-        android:layout_height="100dp"
+        android:layout_height="35dp"
         android:layout_marginTop="4dp"
         android:layout_below="@id/iv_itemIn_dotBox_circle1"
         android:background="@drawable/brown_rectangle"/>
 
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="13dp"
         android:id="@+id/iv_itemIn_dotBox_circle3"
-        android:layout_height="wrap_content"
+        android:layout_height="13dp"
         android:layout_marginTop="4dp"
         android:layout_below="@id/iv_itemIn_dotBox_lineleft"
         android:background="@drawable/brown_circle_boarder"/>
 
     <ImageView
-        android:layout_width="100dp"
+        android:layout_width="35dp"
         android:id="@+id/iv_itemIn_dotBox_linebottom"
-        android:layout_height="24dp"
+        android:layout_height="10dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="4dp"
         android:layout_below="@id/iv_itemIn_dotBox_lineleft"
@@ -53,9 +53,9 @@
         android:background="@drawable/brown_rectangle"/>
 
     <ImageView
-        android:layout_width="24dp"
+        android:layout_width="10dp"
         android:id="@+id/iv_itemIn_dotBox_lineright"
-        android:layout_height="100dp"
+        android:layout_height="35dp"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@id/iv_itemIn_dotBox_linetop"
@@ -65,9 +65,9 @@
 
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="13dp"
         android:id="@+id/iv_itemIn_dotBox_circle4"
-        android:layout_height="wrap_content"
+        android:layout_height="13dp"
         android:layout_marginTop="4dp"
         android:layout_toRightOf="@id/iv_itemIn_dotBox_linebottom"
         android:layout_below="@id/iv_itemIn_dotBox_lineright"
