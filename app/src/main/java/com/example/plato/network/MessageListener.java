@@ -73,7 +73,7 @@ public class MessageListener extends Thread {
             @Override
             public void run() {
                 try {
-                    Socket socket = new Socket("192.168.2.102", 6666);
+                    Socket socket = new Socket(SplashScreenActivity.IP, 6666);
                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("offline");
                     dos.flush();

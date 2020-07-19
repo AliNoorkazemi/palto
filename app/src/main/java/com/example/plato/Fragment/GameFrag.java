@@ -17,6 +17,7 @@ import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
+import com.example.plato.game.dotsandboxes.DotAndBoxPageActivity;
 import com.example.plato.game.guessword.GuessWordActivity;
 import com.example.plato.game.guessword.WaitingForGuessActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
@@ -55,7 +56,7 @@ public class GameFrag extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            Socket socket = new Socket("192.168.1.4", 6666);
+                            Socket socket = new Socket(SplashScreenActivity.IP, 6666);
                             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                             dos.writeUTF("game");
                             dos.writeUTF("getAllRooms");
@@ -165,7 +166,7 @@ public class GameFrag extends Fragment {
                                             @Override
                                             public void run() {
                                                 Intent intent=new Intent(view.getContext(), WaitingForGuessActivity.class);
-                                                intent.putExtra("areYouO",true);
+                                                intent.putExtra("gameState","Casual");
                                                 intent.putExtra("round",1);
                                                 intent.putExtra("opponent",room.getUsers().get(1));
                                                 intent.putExtra("RoomName",room.getRoom_name());
@@ -186,6 +187,72 @@ public class GameFrag extends Fragment {
                 }).start();
             }
         });
+
+        Button dotsAndBoxes=view.findViewById(R.id.btn_gameFrag_dotAndBox);
+        dotsAndBoxes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                            dos.writeUTF("game");
+                            dos.writeUTF("getAllRooms");
+                            dos.writeUTF("dots and boxes");
+
+                            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                            Map<String, ArrayList<String>> roomName_to_joined_user = (Map<String, ArrayList<String>>) ois.readObject();
+                            Map<String, Integer> roomName_to_maxPlayers = (Map<String, Integer>) ois.readObject();
+                            ArrayList<Room> rooms = new ArrayList<>();
+                            for (String str : roomName_to_joined_user.keySet()
+                            ) {
+                                Room room = new Room();
+                                room.setGame_name("dots and boxes");
+                                room.setRoom_name(str);
+                                room.setMax_players(roomName_to_maxPlayers.get(str));
+                                ArrayList<String> joined_user = roomName_to_joined_user.get(str);
+                                for (int i = 0; i < joined_user.size(); i++) {
+                                    room.joinRoom(joined_user.get(i));
+                                }
+                                rooms.add(room);
+                            }
+
+                            SingletonGameContainer.getDotsAndBoxes().setRooms(rooms);
+
+
+                            Intent intent = new Intent(view.getContext(), StartGamePageActivity.class);
+                            intent.putExtra("game name","dots and boxes");
+                            intent.putExtra("GAME", SingletonGameContainer.getDotsAndBoxes());
+                            new AddRoomListener().start();
+                            new ChangeInRoomListener(new ChangeInRoomListener.OnStartDotsAndBoxesGame() {
+                                @Override
+                                public void onStart(Room room, boolean is_start) {
+                                    if(is_start && room.getUsers().contains(MainActivity.userName)){
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Intent intent=new Intent(view.getContext(), DotAndBoxPageActivity.class);
+                                                intent.putExtra("gameState","Casual");//***
+                                                intent.putExtra("RoomName",room.getRoom_name());
+                                                startActivity(intent);
+                                            }
+                                        });
+                                    }
+                                }
+                            }).start();
+                            startActivity(intent);
+                        } catch (IOException | ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+
+            }
+        });
+
 
         return view;
     }

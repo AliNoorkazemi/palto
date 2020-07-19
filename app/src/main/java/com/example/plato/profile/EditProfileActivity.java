@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.example.plato.MainActivity;
 import com.example.plato.R;
+import com.example.plato.SplashScreenActivity;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -70,7 +71,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    socket = new Socket("192.168.2.102", 6666);
+                    socket = new Socket(SplashScreenActivity.IP, 6666);
                     dis = new DataInputStream(socket.getInputStream());
                     dos = new DataOutputStream(socket.getOutputStream());
                     dos.writeUTF("change profile");

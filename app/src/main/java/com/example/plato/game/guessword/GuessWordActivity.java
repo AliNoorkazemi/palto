@@ -19,10 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.plato.MainActivity;
+import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.guessword.WaitingForGuessActivity.setOnUpdateUiForGuessWordGameChanges;
 import com.example.plato.R;
 import com.example.plato.game.startPage.StartGamePageActivity;
+import com.example.plato.network.SendScoreToServer;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -36,12 +39,13 @@ public class GuessWordActivity extends AppCompatActivity {
     Integer round;
     String result;
     String room_name;
+    String gameState;
     private FrameLayout wonOrlose_frameLayout;
     private TextView wonOrLose_tv;
     private TextView player1_inbox_tv;
     private TextView player2_inbox_tv;
     private Button close_btn;
-    private static Context context ;
+    private static Context context;
     private ConstraintLayout constraintLayout;
     private static TextView guess_word_tv;
     private TextView validation_warning_tv;
@@ -55,17 +59,18 @@ public class GuessWordActivity extends AppCompatActivity {
         @Override
         public void onGetWord(String word) {
             GuessWordActivity.word = word;
+            guess_word_string = "";
             for (int i = 0; i < GuessWordActivity.word.length(); i++) {
-                Log.i("guess_word_string ",guess_word_string);
+                Log.i("guess_word_string ", guess_word_string);
                 guess_word_string += "?";
-                Log.i("guess_word_string ",guess_word_string);
+                Log.i("guess_word_string ", guess_word_string);
             }
             Activity origin = (Activity) context;
             origin.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     guess_word_tv.setText(guess_word_string);
-                    Log.i("guess_word_tv . text " , guess_word_tv.getText().toString());
+                    Log.i("guess_word_tv . text ", guess_word_tv.getText().toString());
                     chances_number_tv.setText(String.valueOf(word.length()));
                     progressDialog.cancel();
                 }
@@ -80,9 +85,12 @@ public class GuessWordActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         opponent = intent.getStringExtra("opponent");
-        round = intent.getIntExtra("round",1);
+        round = intent.getIntExtra("round", 1);
         result = intent.getStringExtra("winOrLose");
-        room_name = intent.getStringExtra("roomname");
+        gameState = intent.getStringExtra("gameState");
+        if(gameState.equals("Casual")) {
+            room_name = intent.getStringExtra("roomname");
+        }
 
         context = GuessWordActivity.this;
 
@@ -113,7 +121,7 @@ public class GuessWordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 InputMethodManager inputMethodManager = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),0);
+                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
 
@@ -121,7 +129,7 @@ public class GuessWordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 InputMethodManager inputMethodManager = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(),0);
+                inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 if (guess_word_et.getText().toString().equals(""))
                     Toast.makeText(GuessWordActivity.this, "please enter a letter before validate", Toast.LENGTH_SHORT).show();
                 else if (guess_word_et.getText().toString().length() > 1)
@@ -130,7 +138,7 @@ public class GuessWordActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            chances_number_tv.setText(String.valueOf(Integer.parseInt(chances_number_tv.getText().toString())-1));
+                            chances_number_tv.setText(String.valueOf(Integer.parseInt(chances_number_tv.getText().toString()) - 1));
                             boolean wrong = true;
                             for (int i = 0; i < word.length(); i++) {
                                 String str1 = String.valueOf(word.charAt(i));
@@ -144,12 +152,12 @@ public class GuessWordActivity extends AppCompatActivity {
                                 validation_warning_tv.setText("wrong");
                                 validation_warning_tv.setTextColor(Color.parseColor("#E53935"));
                                 validation_warning_tv.setVisibility(View.VISIBLE);
-                            }else {
+                            } else {
                                 boolean duplicated = false;
                                 for (int i = 0; i < word.length(); i++) {
                                     String str1 = String.valueOf(guess_word_tv.getText().toString().charAt(i));
                                     String str2 = guess_word_et.getText().toString();
-                                    if(str1.equalsIgnoreCase(str2)){
+                                    if (str1.equalsIgnoreCase(str2)) {
                                         duplicated = true;
                                         break;
                                     }
@@ -172,119 +180,75 @@ public class GuessWordActivity extends AppCompatActivity {
                                             converted += guess_word_tv.getText().toString().charAt(i);
                                     }
                                     guess_word_tv.setText(converted);
-                                    if(guess_word_tv.getText().toString().equals(word)){
-                                        if(round==2){
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        guessWordListener.dos.writeUTF(opponent);
-                                                        guessWordListener.dos.flush();
-                                                        guessWordListener.dos.writeUTF("win");
-                                                        guessWordListener.dos.flush();
-                                                    }catch (IOException io){
-                                                        io.printStackTrace();
-                                                    }
-                                                }
-                                            }).start();
-                                            validation_guess_btn.setVisibility(View.INVISIBLE);
-                                            wonOrlose_frameLayout.setVisibility(View.VISIBLE);
-                                            if (result.equals("win"))
-                                                wonOrLose_tv.setText("you won");
-                                            else if( result.equals("lose"))
-                                                wonOrLose_tv.setText("you are equal");
-                                            player1_inbox_tv.setText(MainActivity.userName);
-                                            player2_inbox_tv.setText(opponent);
-                                            close_btn.setOnClickListener(new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(View v) {
-                                                    new Thread(new Runnable() {
-                                                        @Override
-                                                        public void run() {
-                                                            try{
-                                                                Socket socket = new Socket("192.168.2.102",6666);
-                                                                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-                                                                dos.writeUTF("game");
-                                                                dos.flush();
-                                                                dos.writeUTF("removeRoom");
-                                                                dos.flush();
-                                                                dos.writeUTF("guess word");
-                                                                dos.flush();
-                                                                dos.writeUTF(room_name);
-                                                                dos.flush();
-                                                            }catch (IOException io){
-                                                                io.printStackTrace();
-                                                            }
-                                                        }
-                                                    }).start();
-                                                    finish();
-                                                }
-                                            });
-                                        }else {
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        guessWordListener.dos.writeUTF(opponent);
-                                                        guessWordListener.dos.flush();
-                                                        guessWordListener.dos.writeUTF("win");
-                                                        guessWordListener.dos.flush();
-                                                    }catch (IOException io){
-                                                        io.printStackTrace();
-                                                    }
-                                                }
-                                            }).start();
-                                            Intent intent_to_waiting_activity = new Intent(GuessWordActivity.this, WaitingForGuessActivity.class);
-                                            intent_to_waiting_activity.putExtra("opponent", opponent);
-                                            intent_to_waiting_activity.putExtra("round", round + 1);
-                                            intent_to_waiting_activity.putExtra("winOrLose", "win");
-                                            startActivity(intent_to_waiting_activity);
-                                            finish();
-                                        }
-                                    }
                                 }
                             }
-                            if(chances_number_tv.getText().toString().equals(String.valueOf(0))){
-                                if(round==2){
+                            if (guess_word_tv.getText().toString().equals(word)) {
+                                if (round == 2) {
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
                                             try {
                                                 guessWordListener.dos.writeUTF(opponent);
                                                 guessWordListener.dos.flush();
-                                                guessWordListener.dos.writeUTF("lose");
+                                                guessWordListener.dos.writeUTF("win");
                                                 guessWordListener.dos.flush();
-                                            }catch (IOException io){
+                                            } catch (IOException io) {
                                                 io.printStackTrace();
                                             }
                                         }
                                     }).start();
                                     validation_guess_btn.setVisibility(View.INVISIBLE);
                                     wonOrlose_frameLayout.setVisibility(View.VISIBLE);
+                                    String final_result = "";
                                     if (result.equals("win"))
-                                        wonOrLose_tv.setText("you are equal");
-                                    else if( result.equals("lose"))
-                                        wonOrLose_tv.setText("you lost");
+                                        final_result = "you won";
+                                    else if (result.equals("lose"))
+                                        final_result = "you are equal";
+                                    wonOrLose_tv.setText(final_result);
                                     player1_inbox_tv.setText(MainActivity.userName);
                                     player2_inbox_tv.setText(opponent);
+                                    if ( gameState.equals("Ranked")) {
+                                        if (final_result.equals("you won")) {
+                                            int score = SingletonUserContainer.getInstance().getGameScore().get(1);
+                                            SingletonUserContainer.getInstance().getGameScore().set(1, score + 20);
+                                            SendScoreToServer sendScoreToServer = new SendScoreToServer(1, score + 20);
+                                            Thread thread = new Thread(sendScoreToServer);
+                                            thread.start();
+                                        } else if (final_result.equals("you are equal")) {
+                                            int score = SingletonUserContainer.getInstance().getGameScore().get(1);
+                                            SingletonUserContainer.getInstance().getGameScore().set(1, score + 10);
+                                            SendScoreToServer sendScoreToServer = new SendScoreToServer(1, score + 10);
+                                            Thread thread = new Thread(sendScoreToServer);
+                                            thread.start();
+                                        }
+                                    }
                                     close_btn.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             new Thread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    try{
-                                                        Socket socket = new Socket("192.168.2.102",6666);
+                                                    try {
+                                                        Socket socket = new Socket(SplashScreenActivity.IP, 6666);
                                                         DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-                                                        dos.writeUTF("game");
-                                                        dos.flush();
-                                                        dos.writeUTF("removeRoom");
-                                                        dos.flush();
-                                                        dos.writeUTF("guess word");
-                                                        dos.flush();
-                                                        dos.writeUTF(room_name);
-                                                        dos.flush();
-                                                    }catch (IOException io){
+                                                        if (gameState.equals("Casual")) {//***
+                                                            dos.writeUTF("game");
+                                                            dos.flush();
+                                                            dos.writeUTF("removeRoom");
+                                                            dos.flush();
+                                                            dos.writeUTF("guess word");
+                                                            dos.flush();
+                                                            dos.writeUTF(room_name);
+                                                            dos.flush();
+                                                        } else {
+                                                            dos.writeUTF("removePlayerFromRankedGame");
+                                                            dos.flush();
+                                                            dos.writeInt(1);
+                                                            dos.flush();
+                                                            dos.writeUTF(MainActivity.userName);
+                                                            dos.flush();
+                                                        }
+                                                    } catch (IOException io) {
                                                         io.printStackTrace();
                                                     }
                                                 }
@@ -292,7 +256,30 @@ public class GuessWordActivity extends AppCompatActivity {
                                             finish();
                                         }
                                     });
-                                }else {
+                                } else {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                guessWordListener.dos.writeUTF(opponent);
+                                                guessWordListener.dos.flush();
+                                                guessWordListener.dos.writeUTF("win");
+                                                guessWordListener.dos.flush();
+                                            } catch (IOException io) {
+                                                io.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                    Intent intent_to_waiting_activity = new Intent(GuessWordActivity.this, WaitingForGuessActivity.class);
+                                    intent_to_waiting_activity.putExtra("opponent", opponent);
+                                    intent_to_waiting_activity.putExtra("round", round + 1);
+                                    intent_to_waiting_activity.putExtra("gameState",gameState);
+                                    intent_to_waiting_activity.putExtra("winOrLose", "win");
+                                    startActivity(intent_to_waiting_activity);
+                                    finish();
+                                }
+                            }else if (chances_number_tv.getText().toString().equals(String.valueOf(0))) {
+                                if (round == 2) {
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -301,7 +288,74 @@ public class GuessWordActivity extends AppCompatActivity {
                                                 guessWordListener.dos.flush();
                                                 guessWordListener.dos.writeUTF("lose");
                                                 guessWordListener.dos.flush();
-                                            }catch (IOException io){
+                                            } catch (IOException io) {
+                                                io.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                    validation_guess_btn.setVisibility(View.INVISIBLE);
+                                    wonOrlose_frameLayout.setVisibility(View.VISIBLE);
+                                    String final_result = "";
+                                    if (result.equals("win"))
+                                        final_result = "you are equal";
+                                    else if (result.equals("lose"))
+                                        final_result = "you lost";
+                                    wonOrLose_tv.setText(final_result);
+                                    player1_inbox_tv.setText(MainActivity.userName);
+                                    player2_inbox_tv.setText(opponent);
+                                    if( gameState.equals("Ranked")){
+                                        if ( final_result.equals("you are equal")){
+                                            int score = SingletonUserContainer.getInstance().getGameScore().get(1);
+                                            SingletonUserContainer.getInstance().getGameScore().set(1, score + 10);
+                                            SendScoreToServer sendScoreToServer = new SendScoreToServer(1, score + 10);
+                                            Thread thread = new Thread(sendScoreToServer);
+                                            thread.start();
+                                        }
+                                    }
+                                    close_btn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    try {
+                                                        Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                                                        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                                                        if (gameState.equals("Casual")) {//***
+                                                            dos.writeUTF("game");
+                                                            dos.flush();
+                                                            dos.writeUTF("removeRoom");
+                                                            dos.flush();
+                                                            dos.writeUTF("guess word");
+                                                            dos.flush();
+                                                            dos.writeUTF(room_name);
+                                                            dos.flush();
+                                                        } else {
+                                                            dos.writeUTF("removePlayerFromRankedGame");
+                                                            dos.flush();
+                                                            dos.writeInt(1);
+                                                            dos.flush();
+                                                            dos.writeUTF(MainActivity.userName);
+                                                            dos.flush();
+                                                        }
+                                                    } catch (IOException io) {
+                                                        io.printStackTrace();
+                                                    }
+                                                }
+                                            }).start();
+                                            finish();
+                                        }
+                                    });
+                                } else {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                guessWordListener.dos.writeUTF(opponent);
+                                                guessWordListener.dos.flush();
+                                                guessWordListener.dos.writeUTF("lose");
+                                                guessWordListener.dos.flush();
+                                            } catch (IOException io) {
                                                 io.printStackTrace();
                                             }
                                         }
@@ -309,6 +363,7 @@ public class GuessWordActivity extends AppCompatActivity {
                                     Intent intent_to_waiting_activity = new Intent(GuessWordActivity.this, WaitingForGuessActivity.class);
                                     intent_to_waiting_activity.putExtra("opponent", opponent);
                                     intent_to_waiting_activity.putExtra("round", round + 1);
+                                    intent_to_waiting_activity.putExtra("gameState",gameState);
                                     intent_to_waiting_activity.putExtra("winOrLose", "lose");
                                     startActivity(intent_to_waiting_activity);
                                     finish();
@@ -322,7 +377,7 @@ public class GuessWordActivity extends AppCompatActivity {
         });
     }
 
-    public static interface SetOnGetWord{
+    public static interface SetOnGetWord {
         void onGetWord(String word);
     }
 }

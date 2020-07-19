@@ -18,9 +18,11 @@ import android.widget.Toast;
 
 import com.example.plato.MainActivity;
 import com.example.plato.R;
+import com.example.plato.SingletonUserContainer;
 import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.startPage.StartGamePageActivity;
+import com.example.plato.network.SendScoreToServer;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -44,6 +46,7 @@ public class WaitingForGuessActivity extends AppCompatActivity {
     Integer round;
     String result;
     String room_name;
+    String gameState;
     private FrameLayout wonOrlose_frameLayout;
     private TextView wonOrLose_tv;
     private TextView player1_inbox_tv;
@@ -74,14 +77,15 @@ public class WaitingForGuessActivity extends AppCompatActivity {
         round = intent.getIntExtra("round",1);
         Log.i("listening round two",String.valueOf(round));
         result = intent.getStringExtra("winOrLose");
-        room_name = intent.getStringExtra("RoomName");
+        gameState = intent.getStringExtra("gameState");
+        if ( gameState.equals("Casual"))
+            room_name = intent.getStringExtra("RoomName");
 
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try{
-                    Log.i("listening round two","ksfjdlajfld;lsafl;as;flsdafjlsadfsdjf;s");
-                    Socket socket = new Socket("192.168.1.4",6666);
+                    Socket socket = new Socket(SplashScreenActivity.IP,6666);
                     DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                     DataInputStream dis = new DataInputStream(socket.getInputStream());
                     dos.writeUTF("listening round two");
@@ -96,17 +100,33 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                String final_result = "";
                                 wonOrlose_frameLayout.setVisibility(View.VISIBLE);
                                 if (winOrLose.equals("win") && result.equals("win"))
-                                    wonOrLose_tv.setText("you won");
+                                    final_result = "you won";
                                 else if ( winOrLose.equals("lose")&& result.equals("lose"))
-                                    wonOrLose_tv.setText("you lost");
+                                    final_result = "you lost";
                                 else if ( (winOrLose.equals("win") && result.equals("lose"))||
-                                    (winOrLose.equals("lose")&& result.equals("win"))) {
-                                    wonOrLose_tv.setText("you are equal");
-                                }
+                                    (winOrLose.equals("lose")&& result.equals("win")))
+                                    final_result = "you are equal";
+                                wonOrLose_tv.setText(final_result);
                                 player1_inbox_tv.setText(MainActivity.userName);
                                 player2_inbox_tv.setText(opponent);
+                                if ( gameState.equals("Ranked")) {
+                                    if (final_result.equals("you won")) {
+                                        int score = SingletonUserContainer.getInstance().getGameScore().get(1);
+                                        SingletonUserContainer.getInstance().getGameScore().set(1, score + 20);
+                                        SendScoreToServer sendScoreToServer = new SendScoreToServer(1, score + 20);
+                                        Thread thread = new Thread(sendScoreToServer);
+                                        thread.start();
+                                    } else if (final_result.equals("you are equal")) {
+                                        int score = SingletonUserContainer.getInstance().getGameScore().get(1);
+                                        SingletonUserContainer.getInstance().getGameScore().set(1, score + 10);
+                                        SendScoreToServer sendScoreToServer = new SendScoreToServer(1, score + 10);
+                                        Thread thread = new Thread(sendScoreToServer);
+                                        thread.start();
+                                    }
+                                }
                                 close_btn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -120,6 +140,7 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                         intent_to_guess_activity.putExtra("opponent", opponent);
                         intent_to_guess_activity.putExtra("round", round + 1);
                         intent_to_guess_activity.putExtra("winOrLose",winOrLose);
+                        intent_to_guess_activity.putExtra("gameState",gameState);
                         intent_to_guess_activity.putExtra("roomname",room_name);
                         startActivity(intent_to_guess_activity);
                         finish();
