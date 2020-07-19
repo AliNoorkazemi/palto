@@ -33,7 +33,7 @@ public class SingletonGameContainer {
     public static DotsAndBoxes getDotsAndBoxes(){
         if( dotsAndBoxesInstance == null){
             dotsAndBoxesInstance = new DotsAndBoxes();
-            dotsAndBoxesInstance.setGame_name("dost and boxes");
+            dotsAndBoxesInstance.setGame_name("dots and boxes");
         }
         return dotsAndBoxesInstance;
     }

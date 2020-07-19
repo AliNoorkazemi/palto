@@ -27,6 +27,7 @@ import com.example.plato.MainActivity;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
 import com.example.plato.SplashScreenActivity;
+import com.example.plato.game.Game;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
@@ -53,7 +54,23 @@ public class CasualFrag extends Fragment {
     static AdapterCasual adapter;
 
 
-    public static AddRoomListener.onUpdateUiForAddRoom onUpdateUiForAddRoom=new AddRoomListener.onUpdateUiForAddRoom() {
+    public static ChangeInRoomListener.onUpdateUiForDeleteRoom onUpdateUiForDeleteRoom=new ChangeInRoomListener.onUpdateUiForDeleteRoom() {
+        @Override
+        public void onUpdate(int index) {
+            if (adapter != null) {
+                Activity origin = (Activity) adapter.context;
+                origin.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyItemRemoved(index);
+                        Log.i("where", "onUpdateUiForIAddRoom for casual frag...." + adapter.rooms.size());
+                    }
+                });
+            }
+        }
+    };
+
+    public static AddRoomListener.onUpdateUiForAddRoom onUpdateUiForAddRoom = new AddRoomListener.onUpdateUiForAddRoom() {
         @Override
         public void onUpdate() {
             if (adapter != null) {
@@ -61,33 +78,33 @@ public class CasualFrag extends Fragment {
                 origin.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
-                        Log.i("where", "onUpdateUiForIAddRoom for casual frag...."+adapter.rooms.size());
+                        adapter.notifyItemInserted(adapter.rooms.size()-1);
+                        Log.i("where", "onUpdateUiForIAddRoom for casual frag...." + adapter.rooms.size());
                     }
                 });
             }
         }
     };
 
-    public static ChangeInRoomListener.onUpdateUiForChangeRoom onUpdateUiForChangeRoom=new ChangeInRoomListener.onUpdateUiForChangeRoom() {
+    public static ChangeInRoomListener.onUpdateUiForChangeRoom onUpdateUiForChangeRoom = new ChangeInRoomListener.onUpdateUiForChangeRoom() {
         @Override
-        public void onUpdate() {
+        public void onUpdate(int index) {
             if (adapter != null) {
                 Activity origin = (Activity) adapter.context;
                 origin.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
-                        Log.i("where", "onUpdateUiforChangeRoom for casual frag...."+adapter.rooms.size());
+                        adapter.notifyItemChanged(index);
+                        Log.i("where", "onUpdateUiforChangeRoom for casual frag...." + adapter.rooms.size());
                     }
                 });
             }
         }
     };
-
 
 
     View view;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,18 +115,18 @@ public class CasualFrag extends Fragment {
                              Bundle savedInstanceState) {
         Log.i("where", "onCreateView: ");
 
-        view=inflater.inflate(R.layout.fragment_casual, container, false);
+        view = inflater.inflate(R.layout.fragment_casual, container, false);
 
         Log.i("where", "onCreateView: casualfrag");
 
 
-        create_room_btn=view.findViewById(R.id.btn_casualFrag_createNewRoom);
+        create_room_btn = view.findViewById(R.id.btn_casualFrag_createNewRoom);
         create_room_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(view.getContext(),CreateNewRoomActivity.class);
-                Log.i("go to create activity " , "go to create activity ");
-                startActivityForResult(intent,1002);
+                Intent intent = new Intent(view.getContext(), CreateNewRoomActivity.class);
+                Log.i("go to create activity ", "go to create activity ");
+                startActivityForResult(intent, 1002);
             }
         });
 
@@ -117,28 +134,31 @@ public class CasualFrag extends Fragment {
         initRecycler();
 
 
-
         return view;
     }
 
     private void initRecycler() {
-        recyclerView=view.findViewById(R.id.rc_casualFrag_recycler);
+        recyclerView = view.findViewById(R.id.rc_casualFrag_recycler);
         ArrayList<Room> rooms = new ArrayList<>();
-        if(StartGamePageActivity.game_name.equals("xo"))
+        if (StartGamePageActivity.game_name.equals("xo"))
             rooms = SingletonGameContainer.getXoInstance().getRooms();
         else if (StartGamePageActivity.game_name.equals("guess word"))
             rooms = SingletonGameContainer.getGuessWord().getRooms();
-        adapter=new AdapterCasual(view.getContext(),rooms, new AdapterCasual.OnItemInCasualClickListener() {
+        else if(StartGamePageActivity.game_name.equals("dots and boxes")){
+            rooms = SingletonGameContainer.getDotsAndBoxes().getRooms();
+        }
+        adapter = new AdapterCasual(view.getContext(), rooms, new AdapterCasual.OnItemInCasualClickListener() {
             @Override
             public void onClick(Room room) {
-                if(room.getMax_players()>room.getUsers().size()){
-                    if(!room.getUsers().contains(MainActivity.userName)){
+                if (room.getMax_players() > room.getUsers().size()) {
+                    if (!room.getUsers().contains(MainActivity.userName)) {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    Socket socket=new Socket(SplashScreenActivity.IP,6666);
-                                    DataOutputStream dos=new DataOutputStream(socket.getOutputStream());
+                                    Log.i("where", "onclickinCasual  "+room.getRoom_name() );
+                                    Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                                    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
                                     dos.writeUTF("game");
                                     dos.flush();
                                     dos.writeUTF("update");
@@ -158,51 +178,52 @@ public class CasualFrag extends Fragment {
                             }
                         }).start();
 
-                        ProgressDialog progressDialog;
-                        progressDialog = new ProgressDialog(getActivity());
-                        progressDialog.setTitle("joining to the game...");
-                        progressDialog.setIndeterminate(true);
-                        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                        progressDialog.show();
+                        if (!StartGamePageActivity.game.getGame_name().equals("dots and boxes")) {
+                            ProgressDialog progressDialog;
+                            progressDialog = new ProgressDialog(getActivity());
+                            progressDialog.setTitle("joining to the game...");
+                            progressDialog.setIndeterminate(true);
+                            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                            progressDialog.show();
 
-                        Thread thread = new Thread() {
-                            @Override
-                            public void run() {
-                                int jump = 0;
-                                while (jump < 10) {
-                                    try {
-                                        sleep(200);
-                                        jump+=5;
-                                        progressDialog.setProgress(jump);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
+                            Thread thread = new Thread() {
+                                @Override
+                                public void run() {
+                                    int jump = 0;
+                                    while (jump < 10) {
+                                        try {
+                                            sleep(200);
+                                            jump += 5;
+                                            progressDialog.setProgress(jump);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
+                                    progressDialog.dismiss();
                                 }
-                                progressDialog.dismiss();
+                            };
+                            thread.start();
+
+
+                            if (StartGamePageActivity.game_name.equals("xo")) {
+                                Intent intent = new Intent(getActivity(), XOGamePageActivity.class);
+                                intent.putExtra("gameState", "Casual");//***
+                                intent.putExtra("areYouO", false);
+                                intent.putExtra("opponent", room.getUsers().get(0));
+                                startActivity(intent);
+                            } else if (StartGamePageActivity.game_name.equals("guess word")) {
+                                Intent intent = new Intent(getActivity(), GuessWordActivity.class);
+                                intent.putExtra("gameState", "Casual");
+                                intent.putExtra("round", 1);
+                                intent.putExtra("opponent", room.getUsers().get(0));
+                                startActivity(intent);
                             }
-                        };
-                        thread.start();
-
-
-                        if (StartGamePageActivity.game_name.equals("xo")){
-                            Intent intent=new Intent(getActivity(),XOGamePageActivity.class);
-                            intent.putExtra("gameState","Casual");//***
-                            intent.putExtra("areYouO",false);
-                            intent.putExtra("opponent",room.getUsers().get(0));
-                            startActivity(intent);
-                        }else if (StartGamePageActivity.game_name.equals("guess word")){
-                            Intent intent = new Intent(getActivity(), GuessWordActivity.class);
-                            intent.putExtra("gameState","Casual");
-                            intent.putExtra("round", 1);
-                            intent.putExtra("opponent",room.getUsers().get(0));
-                            startActivity(intent);
                         }
-
                     }
                 }
             }
         });
-        LinearLayoutManager layoutManager=new LinearLayoutManager(view.getContext(),RecyclerView.VERTICAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
