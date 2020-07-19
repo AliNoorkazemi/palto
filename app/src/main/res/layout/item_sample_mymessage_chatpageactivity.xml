@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="right">
+    android:gravity="right"
+    android:orientation="horizontal">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_itemInRecycler_mycomeMessage_time"
-        android:text="9:46 Am"
-        android:layout_gravity="bottom"/>
+        android:background="@drawable/my_message_boarder">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tv_itemInRecycler_myMessage_message"
-        android:background="@drawable/my_message_boarder"
-        android:text="my message"
-        android:padding="8dp"
-        android:layout_margin="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_itemInRecycler_myMessage_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="my message" />
+
+
+        <TextView
+            android:id="@+id/tv_itemInRecycler_mycomeMessage_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="9:46 Am"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="1dp"
+            android:textSize="10sp" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

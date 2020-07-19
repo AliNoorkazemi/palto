@@ -17,15 +17,18 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_profileActivity"
                 android:layout_width="match_parent"
+                android:background="@color/toolbar_gray_color"
                 android:layout_height="?attr/actionBarSize" >
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Profile"
-                    android:textColor="@color/white"
+                    android:layout_marginRight="24dp"
+                    android:text="@string/profile"
+                    android:gravity="center"
+                    android:textColor="@color/blueGray"
                     android:textStyle="bold"
-                    android:textSize="23sp"
-                    android:gravity="center"/>
+                    android:textSize="22sp"
+                    android:textAlignment="center"/>
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
@@ -40,7 +43,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
-                android:background="#E3F2FD">
+                android:background="@color/light_light_blue">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cv_profileAvtivity_imgHolder"
@@ -61,7 +64,7 @@
                         android:id="@+id/ib_profileActivity_editAvatarImg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity=" end |bottom"
+                        android:layout_gravity="bottom|end"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="8dp"
                         android:background="@android:color/transparent"
@@ -83,7 +86,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:textSize="20sp"
+                        android:layout_centerHorizontal="true"
                         android:textStyle="bold"
+                        android:textAlignment="center"
                         tools:text="ali noorkazemi" />
 
                     <TextView
@@ -92,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tv_profileActivity_username"
                         android:layout_centerHorizontal="true"
-                        android:text="Edit"
+                        android:text="@string/edit_profile"
                         android:clickable="true"
                         android:layout_marginTop="4dp"
                         android:textColor="@android:color/holo_blue_dark"

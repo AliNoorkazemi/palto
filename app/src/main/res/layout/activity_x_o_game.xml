@@ -1,82 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_dark"
+    android:background="@drawable/xo_background"
     android:fitsSystemWindows="true"
     tools:context=".game.XOGamePageActivity">
 
 
-    <TextView
-        android:layout_width="100dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="32dp"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_xoGamePageActivity_cardView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:backgroundTint="#212121"
+            app:cardCornerRadius="40dp">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:id="@+id/iv_xoGamePageActivity_player1Oimg"
+                android:background="@drawable/o_background"
+                />
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            tools:text="player1:"
+            android:layout_centerVertical="true"
+            android:maxLines="1"
+            android:layout_marginLeft="16dp"
+            android:paddingLeft="44dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/boarder_in_xo_game"
+            android:paddingBottom="10dp"
+            android:id="@+id/tv_xoGamePageActivity_player1Name"
+            android:textSize="22sp"
+            android:textAlignment="center"
+            android:textColor="@color/white"/>
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_xoGamePageActivity_player1turnImg"
+            android:layout_marginLeft="160dp"
+            android:background="@drawable/ic_keyboard_arrow_left_24dp"
+            />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        tools:text="player1:"
-        android:maxLines="1"
-        android:id="@+id/tv_xoGamePageActivity_player1Name"
-        android:textSize="32sp"
-        android:textColor="@color/white"/>
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/iv_xoGamePageActivity_player1Oimg"
-        android:background="@drawable/o_background"
-        android:layout_toRightOf="@id/tv_xoGamePageActivity_player1Name"
-        />
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:id="@+id/iv_xoGamePageActivity_player1turnImg"
-        android:layout_marginLeft="16dp"
-        android:background="@drawable/ic_keyboard_arrow_left_24dp"
-        android:layout_toRightOf="@id/iv_xoGamePageActivity_player1Oimg"
-        />
-
-    <TextView
-        android:id="@+id/tv_xoGamePageActivity_player2Name"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_below="@id/tv_xoGamePageActivity_player1Name"
-        android:textColor="@color/white"
-        android:textSize="32sp"
-        android:maxLines="1"
-        tools:text="player2:" />
-
-    <ImageView
-        android:id="@+id/iv_xoGamePageActivity_player2ximg"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="35dp"
-        android:layout_below="@id/iv_xoGamePageActivity_player1Oimg"
-        android:layout_toRightOf="@id/tv_xoGamePageActivity_player1Name"
-        android:background="@drawable/x_background" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="75dp">
 
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="35dp"
-        android:id="@+id/iv_xoGamePageActivity_player2turnImg"
-        android:layout_marginLeft="16dp"
-        android:visibility="invisible"
-        android:layout_below="@+id/iv_xoGamePageActivity_player1turnImg"
-        android:background="@drawable/ic_keyboard_arrow_left_24dp"
-        android:layout_toRightOf="@id/iv_xoGamePageActivity_player2ximg"
-        />
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_xoGamePageActivity_cardView2"
+            android:layout_width="80dp"
+            android:layout_alignParentRight="true"
+            android:layout_height="80dp"
+            android:backgroundTint="#212121"
+            app:cardCornerRadius="40dp">
+
+            <ImageView
+                android:id="@+id/iv_xoGamePageActivity_player2ximg"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="@drawable/x_background" />
+
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_xoGamePageActivity_player2Name"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textSize="22sp"
+            android:paddingLeft="12dp"
+            android:background="@drawable/boarder_in_xo_game"
+            android:maxLines="1"
+            tools:text="player2:" />
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="35dp"
+            android:id="@+id/iv_xoGamePageActivity_player2turnImg"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="80dp"
+            android:visibility="invisible"
+            android:background="@drawable/ic_keyboard_arrow_left_24dp"
+            />
+
+
+
+
+    </RelativeLayout>
+
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="150dp"
-        android:layout_below="@id/iv_xoGamePageActivity_player1turnImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:padding="16dp">
 
         <Button
@@ -223,8 +276,10 @@
     <FrameLayout
         android:layout_width="400dp"
         android:layout_height="300dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:background="@drawable/close_box"
         android:visibility="gone"
         android:id="@+id/frameLayout_xoGamePageActivity_wonOrLoseBox">
@@ -286,4 +341,4 @@
 
     </FrameLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

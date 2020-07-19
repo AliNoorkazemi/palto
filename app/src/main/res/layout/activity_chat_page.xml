@@ -13,6 +13,7 @@
         android:id="@+id/appbarLayout_chatPageActivity">
 
         <androidx.appcompat.widget.Toolbar
+            android:background="@color/colorPrimaryDark"
             android:id="@+id/toolbar_chatPageActivity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
@@ -24,6 +25,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="46dp"
                     android:layout_height="46dp"
+                    android:layout_marginLeft="28dp"
                     android:id="@+id/cv_chatPageActivity_profileContainer"
                     app:cardCornerRadius="23dp">
 
@@ -50,6 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="online"
+                    android:textColor="@color/white"
                     android:layout_toRightOf="@id/cv_chatPageActivity_profileContainer"
                     android:layout_below="@id/tv_chatPageActivity_friendName"
                     android:layout_marginLeft="16dp"
@@ -73,6 +76,8 @@
         android:id="@+id/linearlayout_chatPageActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="4dp"
+
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -81,17 +86,29 @@
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="28dp"
             android:background="@drawable/edittext_chatbox"
             android:hint="@string/type_message_here"
             android:paddingStart="16dp"
             android:paddingEnd="16dp" />
 
-        <ImageButton
-            android:id="@+id/ib_chatPageActivity_sendBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_send_black_24dp" />
+        <androidx.cardview.widget.CardView
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_width="40dp"
+            android:layout_marginLeft="8dp"
+            android:layout_height="40dp"
+            app:cardCornerRadius="20dp">
+            <ImageButton
+                android:id="@+id/ib_chatPageActivity_sendBtn"
+                android:layout_width="25dp"
+                android:layout_gravity="center"
+                android:layout_height="25dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/ic_send_black_24dp" />
+
+        </androidx.cardview.widget.CardView>
+
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -6,12 +6,5 @@
     tools:context=".Fragment.HomeFrag">
 
 
-    <ImageView
-        android:layout_width="100dp"
-        android:id="@+id/iv_testimg"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_person_75dp"
-        android:layout_centerVertical="true"
-         />
 
 </RelativeLayout>

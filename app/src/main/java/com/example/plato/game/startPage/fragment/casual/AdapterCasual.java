@@ -46,11 +46,17 @@ public class AdapterCasual extends RecyclerView.Adapter<AdapterCasual.ViewHolder
             holder.roomState_tv.setText("watch");
         }
 
-        if(room.getRoom_name().equals("xo")){
-            holder.roomImage_iv.setBackground(context.getDrawable(R.drawable.xo_icon));
-        }else if(room.getRoom_name().equals("guess word"))
-            holder.roomImage_iv.setBackground(context.getDrawable(R.drawable.guessword_icon));
-
+        switch (room.getGame_name()) {
+            case "xo":
+                holder.roomImage_iv.setBackground(context.getDrawable(R.drawable.xo_icon));
+                break;
+            case "guess word":
+                holder.roomImage_iv.setBackground(context.getDrawable(R.drawable.guessword_icon));
+                break;
+            case "dots and boxes":
+                holder.roomImage_iv.setBackground(context.getDrawable(R.drawable.dots_and_boxes_icon_in_casual));
+                break;
+        }
 
         holder.roomName_tv.setText(room.getRoom_name());
         holder.countPlayers_tv.setText(room.getUsers().size() + "/" + room.getMax_players() + "  players");

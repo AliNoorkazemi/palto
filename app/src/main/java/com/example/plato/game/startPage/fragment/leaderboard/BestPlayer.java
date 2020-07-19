@@ -3,7 +3,6 @@ package com.example.plato.game.startPage.fragment.leaderboard;
 public class BestPlayer {
     private String Name;
     private int Score;
-    private int queNo;
     private byte[] image_bytes;
 
     public byte[] getImage_bytes() {
@@ -30,11 +29,4 @@ public class BestPlayer {
         Score = score;
     }
 
-    public int getQueNo() {
-        return queNo;
-    }
-
-    public void setQueNo(int queNo) {
-        this.queNo = queNo;
-    }
 }

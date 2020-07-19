@@ -63,8 +63,6 @@ public class LeaderBoardFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Thread thread = new Thread(new GetBestPlayerThread());
-        thread.start();
         Log.i("where", "onCreate: leaderboard");
 
     }
@@ -75,6 +73,11 @@ public class LeaderBoardFrag extends Fragment {
         view = inflater.inflate(R.layout.fragment_leader_board, container, false);
 
         Log.i("where", "onCreateView: leaderboard");
+
+
+        bestPlayers=new ArrayList<>();
+        Thread thread = new Thread(new GetBestPlayerThread());
+        thread.start();
 
         linearLayout1=view.findViewById(R.id.line1_linear);
         linearLayout2=view.findViewById(R.id.line2_linear);
@@ -107,7 +110,6 @@ public class LeaderBoardFrag extends Fragment {
         myImage_iv.setImageBitmap(MainActivity.profile_bitmap);
 
 
-        bestPlayers=new ArrayList<>();
 
         return view;
     }
@@ -126,7 +128,6 @@ public class LeaderBoardFrag extends Fragment {
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
                 Map<String, Integer> name_score = (Map<String, Integer>) ois.readObject();
-                Map<String, Integer> name_ranked = (Map<String, Integer>) ois.readObject();
                 Map<String, byte[]> name_image = (Map<String, byte[]>) ois.readObject();
 
                 for (String name :
@@ -134,7 +135,6 @@ public class LeaderBoardFrag extends Fragment {
                     BestPlayer bestPlayer = new BestPlayer();
                     bestPlayer.setName(name);
                     bestPlayer.setScore(name_score.get(name));
-                    bestPlayer.setQueNo(name_ranked.get(name));
                     if (name_image.containsKey(name)) {
                         bestPlayer.setImage_bytes(name_image.get(name));
                     } else {
@@ -148,7 +148,7 @@ public class LeaderBoardFrag extends Fragment {
                 Collections.sort(bestPlayers, new Comparator<BestPlayer>() {
                     @Override
                     public int compare(BestPlayer o1, BestPlayer o2) {
-                        return o1.getQueNo()-o2.getQueNo();
+                        return o1.getScore()-o2.getScore();
                     }
                 });
 
