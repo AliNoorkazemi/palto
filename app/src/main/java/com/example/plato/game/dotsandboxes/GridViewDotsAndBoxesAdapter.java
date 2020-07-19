@@ -195,7 +195,7 @@ public class GridViewDotsAndBoxesAdapter extends BaseAdapter {
                                     }
                                     if ( !viewHolders.get(position+6).line_horizontal_right.isClickable()&&
                                             !viewHolders.get(position+6).line_vertical_bottom.isClickable()&&
-                                            !viewHolders.get(position+5).line_horizontal_left.isClickable()){
+                                            !viewHolders.get(position+5).line_horizontal_right.isClickable()){
                                         prize = true;
                                         ++DotAndBoxPageActivity.my_score;
                                     }
@@ -430,7 +430,7 @@ public class GridViewDotsAndBoxesAdapter extends BaseAdapter {
                                 }else{
                                     boolean prize = false;
                                     if (!viewHolders.get(position-1).line_horizontal_right.isClickable()&&
-                                            !viewHolders.get(position-1).line_vertical_bottom.isClickable()&&
+                                            !viewHolders.get(position-6).line_vertical_bottom.isClickable()&&
                                             !viewHolder.line_vertical_bottom.isClickable()) {
                                         prize = true;
                                         ++DotAndBoxPageActivity.my_score;
