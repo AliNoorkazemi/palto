@@ -8,6 +8,23 @@
     android:background="@drawable/wooden_background"
     tools:context=".game.guessword.GuessWordActivity">
 
+
+    <TextView
+        android:id="@+id/tv_timer_in_GuessWord_activity"
+        android:textStyle="bold|italic"
+        android:textColor="#0C0C0B"
+        android:textSize="35sp"
+        android:text="30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        android:layout_margin="35dp"
+        />
+
+
     <TextView
         android:id="@+id/word_tobe_guess"
         android:layout_width="wrap_content"

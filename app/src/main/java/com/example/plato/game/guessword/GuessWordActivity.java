@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,6 +31,8 @@ import com.example.plato.network.SendScoreToServer;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class GuessWordActivity extends AppCompatActivity {
@@ -55,6 +58,8 @@ public class GuessWordActivity extends AppCompatActivity {
     private static String guess_word_string = "";
     private setOnUpdateUiForGuessWordGameChanges setOnUpdateUiForGuessWordGameChanges;
     private static ProgressDialog progressDialog;
+    private static TextView timer_tv ;
+    private static CountDownTimer timer;
     public static SetOnGetWord setOnGetWord = new SetOnGetWord() {
         @Override
         public void onGetWord(String word) {
@@ -73,6 +78,7 @@ public class GuessWordActivity extends AppCompatActivity {
                     Log.i("guess_word_tv . text ", guess_word_tv.getText().toString());
                     chances_number_tv.setText(String.valueOf(word.length()));
                     progressDialog.cancel();
+                    timer.start();
                 }
             });
         }
@@ -110,6 +116,107 @@ public class GuessWordActivity extends AppCompatActivity {
         guess_word_et = findViewById(R.id.guess_edit_text);
         validation_guess_btn = findViewById(R.id.validate_guess_button);
         chances_number_tv = findViewById(R.id.chances_number);
+        timer_tv = findViewById(R.id.tv_timer_in_GuessWord_activity);
+        timer = new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timer_tv.setText(new SimpleDateFormat("ss").format(new Date( millisUntilFinished)));
+            }
+
+            public void onFinish() {
+                timer_tv.setText("finish!");
+                if (round == 2) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                guessWordListener.dos.writeUTF(opponent);
+                                guessWordListener.dos.flush();
+                                guessWordListener.dos.writeUTF("lose");
+                                guessWordListener.dos.flush();
+                            } catch (IOException io) {
+                                io.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    validation_guess_btn.setVisibility(View.INVISIBLE);
+                    wonOrlose_frameLayout.setVisibility(View.VISIBLE);
+                    String final_result = "";
+                    if (result.equals("win"))
+                        final_result = "you are equal";
+                    else if (result.equals("lose"))
+                        final_result = "you lost";
+                    wonOrLose_tv.setText(final_result);
+                    player1_inbox_tv.setText(MainActivity.userName);
+                    player2_inbox_tv.setText(opponent);
+                    if( gameState.equals("Ranked")){
+                        if ( final_result.equals("you are equal")){
+                            int score = SingletonUserContainer.getInstance().getGameScore().get(1);
+                            SingletonUserContainer.getInstance().getGameScore().set(1, score + 10);
+                            SendScoreToServer sendScoreToServer = new SendScoreToServer(1, score + 10);
+                            Thread thread = new Thread(sendScoreToServer);
+                            thread.start();
+                        }
+                    }
+                    close_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                                        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                                        if (gameState.equals("Casual")) {//***
+                                            dos.writeUTF("game");
+                                            dos.flush();
+                                            dos.writeUTF("removeRoom");
+                                            dos.flush();
+                                            dos.writeUTF("guess word");
+                                            dos.flush();
+                                            dos.writeUTF(room_name);
+                                            dos.flush();
+                                        } else {
+                                            dos.writeUTF("removePlayerFromRankedGame");
+                                            dos.flush();
+                                            dos.writeInt(1);
+                                            dos.flush();
+                                            dos.writeUTF(MainActivity.userName);
+                                            dos.flush();
+                                        }
+                                    } catch (IOException io) {
+                                        io.printStackTrace();
+                                    }
+                                }
+                            }).start();
+                            finish();
+                        }
+                    });
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                guessWordListener.dos.writeUTF(opponent);
+                                guessWordListener.dos.flush();
+                                guessWordListener.dos.writeUTF("lose");
+                                guessWordListener.dos.flush();
+                            } catch (IOException io) {
+                                io.printStackTrace();
+                            }
+                        }
+                    }).start();
+                    Intent intent_to_waiting_activity = new Intent(GuessWordActivity.this, WaitingForGuessActivity.class);
+                    intent_to_waiting_activity.putExtra("opponent", opponent);
+                    intent_to_waiting_activity.putExtra("round", round + 1);
+                    intent_to_waiting_activity.putExtra("gameState",gameState);
+                    intent_to_waiting_activity.putExtra("winOrLose", "lose");
+                    startActivity(intent_to_waiting_activity);
+                    finish();
+                }
+            }
+        };
+
 
         wonOrlose_frameLayout = findViewById(R.id.frameLayout_GuessWordActivity_wonOrLoseBox);
         wonOrLose_tv = findViewById(R.id.tv_GuessWordActivity_wonOrloseTxt);
@@ -184,6 +291,7 @@ public class GuessWordActivity extends AppCompatActivity {
                             }
                             if (guess_word_tv.getText().toString().equals(word)) {
                                 if (round == 2) {
+                                    timer.cancel();
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -280,6 +388,7 @@ public class GuessWordActivity extends AppCompatActivity {
                                 }
                             }else if (chances_number_tv.getText().toString().equals(String.valueOf(0))) {
                                 if (round == 2) {
+                                    timer.cancel();
                                     new Thread(new Runnable() {
                                         @Override
                                         public void run() {
