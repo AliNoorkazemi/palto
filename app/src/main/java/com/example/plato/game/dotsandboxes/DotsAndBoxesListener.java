@@ -51,6 +51,7 @@ public class DotsAndBoxesListener implements Runnable {
                         String location_line = dis.readUTF();
                         int color = dis.readInt();
                         onChangeForGridView = DotAndBoxPageActivity.onChangeForGridView;
+                        Log.e("my tag " , " the position that received is  : " + String.valueOf(position));
                         onChangeForGridView.onChangeForGridView(position, location_line, color);
                     }
                         break;
