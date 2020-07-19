@@ -172,7 +172,7 @@ public class DotAndBoxPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         gameState = intent.getStringExtra("gameState");
         if ( gameState.equals("Casual")) {
-            room_name = intent.getStringExtra("room_name");
+            room_name = intent.getStringExtra("RoomName");
             ArrayList<Room> rooms = SingletonGameContainer.getDotsAndBoxes().getRooms();
             Room room= null;
             for (Room r : rooms) {
