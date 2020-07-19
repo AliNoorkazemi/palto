@@ -15,10 +15,14 @@ import android.widget.TextView;
 import com.example.plato.MainActivity;
 import com.example.plato.R;
 import com.example.plato.SingletonUserContainer;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.network.SendScoreToServer;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class DotAndBoxPageActivity extends AppCompatActivity {
@@ -28,7 +32,7 @@ public class DotAndBoxPageActivity extends AppCompatActivity {
     static GridView gridView;
     static Context context;
     static ArrayList<String> members;
-    String room_name;
+    static String room_name;
     static String gameState;
     static int my_color;
     static int my_score = 0;
@@ -62,7 +66,28 @@ public class DotAndBoxPageActivity extends AppCompatActivity {
                         close_btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                if ( members.indexOf(MainActivity.userName)==0) {
+                                    new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                                                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                                                dos.writeUTF("game");
+                                                dos.flush();
+                                                dos.writeUTF("removeRoom");
+                                                dos.flush();
+                                                dos.writeUTF("dots and boxes");
+                                                dos.flush();
+                                                dos.writeUTF(room_name);
+                                                dos.flush();
+                                            }catch (IOException io){
+                                                io.printStackTrace();
+                                            }
+                                        }
+                                    }).start();
+                                }
+                                ((Activity)context).finish();
                             }
                         });
                     }else if ( gameState.equals("Ranked")){
@@ -80,6 +105,23 @@ public class DotAndBoxPageActivity extends AppCompatActivity {
                         close_btn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                                            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                                            dos.writeUTF("removePlayerFromRankedGame");
+                                            dos.flush();
+                                            dos.writeInt(2);
+                                            dos.flush();
+                                            dos.writeUTF(MainActivity.userName);
+                                            dos.flush();
+                                        }catch (IOException io){
+                                            io.printStackTrace();
+                                        }
+                                    }
+                                }).start();
                                 ((Activity)context).finish();
                             }
                         });
