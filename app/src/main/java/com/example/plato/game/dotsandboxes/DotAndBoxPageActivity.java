@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -47,9 +48,11 @@ public class DotAndBoxPageActivity extends AppCompatActivity {
     static DotsAndBoxesListener.OnFinishGame onFinishGame = new DotsAndBoxesListener.OnFinishGame() {
         @Override
         public void onFinishGame(String winner) {
+            Log.e("sdhfalfdjsa","go to show box .................");
             ((Activity)context).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.e("sfdjkalfjs","show box started........................");
                     gridView.setVisibility(View.INVISIBLE);
                     frameLayout.setVisibility(View.VISIBLE);
                     if ( gameState.equals("Casual")){
@@ -193,20 +196,19 @@ public class DotAndBoxPageActivity extends AppCompatActivity {
             members.indexOf(MainActivity.userName);
         }else if ( gameState.equals("Ranked")){
             String color = intent.getStringExtra("color");
+            members = new ArrayList<>();
+            String opponent = intent.getStringExtra("opponent");
             if ( color.equals("blue")){
                 my_color = R.drawable.blue_line_dotandbox;
+                members.add(MainActivity.userName);
+                members.add(opponent);
+                is_my_turn = true;
             }else if ( color.equals("red")){
                 my_color = R.drawable.red_line_dotandbox;
-            }
-            members = new ArrayList<>();
-            int index = intent.getIntExtra("index",0);
-            is_my_turn = index == 0;
-            members.add(index,MainActivity.userName);
-            String opponent = intent.getStringExtra("opponent");
-            if ( index == 0)
                 members.add(opponent);
-            if ( index == 1)
-                members.add(0 , opponent );
+                members.add(MainActivity.userName);
+                is_my_turn = false;
+            }
         }
 
 

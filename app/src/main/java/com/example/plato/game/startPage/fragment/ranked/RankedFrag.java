@@ -124,7 +124,9 @@ public class RankedFrag extends Fragment {
                                             intent.putExtra("opponent",opponentName);
                                         } else if (gameIndex == 2) {//dotAndBox
                                             intent=new Intent(view.getContext(), DotAndBoxPageActivity.class);
-                                            //put extra
+                                            intent.putExtra("gameState","Ranked");
+                                            intent.putExtra("color","red");
+                                            intent.putExtra("opponent",opponentName);
                                         }
                                         play_btn.setClickable(true);
                                         if ( snackbar!= null)
@@ -172,7 +174,9 @@ public class RankedFrag extends Fragment {
                                                 intent.putExtra("opponent",opponentName);
                                             } else if (gameIndex == 2) {//dotAndBox
                                                 intent=new Intent(view.getContext(), DotAndBoxPageActivity.class);
-                                                //put extra
+                                                intent.putExtra("gameState","Ranked");
+                                                intent.putExtra("color","blue");
+                                                intent.putExtra("opponent",opponentName);
                                             }
                                             if ( snackbar!= null)
                                                 snackbar.dismiss();

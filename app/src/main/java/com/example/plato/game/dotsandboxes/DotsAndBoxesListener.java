@@ -1,6 +1,7 @@
 package com.example.plato.game.dotsandboxes;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.plato.MainActivity;
 import com.example.plato.SplashScreenActivity;
@@ -56,7 +57,9 @@ public class DotsAndBoxesListener implements Runnable {
                     case "finish":{
                         dos.writeInt(DotAndBoxPageActivity.my_score);
                         dos.flush();
+                        Log.e("xtyysdfj;","my score sent ..................");
                         winner = dis.readUTF();
+                        Log.e("xtyysdfj;","my score sent ..................and winner is :"+winner);
                         break LOOP;
                     }
                 }
@@ -66,6 +69,7 @@ public class DotsAndBoxesListener implements Runnable {
         }
         onFinishGame = DotAndBoxPageActivity.onFinishGame ;
         onFinishGame.onFinishGame(winner);
+        Log.e("sdflksdfjl","break loop .......................");
     }
 
     interface OnChangeForGridView{
