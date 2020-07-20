@@ -1,8 +1,11 @@
 package com.example.plato.network;
 
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Switch;
 
+import com.example.plato.ConvertBitmapByte;
 import com.example.plato.Fragment.Chat.ChatFrag;
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
 import com.example.plato.Fragment.Friend;
@@ -26,19 +29,26 @@ public class MessageListener extends Thread {
 
     @Override
     public void run() {
-        try{
+        try {
             socket = new Socket(SplashScreenActivity.IP, 6666);
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
             dos.writeUTF("messageListener");
             dos.writeUTF(MainActivity.userName);
             DataInputStream dis = new DataInputStream(socket.getInputStream());
-            Log.i("message received ","message listening started .....");
-            while (true){
+            Log.i("message received ", "message listening started .....");
+            while (true) {
                 String sender_name = dis.readUTF();
-                Log.i("message received ",sender_name);
+                Log.i("message received ", sender_name);
                 String message = dis.readUTF();
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                Date time = (Date)ois.readObject();
+                String prof = null;
+                if (!MainActivity.friend_names.contains(sender_name)) {
+                    dos.writeBoolean(true);
+                    Log.i("where", "run: in if");
+                    prof = (String) ois.readObject();
+                } else
+                    dos.writeBoolean(false);
+                Date time = (Date) ois.readObject();
                 dis = new DataInputStream(socket.getInputStream());
                 if (MainActivity.friend_names.contains(sender_name)) {
                     Friend friend = SingletonUserContainer.getInstance().getTargetFriend(sender_name);
@@ -52,6 +62,7 @@ public class MessageListener extends Thread {
                     friend.getChats_message().add(message);
                     friend.getType_of_messages().add(0);
                     friend.getDates().add(time);
+                    friend.setImg_str(prof);
                     SingletonUserContainer.getInstance().getFriends().add(friend);
                 }
                 onUpdateUiForIncomingMessage = FriendFrag.onUpdateUiForIncomingMessage;
@@ -68,7 +79,7 @@ public class MessageListener extends Thread {
     }
 
 
-    public void close(){
+    public void close() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -86,7 +97,7 @@ public class MessageListener extends Thread {
         }).start();
     }
 
-    public static interface OnUpdateUiForIncomingMessage{
+    public static interface OnUpdateUiForIncomingMessage {
         void onUpdateUiForIncomingMessage();
     }
 }

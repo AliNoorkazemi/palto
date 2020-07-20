@@ -9,7 +9,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="profile">Profile</string>
     <string name="settings">Settings</string>
     <string name="closeDrawer">closeDrawer</string>
     <string name="openDrawer">openDrawer</string>
@@ -20,5 +19,12 @@
     <string name="create">create</string>
     <string name="validate">validate</string>
     <string name="wrong">wrong</string>
+
+    <string name="your_ranking_live">YOUR RANKING(Live)</string>
+    <string name="about_us_tit">About Us</string>
+    <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+
     <string name="room_capacity">Room capacity</string>
+
 </resources>

@@ -1,17 +1,18 @@
 package com.example.plato.game.startPage.fragment.leaderboard;
 
+import android.graphics.Bitmap;
+
 public class BestPlayer {
     private String Name;
     private int Score;
-    private int queNo;
-    private byte[] image_bytes;
+    private Bitmap image_bitmap;
 
-    public byte[] getImage_bytes() {
-        return image_bytes;
+    public Bitmap getImage_bytes() {
+        return image_bitmap;
     }
 
-    public void setImage_bytes(byte[] image_bytes) {
-        this.image_bytes = image_bytes;
+    public void setImage_bytes(Bitmap image_bitmap) {
+        this.image_bitmap = image_bitmap;
     }
 
     public String getName() {
@@ -30,11 +31,4 @@ public class BestPlayer {
         Score = score;
     }
 
-    public int getQueNo() {
-        return queNo;
-    }
-
-    public void setQueNo(int queNo) {
-        this.queNo = queNo;
-    }
 }

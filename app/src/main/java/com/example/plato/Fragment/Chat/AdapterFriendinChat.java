@@ -1,6 +1,8 @@
 package com.example.plato.Fragment.Chat;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.plato.ConvertBitmapByte;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
 
@@ -52,7 +55,8 @@ public class AdapterFriendinChat extends RecyclerView.Adapter<AdapterFriendinCha
         });
 
         holder.name_tv.setText(friend.getName());
-        holder.prof_iv.setImageResource(friend.getImg_id());
+        Bitmap bitmap= ConvertBitmapByte.byteTobitmap(Base64.decode(friend.getImg_str(),Base64.DEFAULT));
+        holder.prof_iv.setImageBitmap(bitmap);
         if(friend.getChats_message().size()!=0)
             holder.last_message.setText(friend.getChats_message().get(friend.getChats_message().size()-1));
 

@@ -1,10 +1,8 @@
 package com.example.plato.game.startPage.fragment.casual;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -37,8 +35,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import eightbitlab.com.blurview.BlurView;
-import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class CasualFrag extends Fragment {
 
@@ -110,7 +106,6 @@ public class CasualFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i("where", "onCreateView: ");
 
         view = inflater.inflate(R.layout.fragment_casual, container, false);
 

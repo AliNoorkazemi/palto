@@ -1,18 +1,26 @@
 package com.example.plato.Fragment;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Friend implements Serializable {
     private String name;
-    private int img_id;
+    private String img_str;
     ArrayList<String> chats_message;
 //    ArrayList<Boolean> is_it_incomeMessage;
     ArrayList<Date> dates;
     ArrayList<Integer> type_of_messages;
 
+    public String getImg_str() {
+        return img_str;
+    }
 
+    public void setImg_str(String img_str) {
+        this.img_str = img_str;
+    }
 
     public ArrayList<Date> getDates() {
         if(dates==null)
@@ -64,14 +72,6 @@ public class Friend implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getImg_id() {
-        return img_id;
-    }
-
-    public void setImg_id(int img_id) {
-        this.img_id = img_id;
     }
 
 

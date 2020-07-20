@@ -16,9 +16,9 @@
             android:id="@+id/iv_friendFrag_itemSample_friendProf"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/blueGray"
+            android:layout_gravity="center"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_person_24dp" />
+             />
 
     </androidx.cardview.widget.CardView>
 

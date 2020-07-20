@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 
 
@@ -106,30 +108,18 @@ public class LoginPageActivity extends AppCompatActivity {
                 }
                 if (!validationMessage.startsWith("ERROR")) {
 
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    try {
-//                        byte[] buffer = new byte[dis.readInt()];
-//                        baos.write(buffer, 0, dis.read(buffer));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    byte[] result = baos.toByteArray();
 
-                    int length;
-                    byte[] result=null;
+                    byte[] result = null;
                     try {
-                        length=dis.readInt();
-                        result=new byte[length];
-                        for (int i = 0; i < length; i++) {
-                            result[i]=dis.readByte();
-                        }
-
-                    } catch (IOException e) {
+                        ObjectInputStream ois=new ObjectInputStream(socket.getInputStream());
+                        String prof= (String) ois.readObject();
+                        result= Base64.decode(prof,Base64.DEFAULT);
+                    } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
 
                     Intent intent = new Intent(LoginPageActivity.this, MainActivity.class);
-                    intent.putExtra("Activity","LoginPageActivity");
+                    intent.putExtra("Activity", "LoginPageActivity");
                     intent.putExtra("userName", username_et.getText().toString());
                     intent.putExtra("profile", result);
                     startActivity(intent);
@@ -146,7 +136,6 @@ public class LoginPageActivity extends AppCompatActivity {
             }
         });
         validation.start();
-
 
 
     }

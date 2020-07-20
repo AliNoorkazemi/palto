@@ -7,7 +7,73 @@
     android:orientation="vertical"
     tools:context=".game.startPage.fragment.leaderboard.LeaderBoardFrag">
 
+
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:background="@color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/your_ranking_live"
+            android:id="@+id/tv_leaderboard_yourrnakingTxt"
+            android:layout_margin="2dp"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView1_leaderboard"
+            android:layout_width="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/tv_leaderboard_yourrnakingTxt"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            app:cardCornerRadius="25dp">
+
+
+            <ImageView
+                android:id="@+id/iv_leaderboardFrag_MyImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_person_75dp"
+                />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_leaderboardFrag_MyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_leaderboard_yourrnakingTxt"
+            android:layout_toRightOf="@id/cardView1_leaderboard"
+            android:layout_marginLeft="16dp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_marginTop="4dp"
+            tools:text="player4" />
+
+        <TextView
+            android:id="@+id/tv_leaderboardFrag_MyScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="28dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/green_circle_boarder"
+            android:paddingTop="8dp"
+            android:layout_below="@id/tv_leaderboard_yourrnakingTxt"
+            android:layout_marginTop="14dp"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            tools:text="25"
+            tools:ignore="RtlCompat" />
+
+
+
+    </RelativeLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E0F7FA"
@@ -15,11 +81,16 @@
 
 
         <LinearLayout
+            android:id="@+id/line2_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="28dp"
-            android:layout_marginTop="50dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/line1_linear"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView2"
@@ -31,21 +102,22 @@
                     android:id="@+id/iv_leaderboard_2_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
                     android:background="@drawable/ic_person_75dp"
-                    android:backgroundTint="@color/red" />
+                    android:backgroundTint="@color/red"
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2"
-                    android:textAlignment="center"
-                    android:background="@drawable/gray_circle_boarder"
                     android:layout_gravity="bottom|right"
-                    android:textStyle="bold"
+                    android:background="@drawable/gray_circle_boarder"
+                    android:text="2"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginBottom="9dp"
+                    android:textAlignment="center"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     tools:ignore="RtlCompat" />
-
 
 
             </androidx.cardview.widget.CardView>
@@ -79,11 +151,16 @@
 
 
         <LinearLayout
+            android:id="@+id/line1_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:orientation="vertical">
+            android:visibility="invisible"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/line3_linear"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/line2_linear"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView1"
@@ -102,12 +179,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1"
-                    android:textAlignment="center"
-                    android:background="@drawable/gray_circle_boarder"
                     android:layout_gravity="bottom|right"
-                    android:textStyle="bold"
+                    android:background="@drawable/gray_circle_boarder"
+                    android:text="1"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:textAlignment="center"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     tools:ignore="RtlCompat" />
 
 
@@ -141,12 +220,17 @@
 
 
         <LinearLayout
+            android:id="@+id/line3_linear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="28dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/line1_linear"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView3"
@@ -165,12 +249,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3"
-                    android:textAlignment="center"
-                    android:background="@drawable/gray_circle_boarder"
                     android:layout_gravity="bottom|right"
-                    android:textStyle="bold"
+                    android:background="@drawable/gray_circle_boarder"
+                    android:text="3"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginBottom="9dp"
+                    android:textAlignment="center"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     tools:ignore="RtlCompat" />
 
 
@@ -201,7 +287,7 @@
                 tools:text="38" />
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

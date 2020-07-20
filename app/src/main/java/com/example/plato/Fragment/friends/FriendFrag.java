@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,12 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.plato.ConvertBitmapByte;
 import com.example.plato.Fragment.Chat.chatPage.ChatPageActivity;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.MainActivity;
@@ -29,11 +32,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.BATTERY_SERVICE;
 
 public class FriendFrag extends Fragment {
     static View view;
@@ -121,7 +126,9 @@ public class FriendFrag extends Fragment {
                                         dos.writeUTF(MainActivity.userName);
                                         Friend friend = new Friend();
                                         friend.setName(editText.getText().toString());
-                                        friend.setImg_id(R.drawable.ic_person_24dp);
+                                        ObjectInputStream ois=new ObjectInputStream(socket.getInputStream());
+                                        String prof= (String) ois.readObject();
+                                        friend.setImg_str(prof);
 //                                        ArrayList<Boolean> is_income = new ArrayList<>();
                                         ArrayList<Integer> type_of_message = new ArrayList<>();
                                         ArrayList<Date> dates = new ArrayList<>();
@@ -140,7 +147,7 @@ public class FriendFrag extends Fragment {
                                             }
                                         });
                                     }
-                                } catch (IOException io) {
+                                } catch (IOException | ClassNotFoundException io) {
                                     io.printStackTrace();
                                 }
                             }

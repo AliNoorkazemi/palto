@@ -23,9 +23,9 @@
                 android:id="@+id/iv_chatFrag_recycleritem_profImg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/red"
+                android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_person_24dp" />
+                />
 
         </androidx.cardview.widget.CardView>
 

@@ -1,6 +1,8 @@
 package com.example.plato.Fragment.friends;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.plato.ConvertBitmapByte;
 import com.example.plato.Fragment.Chat.AdapterFriendinChat;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.R;
@@ -41,7 +44,8 @@ public class AdapterFriend extends RecyclerView.Adapter<AdapterFriend.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolderFriend holder, final int position) {
         final Friend friend=friends.get(position);
         holder.friendName_tv.setText(friend.getName());
-        holder.friendProfile_tv.setImageResource(friend.getImg_id());
+        Bitmap bitmap= ConvertBitmapByte.byteTobitmap(Base64.decode(friend.getImg_str(),Base64.DEFAULT));
+        holder.friendProfile_tv.setImageBitmap(bitmap);
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

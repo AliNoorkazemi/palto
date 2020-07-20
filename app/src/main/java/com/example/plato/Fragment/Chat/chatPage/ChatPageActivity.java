@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.plato.ConvertBitmapByte;
 import com.example.plato.Fragment.Friend;
 import com.example.plato.MainActivity;
 import com.example.plato.R;
@@ -77,7 +80,8 @@ public class ChatPageActivity extends AppCompatActivity {
 
 
         friendName_tv.setText(friend.getName());
-        friendImg_iv.setImageResource(friend.getImg_id());
+        Bitmap bitmap= ConvertBitmapByte.byteTobitmap(Base64.decode(friend.getImg_str(),Base64.DEFAULT));
+        friendImg_iv.setImageBitmap(bitmap);
 
         initRecycler();
         final EditText chatBox_et=findViewById(R.id.et_chatPageActivity_chatbox);

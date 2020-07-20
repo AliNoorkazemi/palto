@@ -3,29 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/entry_page_background"
     tools:context=".entry.LoginPageActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="80dp">
 
 
         <TextView
             android:id="@+id/tv_loginPage_loginTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:text="@string/login"
-            android:textSize="32sp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/boarder_txt_in_entry"
+            android:textSize="25sp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-
-            android:background="@drawable/edit_text_border"
+            android:layout_marginLeft="32dp"
+            android:layout_below="@id/tv_loginPage_loginTxt"
+            android:layout_marginRight="32dp"
+            android:background="@color/white"
             android:padding="8dp">
 
             <EditText
@@ -58,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_loginPage_password"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="15dp"
                 android:textColor="@color/red"
                 android:visibility="invisible"
                 tools:text="warning..." />
@@ -70,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_loginPage_password"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/btn_background"
                 android:padding="8dp"
@@ -80,7 +88,7 @@
 
 
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </ScrollView>
