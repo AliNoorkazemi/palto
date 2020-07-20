@@ -45,6 +45,7 @@ public class DataReceiver extends Thread {
             Map<String,ArrayList<Integer>> friendName_to_messageType = (Map<String,ArrayList<Integer>>)ois.readObject();
             ArrayList<Integer> gameScoreList= (ArrayList<Integer>) ois.readObject();
             SingletonUserContainer.getInstance().setGameScore(gameScoreList);
+            Map<String,String> friends_prof= (Map<String, String>) ois.readObject();
             MainActivity.friend_names  = new ArrayList<>(friendName_to_message.keySet());
             String message = String.valueOf(MainActivity.friend_names.size());
             for(int i = 0 ; i < friendName_to_message.size() ;i++){
@@ -54,6 +55,7 @@ public class DataReceiver extends Thread {
                 friend.setDates(friendName_to_messageTime.get(MainActivity.friend_names.get(i)));
 //                friend.setIs_it_incomeMessage(friendsName_to_messageBoolean.get(MainActivity.friend_names.get(i)));
                 friend.setType_of_messages(friendName_to_messageType.get(MainActivity.friend_names.get(i)));
+                friend.setImg_str(friends_prof.get(MainActivity.friend_names.get(i)));
                 SingletonUserContainer.getInstance().friends.add(friend);
             }
             dos = new DataOutputStream(socket.getOutputStream());

@@ -123,11 +123,12 @@
 
                     <ImageButton
                         android:id="@+id/ib_registerPageActivity_profileImg"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_person_75dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_person_75dp" />
+                        />
 
                 </androidx.cardview.widget.CardView>
 

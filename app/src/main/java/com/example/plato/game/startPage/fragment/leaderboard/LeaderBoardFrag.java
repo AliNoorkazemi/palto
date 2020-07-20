@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,7 +129,7 @@ public class LeaderBoardFrag extends Fragment {
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
                 Map<String, Integer> name_score = (Map<String, Integer>) ois.readObject();
-                Map<String, byte[]> name_image = (Map<String, byte[]>) ois.readObject();
+                Map<String, String> name_image = (Map<String, String>) ois.readObject();
 
                 for (String name :
                         name_score.keySet()) {
@@ -136,10 +137,11 @@ public class LeaderBoardFrag extends Fragment {
                     bestPlayer.setName(name);
                     bestPlayer.setScore(name_score.get(name));
                     if (name_image.containsKey(name)) {
-                        bestPlayer.setImage_bytes(name_image.get(name));
+                        byte[] array_byte= Base64.decode(name_image.get(name),Base64.DEFAULT);
+                        bestPlayer.setImage_bytes(ConvertBitmapByte.byteTobitmap(array_byte));
                     } else {
                         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_image);
-                        bestPlayer.setImage_bytes(ConvertBitmapByte.bitmapTobyte(bitmap));
+                        bestPlayer.setImage_bytes(bitmap);
                     }
 
                     bestPlayers.add(bestPlayer);
@@ -168,12 +170,14 @@ public class LeaderBoardFrag extends Fragment {
                             //player1Image_iv.setImageBitmap(ConvertBitmapByte.byteTobitmap(bestPlayers.get(0).getImage_bytes()));
                             player1Name_tv.setText(bestPlayers.get(0).getName());
                             player1Score_tv.setText(String.valueOf(bestPlayers.get(0).getScore()));
+                            player1Image_iv.setImageBitmap(bestPlayers.get(0).getImage_bytes());
                         }
                         if(bestPlayers.size()>1){
                             linearLayout2.setVisibility(View.VISIBLE);
                            // player2Image_iv.setImageBitmap(ConvertBitmapByte.byteTobitmap(bestPlayers.get(1).getImage_bytes()));
                             player2Name_tv.setText(bestPlayers.get(1).getName());
                             player2Score_tv.setText(String.valueOf(bestPlayers.get(1).getScore()));
+                            player1Image_iv.setImageBitmap(bestPlayers.get(1).getImage_bytes());
                         }
                         if(bestPlayers.size()>2){
                             linearLayout3.setVisibility(View.VISIBLE);
@@ -181,6 +185,7 @@ public class LeaderBoardFrag extends Fragment {
                             //player3Image_iv.setImageBitmap(ConvertBitmapByte.byteTobitmap(bestPlayers.get(2).getImage_bytes()));
                             player3Name_tv.setText(bestPlayers.get(2).getName());
                             player3Score_tv.setText(String.valueOf(bestPlayers.get(2).getScore()));
+                            player1Image_iv.setImageBitmap(bestPlayers.get(2).getImage_bytes());
                         }
 
 

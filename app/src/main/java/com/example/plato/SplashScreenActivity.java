@@ -17,7 +17,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        IP="192.168.2.102";
+        IP="192.168.1.4";
 
         new Handler().postDelayed(new Runnable() {
             @Override

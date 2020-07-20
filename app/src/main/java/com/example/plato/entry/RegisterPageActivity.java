@@ -9,9 +9,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,6 +30,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -203,18 +207,15 @@ public class RegisterPageActivity extends AppCompatActivity {
                                             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), profile_uri);
                                         else
                                             bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_image);
-                                        byte[] byteArray = ConvertBitmapByte.bitmapTobyte(bitmap);
-                                        dos.flush();
-                                        dos.writeInt(byteArray.length);
-                                        dos.flush();
-                                        for (int i = 0; i < byteArray.length; i++) {
-                                            dos.writeByte(byteArray[i]);
-                                        }
-                                        dos.flush();
 
+                                        byte[] byteArray = ConvertBitmapByte.bitmapTobyte(bitmap);
+
+                                        String prof = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                                        ObjectOutputStream oos=new ObjectOutputStream(socket.getOutputStream());
+                                        oos.writeObject(prof);
+                                        dos.flush();
 
                                         intent.putExtra("profile", byteArray);
-                                        Log.i("Array", "run: " + Arrays.toString(byteArray));
                                         startActivity(intent);
                                         finish();
                                     } catch (IOException e) {
@@ -267,8 +268,19 @@ public class RegisterPageActivity extends AppCompatActivity {
         if (requestCode == 1004 && resultCode == RESULT_OK && data != null) {
 
             profile_uri = data.getData();
-            if (profile_uri != null)
-                profile_ib.setImageURI(profile_uri);
+            if (profile_uri != null){
+                Bitmap bitmap = null;
+
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), profile_uri);
+                } catch (IOException e) {
+
+
+
+                }
+                profile_ib.setImageBitmap(bitmap);
+
+            }
 
         }
     }

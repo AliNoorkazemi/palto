@@ -40,7 +40,7 @@ public class AdapterLeaderBoard extends RecyclerView.Adapter<AdapterLeaderBoard.
         holder.name_tv.setText(bestPlayer.getName());
         holder.queNo_tv.setText(String.valueOf(position+4));
         holder.score_tv.setText(String.valueOf(bestPlayer.getScore()));
-//        holder.image_iv.setImageBitmap(ConvertBitmapByte.byteTobitmap(bestPlayer.getImage_bytes()));
+        holder.image_iv.setImageBitmap(bestPlayer.getImage_bytes());
 
         if(position%2==1){
             holder.relativeLayout.setBackgroundColor(context.getColor(R.color.holo_blue_light));

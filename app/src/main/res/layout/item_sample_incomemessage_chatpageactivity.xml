@@ -6,7 +6,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_margin="6dp"
+        android:background="@drawable/income_message_boarder">
 
         <TextView
             android:id="@+id/tv_itemInRecycler_incomeMessage_message"
