@@ -140,7 +140,7 @@ public class LeaderBoardFrag extends Fragment {
                         byte[] array_byte= Base64.decode(name_image.get(name),Base64.DEFAULT);
                         bestPlayer.setImage_bytes(ConvertBitmapByte.byteTobitmap(array_byte));
                     } else {
-                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_image);
+                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.img_avatar3);
                         bestPlayer.setImage_bytes(bitmap);
                     }
 
@@ -150,7 +150,7 @@ public class LeaderBoardFrag extends Fragment {
                 Collections.sort(bestPlayers, new Comparator<BestPlayer>() {
                     @Override
                     public int compare(BestPlayer o1, BestPlayer o2) {
-                        return o1.getScore()-o2.getScore();
+                        return o2.getScore()-o1.getScore();
                     }
                 });
 

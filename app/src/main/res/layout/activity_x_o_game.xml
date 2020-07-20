@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="32dp"
         android:layout_height="wrap_content">
 
@@ -70,7 +70,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginRight="32dp"
-        android:layout_marginBottom="75dp">
+        android:layout_marginBottom="50dp">
 
 
         <androidx.cardview.widget.CardView
@@ -132,6 +132,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:padding="16dp">
 
+
+        
         <Button
             android:id="@+id/btn_xogame_btn1"
             android:layout_width="80dp"
@@ -270,6 +272,85 @@
             app:layout_constraintStart_toEndOf="@+id/btn_xogame_btn8"
             app:layout_constraintTop_toBottomOf="@+id/btn_xogame_btn6" />
 
+
+        <ImageView
+            android:id="@+id/iv_xoGame_winLine1"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="30dp"
+            android:background="@android:color/holo_orange_light"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="35dp"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+
+        <ImageView
+            android:id="@+id/iv_xoGame_winLine2"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="30dp"
+            android:background="@android:color/holo_orange_light"
+            app:layout_constraintTop_toTopOf="@id/iv_xoGame_winLine1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="100dp"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+
+
+        <ImageView
+            android:id="@+id/iv_xoGame_winLine3"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@android:color/holo_orange_light"
+            app:layout_constraintTop_toTopOf="@id/iv_xoGame_winLine1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="215dp"
+            android:visibility="gone"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_editor_absoluteX="16dp" />
+
+
+        <ImageView
+            android:id="@+id/iv_xoGame_winLine4"
+            android:layout_width="30dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="50dp"
+            android:visibility="gone"
+            android:background="@android:color/holo_orange_light"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+             />
+
+
+        <ImageView
+            android:id="@+id/iv_xoGame_winLine5"
+            android:layout_width="30dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="25dp"
+            android:visibility="gone"
+            android:layout_marginLeft="175dp"
+            android:background="@android:color/holo_orange_light"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+
+        <ImageView
+            android:id="@+id/iv_xoGame_winLine6"
+            android:layout_width="30dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="25dp"
+            android:visibility="gone"
+            android:layout_marginLeft="300dp"
+            android:background="@android:color/holo_orange_light"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -340,5 +421,7 @@
 
 
     </FrameLayout>
+    
+    
 
 </androidx.constraintlayout.widget.ConstraintLayout>

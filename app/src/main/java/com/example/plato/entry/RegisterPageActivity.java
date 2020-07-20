@@ -206,7 +206,7 @@ public class RegisterPageActivity extends AppCompatActivity {
                                         if (profile_uri != null)
                                             bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), profile_uri);
                                         else
-                                            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.avatar_image);
+                                            bitmap = getRandomAvatarProfile();
 
                                         byte[] byteArray = ConvertBitmapByte.bitmapTobyte(bitmap);
 
@@ -283,6 +283,27 @@ public class RegisterPageActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    public Bitmap getRandomAvatarProfile(){
+        Bitmap bitmap=null;
+
+        int random=(int)(Math.random()*4);
+        switch (random){
+            case 0:
+                bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.img_avatar2);
+                break;
+            case 1:
+                bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.img_avatar3);
+                break;
+            case 2:
+                bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.img_avatar4);
+                break;
+            case 3:
+                bitmap=BitmapFactory.decodeResource(getResources(), R.drawable.img_avatar6);
+                break;
+        }
+        return bitmap;
     }
 
     @Override

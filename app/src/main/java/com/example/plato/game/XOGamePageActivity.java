@@ -52,6 +52,12 @@ public class XOGamePageActivity extends AppCompatActivity {
     TextView player2NameInBox_tv;
     Button close_btn;
 
+    ImageView winLine1;
+    ImageView winLine2;
+    ImageView winLine3;
+    ImageView winLine4;
+    ImageView winLine5;
+    ImageView winLine6;
 
     String[] xo_table;
 
@@ -316,6 +322,12 @@ public class XOGamePageActivity extends AppCompatActivity {
         btn8 = findViewById(R.id.btn_xogame_btn8);
         btn9 = findViewById(R.id.btn_xogame_btn9);
 
+        winLine1 = findViewById(R.id.iv_xoGame_winLine1);
+        winLine2 = findViewById(R.id.iv_xoGame_winLine2);
+        winLine3 = findViewById(R.id.iv_xoGame_winLine3);
+        winLine4 = findViewById(R.id.iv_xoGame_winLine4);
+        winLine5 = findViewById(R.id.iv_xoGame_winLine5);
+        winLine6 = findViewById(R.id.iv_xoGame_winLine6);
 
         Intent intent = getIntent();
         gameState = intent.getStringExtra("gameState");
@@ -454,21 +466,39 @@ public class XOGamePageActivity extends AppCompatActivity {
             switch (i) {
                 case 0:
                     line = xo_table[0] + xo_table[1] + xo_table[2];
+                    if (line.equals("xxx") || line.equals("ooo")) {
+                        winLine1.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case 1:
                     line = xo_table[3] + xo_table[4] + xo_table[5];
+                    if (line.equals("xxx") || line.equals("ooo")) {
+                        winLine2.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case 2:
                     line = xo_table[6] + xo_table[7] + xo_table[8];
+                    if (line.equals("xxx") || line.equals("ooo")) {
+                        winLine3.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case 3:
                     line = xo_table[0] + xo_table[3] + xo_table[6];
+                    if (line.equals("xxx") || line.equals("ooo")) {
+                        winLine4.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case 4:
                     line = xo_table[1] + xo_table[4] + xo_table[7];
+                    if (line.equals("xxx") || line.equals("ooo")) {
+                        winLine5.setVisibility(View.VISIBLE);
+                    }
                     break;
                 case 5:
                     line = xo_table[2] + xo_table[5] + xo_table[8];
+                    if (line.equals("xxx") || line.equals("ooo")) {
+                        winLine6.setVisibility(View.VISIBLE);
+                    }
                     break;
 
                 case 6:
@@ -479,34 +509,64 @@ public class XOGamePageActivity extends AppCompatActivity {
                     break;
             }
             if (line.equals("xxx")) {
-                wonOrLoseBox_framelayout.setVisibility(View.VISIBLE);
-                if (are_you_O) {
-                    wonOrLose_tv.setText("you lose!");
-                } else {
-                    wonOrLose_tv.setText("you won!");
-                    if (gameState.equals("Ranked")) {//***
-                        int score = SingletonUserContainer.getInstance().getGameScore().get(0);
-                        SingletonUserContainer.getInstance().getGameScore().set(0, score + 10);
-                        SendScoreToServer sendScoreToServer = new SendScoreToServer(0, score + 10);
-                        Thread thread = new Thread(sendScoreToServer);
-                        thread.start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                wonOrLoseBox_framelayout.setVisibility(View.VISIBLE);
+                                if (are_you_O) {
+                                    wonOrLose_tv.setText("you lose!");
+                                } else {
+                                    wonOrLose_tv.setText("you won!");
+                                    if (gameState.equals("Ranked")) {//***
+                                        int score = SingletonUserContainer.getInstance().getGameScore().get(0);
+                                        SingletonUserContainer.getInstance().getGameScore().set(0, score + 10);
+                                        SendScoreToServer sendScoreToServer = new SendScoreToServer(0, score + 10);
+                                        Thread thread = new Thread(sendScoreToServer);
+                                        thread.start();
+                                    }
+                                }
+                            }
+                        });
                     }
-                }
+                }).start();
                 break;
             } else if (line.equals("ooo")) {
-                wonOrLoseBox_framelayout.setVisibility(View.VISIBLE);
-                if (!are_you_O) {
-                    wonOrLose_tv.setText("you lose!");
-                } else {
-                    wonOrLose_tv.setText("you won!");
-                    if (gameState.equals("Ranked")) {//***
-                        int score = SingletonUserContainer.getInstance().getGameScore().get(0);
-                        SingletonUserContainer.getInstance().getGameScore().set(0, score + 10);
-                        SendScoreToServer sendScoreToServer = new SendScoreToServer(0, score + 10);
-                        Thread thread = new Thread(sendScoreToServer);
-                        thread.start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                wonOrLoseBox_framelayout.setVisibility(View.VISIBLE);
+                                if (!are_you_O) {
+                                    wonOrLose_tv.setText("you lose!");
+                                } else {
+                                    wonOrLose_tv.setText("you won!");
+                                    if (gameState.equals("Ranked")) {//***
+                                        int score = SingletonUserContainer.getInstance().getGameScore().get(0);
+                                        SingletonUserContainer.getInstance().getGameScore().set(0, score + 10);
+                                        SendScoreToServer sendScoreToServer = new SendScoreToServer(0, score + 10);
+                                        Thread thread = new Thread(sendScoreToServer);
+                                        thread.start();
+                                    }
+                                }
+                            }
+                        });
                     }
-                }
+                }).start();
                 break;
             }
         }
