@@ -10,8 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.plato.MainActivity;
 import com.example.plato.R;
+import com.example.plato.SplashScreenActivity;
 import com.example.plato.entry.EntryActivity;
+
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -36,6 +42,21 @@ public class SettingActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(SettingActivity.this, EntryActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try{
+                                    Socket socket = new Socket(SplashScreenActivity.IP, 6666);
+                                    DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                                    dos.writeUTF("offline");
+                                    dos.flush();
+                                    dos.writeUTF(MainActivity.userName);
+                                    dos.flush();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                         startActivity(i);
                         finish();
                     }
