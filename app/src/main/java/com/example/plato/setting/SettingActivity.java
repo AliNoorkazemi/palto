@@ -56,7 +56,7 @@ public class SettingActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-                        });
+                        }).start();
                         startActivity(i);
                         finish();
                     }
