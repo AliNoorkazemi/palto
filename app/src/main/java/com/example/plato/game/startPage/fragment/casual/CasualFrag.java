@@ -2,32 +2,25 @@ package com.example.plato.game.startPage.fragment.casual;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.ThemedSpinnerAdapter;
-import android.widget.Toast;
 
 import com.example.plato.MainActivity;
 import com.example.plato.R;
-import com.example.plato.SingletonUserContainer;
 import com.example.plato.SplashScreenActivity;
-import com.example.plato.game.Game;
 import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
@@ -35,23 +28,23 @@ import com.example.plato.game.guessword.GuessWordActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
 import com.example.plato.network.AddRoomListener;
 import com.example.plato.network.ChangeInRoomListener;
-import com.example.plato.network.MessageListener;
-import com.example.plato.network.XoGameListener;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
+import java.util.Date;
 
 public class CasualFrag extends Fragment {
 
     Button create_room_btn;
     RecyclerView recyclerView;
     static AdapterCasual adapter;
+    static TextView timer_tv;
+    private static CountDownTimer timer;
+    private Context context;
+
 
 
     public static ChangeInRoomListener.onUpdateUiForDeleteRoom onUpdateUiForDeleteRoom=new ChangeInRoomListener.onUpdateUiForDeleteRoom() {
@@ -119,6 +112,9 @@ public class CasualFrag extends Fragment {
 
         Log.i("where", "onCreateView: casualfrag");
 
+
+        timer_tv = view.findViewById(R.id.tv_timer_casual_frag);
+        context = getContext();
 
         create_room_btn = view.findViewById(R.id.btn_casualFrag_createNewRoom);
         create_room_btn.setOnClickListener(new View.OnClickListener() {
@@ -210,13 +206,13 @@ public class CasualFrag extends Fragment {
                                 intent.putExtra("gameState", "Casual");//***
                                 intent.putExtra("areYouO", false);
                                 intent.putExtra("opponent", room.getUsers().get(0));
-                                startActivity(intent);
+                                start_timer(intent , context);
                             } else if (StartGamePageActivity.game_name.equals("guess word")) {
                                 Intent intent = new Intent(getActivity(), GuessWordActivity.class);
                                 intent.putExtra("gameState", "Casual");
                                 intent.putExtra("round", 1);
                                 intent.putExtra("opponent", room.getUsers().get(0));
-                                startActivity(intent);
+                                start_timer(intent , context);
                             }
                         }
                     }
@@ -226,6 +222,22 @@ public class CasualFrag extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+    }
+
+    public static void start_timer(Intent mintent , Context mcontext){
+        timer_tv.setVisibility(View.VISIBLE);
+        timer = new CountDownTimer(10000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timer_tv.setText(new SimpleDateFormat("ss").format(new Date( millisUntilFinished)));
+            }
+
+            public void onFinish() {
+                timer_tv.setText("Start!");
+                mcontext.startActivity(mintent);
+                timer_tv.setVisibility(View.INVISIBLE);
+            }
+        }.start();
     }
 
 

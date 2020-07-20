@@ -290,6 +290,7 @@ public class GuessWordActivity extends AppCompatActivity {
                                 }
                             }
                             if (guess_word_tv.getText().toString().equals(word)) {
+                                Log.e("my tag : ", " the word correctly guessed .....");
                                 if (round == 2) {
                                     timer.cancel();
                                     new Thread(new Runnable() {
@@ -383,10 +384,13 @@ public class GuessWordActivity extends AppCompatActivity {
                                     intent_to_waiting_activity.putExtra("round", round + 1);
                                     intent_to_waiting_activity.putExtra("gameState",gameState);
                                     intent_to_waiting_activity.putExtra("winOrLose", "win");
+                                    Log.e("my tag","win sent");
                                     startActivity(intent_to_waiting_activity);
+                                    timer.cancel();
                                     finish();
                                 }
                             }else if (chances_number_tv.getText().toString().equals(String.valueOf(0))) {
+                                Log.e("my tag : " , "the word not correctly guessed....");
                                 if (round == 2) {
                                     timer.cancel();
                                     new Thread(new Runnable() {
@@ -475,6 +479,7 @@ public class GuessWordActivity extends AppCompatActivity {
                                     intent_to_waiting_activity.putExtra("gameState",gameState);
                                     intent_to_waiting_activity.putExtra("winOrLose", "lose");
                                     startActivity(intent_to_waiting_activity);
+                                    timer.cancel();
                                     finish();
                                 }
                             }

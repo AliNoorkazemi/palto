@@ -77,6 +77,8 @@ public class WaitingForGuessActivity extends AppCompatActivity {
         round = intent.getIntExtra("round",1);
         Log.i("listening round two",String.valueOf(round));
         result = intent.getStringExtra("winOrLose");
+        if ( round == 2 )
+            Log.e("my tag : ", result);
         gameState = intent.getStringExtra("gameState");
         if ( gameState.equals("Casual"))
             room_name = intent.getStringExtra("RoomName");
@@ -101,7 +103,10 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 String final_result = "";
+                                choose_word_tobe_guessed_btn.setVisibility(View.INVISIBLE);
                                 wonOrlose_frameLayout.setVisibility(View.VISIBLE);
+                                Log.e("my tag : " , winOrLose);
+                                Log.e("my tag : " , result);
                                 if (winOrLose.equals("win") && result.equals("win"))
                                     final_result = "you won";
                                 else if ( winOrLose.equals("lose")&& result.equals("lose"))
@@ -130,6 +135,7 @@ public class WaitingForGuessActivity extends AppCompatActivity {
                                 close_btn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        Log.e("my tag : " , " the close button clicked and activity finished ......");
                                         finish();
                                     }
                                 });

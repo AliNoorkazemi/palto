@@ -22,6 +22,20 @@
         android:layout_alignParentBottom="true"
         android:text="Create new Room"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:textStyle="bold|italic"
+            android:textSize="35sp"
+            android:textColor="#0B090A"
+            android:textAlignment="center"
+            android:id="@+id/tv_timer_casual_frag"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            />
+
 
 
 </RelativeLayout>

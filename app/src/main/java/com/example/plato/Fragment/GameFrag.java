@@ -18,12 +18,11 @@ import com.example.plato.game.Room;
 import com.example.plato.game.SingletonGameContainer;
 import com.example.plato.game.XOGamePageActivity;
 import com.example.plato.game.dotsandboxes.DotAndBoxPageActivity;
-import com.example.plato.game.guessword.GuessWordActivity;
 import com.example.plato.game.guessword.WaitingForGuessActivity;
 import com.example.plato.game.startPage.StartGamePageActivity;
+import com.example.plato.game.startPage.fragment.casual.CasualFrag;
 import com.example.plato.network.AddRoomListener;
 import com.example.plato.network.ChangeInRoomListener;
-import com.example.plato.network.XoGameListener;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -99,7 +98,7 @@ public class GameFrag extends Fragment {
                                                 intent.putExtra("areYouO",true);
                                                 intent.putExtra("opponent",room.getUsers().get(1));
                                                 intent.putExtra("RoomName",room.getRoom_name());
-                                                startActivity(intent);
+                                                CasualFrag.start_timer(intent ,  view.getContext());
                                             }
                                         });
                                     }
@@ -170,7 +169,7 @@ public class GameFrag extends Fragment {
                                                 intent.putExtra("round",1);
                                                 intent.putExtra("opponent",room.getUsers().get(1));
                                                 intent.putExtra("RoomName",room.getRoom_name());
-                                                startActivity(intent);
+                                                CasualFrag.start_timer(intent , view.getContext());
                                             }
                                         });
                                     }
@@ -237,7 +236,7 @@ public class GameFrag extends Fragment {
                                                 Intent intent=new Intent(view.getContext(), DotAndBoxPageActivity.class);
                                                 intent.putExtra("gameState","Casual");//***
                                                 intent.putExtra("RoomName",room.getRoom_name());
-                                                startActivity(intent);
+                                                CasualFrag.start_timer(intent , view.getContext());
                                             }
                                         });
                                     }
