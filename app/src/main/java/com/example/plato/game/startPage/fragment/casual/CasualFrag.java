@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -35,6 +36,9 @@ import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import eightbitlab.com.blurview.BlurView;
+import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class CasualFrag extends Fragment {
 
@@ -175,32 +179,6 @@ public class CasualFrag extends Fragment {
                         }).start();
 
                         if (!StartGamePageActivity.game.getGame_name().equals("dots and boxes")) {
-                            ProgressDialog progressDialog;
-                            progressDialog = new ProgressDialog(getActivity());
-                            progressDialog.setTitle("joining to the game...");
-                            progressDialog.setIndeterminate(true);
-                            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                            progressDialog.show();
-
-                            Thread thread = new Thread() {
-                                @Override
-                                public void run() {
-                                    int jump = 0;
-                                    while (jump < 10) {
-                                        try {
-                                            sleep(200);
-                                            jump += 5;
-                                            progressDialog.setProgress(jump);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    progressDialog.dismiss();
-                                }
-                            };
-                            thread.start();
-
-
                             if (StartGamePageActivity.game_name.equals("xo")) {
                                 Intent intent = new Intent(getActivity(), XOGamePageActivity.class);
                                 intent.putExtra("gameState", "Casual");//***
@@ -230,12 +208,13 @@ public class CasualFrag extends Fragment {
 
             public void onTick(long millisUntilFinished) {
                 timer_tv.setText(new SimpleDateFormat("ss").format(new Date( millisUntilFinished)));
+                if ( timer_tv.getText().toString().equals("00"))
+                    timer_tv.setText("Start!");
             }
 
             public void onFinish() {
-                timer_tv.setText("Start!");
                 mcontext.startActivity(mintent);
-                timer_tv.setVisibility(View.INVISIBLE);
+                timer_tv.setVisibility(View.GONE);
             }
         }.start();
     }
