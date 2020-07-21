@@ -58,9 +58,9 @@ public class DataReceiver extends Thread {
                 friend.setImg_str(friends_prof.get(MainActivity.friend_names.get(i)));
                 SingletonUserContainer.getInstance().friends.add(friend);
             }
-            dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF("All lists received");
-            dos.flush();
+//            dos = new DataOutputStream(socket.getOutputStream());
+//            dos.writeUTF("All lists received");
+//            dos.flush();
         } catch (IOException | ClassNotFoundException | NullPointerException e) {
             e.printStackTrace();
         }

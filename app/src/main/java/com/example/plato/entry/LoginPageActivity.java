@@ -85,7 +85,8 @@ public class LoginPageActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         try {
-            socket.close();
+            if ( socket!=null)
+                socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
